@@ -23,4 +23,6 @@ export interface JobPost {
     exp: string;
     interest: string[];
     working_time: string;
+    start_date: string;
+    end_date: string;
   }

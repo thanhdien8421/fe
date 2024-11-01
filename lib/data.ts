@@ -96,7 +96,9 @@ export const InfoJob : JobPost[] = [
         "Tham gia miễn phí 100% chương trình đào tạo cơ bản và nâng cao với nghề",
         "Chế độ Bảo hiểm xã hội, nghỉ phép 12 ngày/ năm, các chế độ khác tuân thủ đúng quy định của pháp luật"
       ],
-      working_time: "Thời gian làm việc từ 8 giờ sáng đến 17 giờ chiều cùng ngày. Thứ 7 và chủ nhật công ty không hoạt động"
+      working_time: "Thời gian làm việc từ 8 giờ sáng đến 17 giờ chiều cùng ngày. Thứ 7 và chủ nhật công ty không hoạt động",
+      start_date: '03-03-2024',
+      end_date: '12-07-2024'
     },
     {
       id: "2",
@@ -133,7 +135,9 @@ export const InfoJob : JobPost[] = [
         "Hỗ trợ đồng phục và công cụ làm việc",
         "Đào tạo kỹ năng bán hàng và chăm sóc khách hàng"
       ],
-      working_time: "Thời gian làm việc từ 8 giờ sáng đến 5 giờ chiều, nghỉ cuối tuần thứ 7 và Chủ Nhật"
+      working_time: "Thời gian làm việc từ 8 giờ sáng đến 5 giờ chiều, nghỉ cuối tuần thứ 7 và Chủ Nhật",
+      start_date: '14-05-2024',
+      end_date: '22-10-2024'
     },
     {
       id: "3",
@@ -171,7 +175,9 @@ export const InfoJob : JobPost[] = [
         "Môi trường làm việc năng động và chuyên nghiệp",
         "Được hỗ trợ các thiết bị làm việc cần thiết"
       ],
-      working_time: "Thời gian làm việc từ 8 giờ sáng đến 5 giờ chiều, nghỉ thứ 7 và Chủ Nhật"
+      working_time: "Thời gian làm việc từ 8 giờ sáng đến 5 giờ chiều, nghỉ thứ 7 và Chủ Nhật",
+      start_date: '01-02-2024',
+      end_date: '15-01-2025'
     },
     {
       id: "4",
@@ -208,7 +214,9 @@ export const InfoJob : JobPost[] = [
         "Chế độ bảo hiểm và nghỉ phép theo quy định của pháp luật",
         "Môi trường làm việc thân thiện, sáng tạo"
       ],
-      working_time: "Làm việc từ 8 giờ sáng đến 5 giờ chiều, nghỉ thứ 7 và Chủ Nhật"
+      working_time: "Làm việc từ 8 giờ sáng đến 5 giờ chiều, nghỉ thứ 7 và Chủ Nhật",
+      start_date: '12-05-2024',
+      end_date: '12-07-2024'
     },
     {
       id: "5",
@@ -244,7 +252,9 @@ export const InfoJob : JobPost[] = [
         "Tham gia các khóa đào tạo chuyên sâu về phân tích tài chính",
         "Được hỗ trợ tài liệu và công cụ làm việc tiên tiến"
       ],
-      working_time: "Làm việc từ 8 giờ sáng đến 5 giờ chiều, nghỉ thứ 7 và Chủ Nhật"
+      working_time: "Làm việc từ 8 giờ sáng đến 5 giờ chiều, nghỉ thứ 7 và Chủ Nhật",
+      start_date: '23-04-2024',
+      end_date: '12-08-2024'
     },
     {
       id: "6",
@@ -280,6 +290,8 @@ export const InfoJob : JobPost[] = [
         "Nghỉ phép 12 ngày/năm, chế độ tăng lương định kỳ",
         "Môi trường làm việc ổn định và thân thiện"
       ],
-      working_time: "Làm việc từ 8 giờ sáng đến 5 giờ chiều, nghỉ cuối tuần thứ 7 và Chủ Nhật"
+      working_time: "Làm việc từ 8 giờ sáng đến 5 giờ chiều, nghỉ cuối tuần thứ 7 và Chủ Nhật",
+      start_date: '03-05-2024',
+      end_date: '01-09-2024'
     }
   ]

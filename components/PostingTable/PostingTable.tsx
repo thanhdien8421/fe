@@ -13,58 +13,7 @@ import { Button } from "../ui/button"
 import { FaRegEdit } from "react-icons/fa";
 import { MdDeleteSweep } from "react-icons/md";
 import { IoMdAdd } from "react-icons/io";
-const listPost = [
-    {
-        id: "1",
-        title: "Nhân Viên Kinh Doanh / Sales Giáo Dục / Tuyển Sinh",
-        location: "Hà Nội",
-        startDate: "6-10-2024",
-        endDate: "28-10-2024",
-
-    },
-    {
-        id: "1",
-        title: "Nhân Viên Kinh Doanh / Sales Giáo Dục / Tuyển Sinh",
-        location: "Hồ Chí Minh",
-        startDate: "10-8-2024",
-        endDate: "20-9-2024",
-    },
-    {
-        id: "1",
-        title: "Nhân Viên Kinh Doanh / Sales Giáo Dục / Tuyển Sinh",
-        location: "Đà Nẵng",
-        startDate: "10-10-2024",
-        endDate: "20-10-2024",
-    },
-    {
-        id: "1",
-        title: "Nhân Viên Kinh Doanh / Sales Giáo Dục / Tuyển Sinh",
-        location: "Bà Rịa-Vũng Tàu",
-        startDate: "10-10-2024",
-        endDate: "20-10-2024",
-    },
-    {
-        id: "1",
-        title: "Nhân Viên Kinh Doanh / Sales Giáo Dục / Tuyển Sinh",
-        location: "Quy Nhơn",
-        startDate: "10-10-2024",
-        endDate: "20-10-2024",
-    },
-    {
-        id: "1",
-        title: "Nhân Viên Kinh Doanh / Sales Giáo Dục / Tuyển Sinh",
-        location: "Phan Thiết",
-        startDate: "10-10-2024",
-        endDate: "20-10-2024",
-    },
-    {
-        id: "1",
-        title: "Nhân Viên Kinh Doanh / Sales Giáo Dục / Tuyển Sinh",
-        location: "Phú Yên",
-        startDate: "10-10-2024",
-        endDate: "20-10-2024",
-    },
-]
+import { InfoJob } from "@/lib/data";
 
 export function TableDemo() {
     return (
@@ -85,13 +34,13 @@ export function TableDemo() {
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {listPost.map((post) => (
+                    {InfoJob.map((post) => (
                         <TableRow key={post.id} className="text-center">
                             <TableCell className="">{post.id}</TableCell>
                             <TableCell className="font-medium text-start">{post.title}</TableCell>
                             <TableCell className="w-[200px]">{post.location}</TableCell>
-                            <TableCell>{post.startDate}</TableCell>
-                            <TableCell>{post.endDate}</TableCell>
+                            <TableCell>{post.start_date}</TableCell>
+                            <TableCell>{post.end_date}</TableCell>
                             <TableCell ><SwitchStatusBtn /></TableCell>
                             <TableCell ><Button className="bg-gray-500 hover:bg-green-400"><FaRegEdit className="text-center h-full" />Chỉnh sửa</Button></TableCell>
                             <TableCell ><Button className="bg-red-500"><MdDeleteSweep />Xóa</Button></TableCell>
