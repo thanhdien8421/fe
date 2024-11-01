@@ -1,21 +1,25 @@
 import { JobPost } from '@/lib/interface'
+import Link from 'next/link'
 import React from 'react'
 
-export default function JobCard({data}:{data:JobPost}) {
+
+export default function JobCard({ job }:{job:JobPost}) {
     return (
-        <div className="max-w-xs bg-white border rounded-lg shadow-md overflow-hidden">
-            <img className="w-full h-48 object-fit" src={data.image} alt="Placeholder Image" />
+        <div key={job.id} className="max-w-sm w-[300px] mx-auto bg-white border rounded-lg shadow-md overflow-hidden">
+            <Link href={`/job/${job.id}`}>
+            <img className=" w-full h-48 object-cover" src={job.urlLogo} alt="Placeholder Image" />
+            </Link>
             <div className="p-4">
-                <h2 className="text-lg font-semibold"></h2>
-                <p className="text-gray-600">{data.content}</p>
+                <h2 className="text-lg font-semibold">{job.title}</h2>
+                <p className="text-gray-600">{job.nameCompany}</p>
                 <div className="flex justify-between items-center mt-4">
-                    <span className="bg-gray-200 text-gray-600 text-sm px-3 py-1 rounded-full">{data.salary}</span>
-                    <span className="text-gray-600">{data.destination}</span>
-                    <button className="text-gray-600 hover:text-gray-800">
+                    <span className="bg-gray-200 text-gray-600 text-sm px-3 py-1 rounded-full">{job.salary} triệu</span>
+                    <span className="text-gray-600">{job.location}</span>
+                    <Link target='' href={`/Description/${job.id}`} className="text-gray-600 hover:text-gray-800 hover:bg-slate-200 m-[1px] rounded-[1px]" >
                         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h18M3 12h18M3 21h18"></path>
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 3h18M3 12h18M3 21h18"></path>
                         </svg>
-                    </button>
+                    </Link>
                 </div>
             </div>
         </div>

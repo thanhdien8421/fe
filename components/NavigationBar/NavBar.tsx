@@ -122,13 +122,13 @@ const NavBar = () => {
                     <PartOfNavbar links={navLink} />
                 </div>
                 <div className="flex space-x-4 m-7 text-[1rem]">
-                    <button className="border border-green-600 text-green-600 px-4 py-2 rounded hover:bg-green-600 hover:text-white transition duration-200">
+                    <button className="border border-sky-600 text-sky-600 px-4 py-2 rounded hover:bg-sky-600 hover:text-white transition duration-200">
                         <Link href={"/login"}>Đăng nhập</Link>
                     </button>
-                    <button className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition duration-200">
+                    <button className="bg-sky-600 text-white px-4 py-2 rounded hover:bg-sky-700 transition duration-200">
                         <Link href={"/signup"}>Đăng ký</Link>
                     </button>
-                    <Link target="_blank" href={"/job"} className="bg-gray-800 text-white px-4 py-2 rounded hover:bg-gray-700 transition duration-200">
+                    <Link target="_blank" href={"/job"} className="bg-green-800 text-white px-4 py-2 rounded hover:bg-gray-700 transition duration-200">
                         Đăng tuyển & tìm hồ sơ
                     </Link>
                 </div>

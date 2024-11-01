@@ -7,7 +7,7 @@ const Footer = () => {
     <footer className="bg-black text-white p-10">
       <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
         <div>
-          <Image src="/image/logo.jpg" alt="Domestico Logo" width={150} height={50} className="mb-4" />
+          <Image src="/images/logo.jpg" alt="Logo" width={150} height={50} className="mb-4" />
           <p>JobCenter</p>
         </div>
         <div>

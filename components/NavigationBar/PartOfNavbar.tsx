@@ -21,21 +21,21 @@ import { GiHandBag } from "react-icons/gi";
 import { PiWaveTriangleFill } from "react-icons/pi";
 
 const iconMap: any = {
-    "FaMagnifyingGlass": <FaMagnifyingGlass className='text-green-500' />,
-    "GrPersonalComputer": <GrPersonalComputer className='text-green-500' />,
-    "FaAward": <FaAward className='text-green-500' />,
-    "LuBuilding2": <LuBuilding2 className='text-green-500' />,
-    "BsStars": <BsStars className='text-green-500' />,
-    "IoCreateOutline": <IoCreateOutline className='text-green-500' />,
-    "SlEnvolopeLetter": <SlEnvolopeLetter className='text-green-500' />,
-    "SiFrontendmentor": <SiFrontendmentor className='text-green-500' />,
-    "CgFileDocument": <CgFileDocument className='text-green-500' />,
-    "FaRegCompass": <FaRegCompass className='text-green-500' />,
-    "MdOutlineFindInPage": <MdOutlineFindInPage className='text-green-500' />,
-    "CiMoneyCheck1": <CiMoneyCheck1 className='text-green-500' />,
-    "MdOutlineFolderSpecial": <MdOutlineFolderSpecial className='text-green-500' />,
-    "GiHandBag": <GiHandBag className='text-green-500' />,
-    "PiWaveTriangleFill": <PiWaveTriangleFill className='text-green-500' />
+    "FaMagnifyingGlass": <FaMagnifyingGlass className='text-sky-500' />,
+    "GrPersonalComputer": <GrPersonalComputer className='text-sky-500' />,
+    "FaAward": <FaAward className='text-sky-500' />,
+    "LuBuilding2": <LuBuilding2 className='text-sky-500' />,
+    "BsStars": <BsStars className='text-sky-500' />,
+    "IoCreateOutline": <IoCreateOutline className='text-sky-500' />,
+    "SlEnvolopeLetter": <SlEnvolopeLetter className='text-sky-500' />,
+    "SiFrontendmentor": <SiFrontendmentor className='text-sky-500' />,
+    "CgFileDocument": <CgFileDocument className='text-sky-500' />,
+    "FaRegCompass": <FaRegCompass className='text-sky-500' />,
+    "MdOutlineFindInPage": <MdOutlineFindInPage className='text-sky-500' />,
+    "CiMoneyCheck1": <CiMoneyCheck1 className='text-sky-500' />,
+    "MdOutlineFolderSpecial": <MdOutlineFolderSpecial className='text-sky-500' />,
+    "GiHandBag": <GiHandBag className='text-sky-500' />,
+    "PiWaveTriangleFill": <PiWaveTriangleFill className='text-sky-500' />
 };
 
 
@@ -75,7 +75,3 @@ const PartOfNavbar: React.FC<PartOfNavbarProps> = ({ links }) => {
 }
 
 export default PartOfNavbar
-/* <div className="flex items-center border border-gray-300 rounded-md bg-gray-100 p-2 ">
-                                    <FaMagnifyingGlass />
-                                    <span className="text-gray-800 ml-8 mr-8 w-[300px] h-auto">Tìm việc làm</span>
-                                </div> */
