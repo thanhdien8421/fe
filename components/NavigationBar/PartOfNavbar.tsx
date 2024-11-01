@@ -50,7 +50,7 @@ const PartOfNavbar: React.FC<PartOfNavbarProps> = ({ links }) => {
                 return (
                     <HoverCard key={link.id}>
                         <HoverCardTrigger href={link.url} className='m-[10px] ml-5 mr-5 bg-white w-auto h-[100%]
-                                                                    text-center rounded-[5px]  hover:text-green-500'>
+                                                                    text-center rounded-[5px]  hover:text-sky-500'>
                             {link.title}
                         </HoverCardTrigger>
                         <HoverCardContent className='w-auto translate-x-1/3'>
@@ -59,7 +59,7 @@ const PartOfNavbar: React.FC<PartOfNavbarProps> = ({ links }) => {
                                     <Link href={"/"} className="flex items-center mt-3  border border-gray-300 rounded-md bg-gray-100 p-2 "
                                     key={a.urlIcon}>
                                         {iconMap[a.urlIcon]}
-                                        <p className="text-gray-800 ml-8 mr-8 w-[330px] h-auto  hover:text-green-500">
+                                        <p className="text-gray-800 ml-8 mr-8 w-[330px] h-auto  hover:text-sky-500">
                                             {a.titleIcon}
                                         </p>
                                     </Link>

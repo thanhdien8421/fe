@@ -1,7 +1,7 @@
 import React from 'react'
 import PartOfNavbar from './PartOfNavbar'
 import Link from 'next/link'
-
+import Image from 'next/image'
 
 const NavBar = () => {
     const navLink = [
@@ -113,11 +113,11 @@ const NavBar = () => {
         },
     ]
     return (
-        <div>
-            <nav className='flex flex-row  items-center justify-between ml-[20px] h-[60px] rounded-[10px] '>
-                <div className='flex flex-row  items-center justify-center'>
-                    <Link href="/" className='object-fit justify-self-center col-start-2 md:w-36 mr-[10px]'>
-                        <img src="https://static.topcv.vn/v4/image/logo/topcv-logo-10-year.png" alt="" />
+        <div className='bg-white drop-shadow-xl'>
+            <nav className='flex flex-row items-center justify-between ml-[20px] h-[100px] rounded-[10px] '>
+                <div className='flex flex-row items-center justify-center'>
+                    <Link href="/" className=' justify-self-center col-start-1 mr-[5px] object-fit'>
+                        <Image src="/images/logo.jpg" alt="Logo" width={1000} height={1000} className='w-1/2 h-auto justify-self-center'/>
                     </Link>
                     <PartOfNavbar links={navLink} />
                 </div>
@@ -128,7 +128,7 @@ const NavBar = () => {
                     <button className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition duration-200">
                         <Link href={"/signup"}>Đăng ký</Link>
                     </button>
-                    <Link target="_blank" href={"/jobpost"} className="bg-gray-800 text-white px-4 py-2 rounded hover:bg-gray-700 transition duration-200">
+                    <Link target="_blank" href={"/job"} className="bg-gray-800 text-white px-4 py-2 rounded hover:bg-gray-700 transition duration-200">
                         Đăng tuyển & tìm hồ sơ
                     </Link>
                 </div>
