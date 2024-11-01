@@ -28,6 +28,7 @@ import {
 } from "../ui/card"
 import Link from "next/link"
 import { useRouter } from 'next/navigation'
+import { Login } from "@/action/login"
 
 export function LoginForm() {
   const router = useRouter()
@@ -41,20 +42,14 @@ export function LoginForm() {
   })
   
   const [isPending, startTransition] = useTransition()
-  const [data, setData] = useState<any>()
-  
-  console.log("---Re-Render")
-  async function fakeSubmit(values : any) {
-    return new Promise((resolve) => setTimeout(() => resolve(values), 2000));
-  }
   
   function onSubmit(values: z.infer<typeof LoginSchema>) {
     startTransition(async () => {
-      const result = await fakeSubmit(values);
-      setData(result)
-      if (result) {
-        toast.success("Đăng nhập thành công.")
-        router.push("/job")
+      const result = await Login(values);
+      if (result.success) {
+        toast.success(result.message)
+        if (values.email == "employee@gmail.com") router.push('/job')
+        else if (values.email == "employer@gmail.com") router.push('/')
       }
       else toast.error("Đã xảy ra lỗi")
     });

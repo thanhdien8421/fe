@@ -1,4 +1,5 @@
-import DescriptionJobPage from '@/components/DesriptionJob/Description'
+import DescriptionJobPage from '@/components/DescriptionJob/Description'
+
 import { InfoJob } from '@/lib/data';
 import React from 'react'
 
