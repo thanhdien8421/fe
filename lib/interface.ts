@@ -11,9 +11,16 @@ export interface MenuItemType {
 }
 
 export interface JobPost {
-    id: number;
-    company: string;
+    id: string;
+    urlLogo: string;
     title: string;
-    author: string;
-    content: string;
+    titleCompany: string[];
+    nameCompany: string;
+    request: string[];
+    salary: string;
+    location: string[];
+    locationDetail: string[];
+    exp: string;
+    interest: string[];
+    working_time: string;
   }

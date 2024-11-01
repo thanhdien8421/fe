@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import NavBar from "@/components/NavigationBar/NavBar";
 import { ProgressBarLayout } from "@/components/Common/process-bar";
+import Footer from "@/components/Footer/Footer";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -17,12 +18,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <title>CV Website</title>
-      <body>
+      <body className="bg-sky-200 bg-gradient-to-t">
         <NavBar />
         <ProgressBarLayout>
           {children}
         </ProgressBarLayout>
-        
+        <Footer/>
       </body>
     </html>
   );

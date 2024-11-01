@@ -57,7 +57,7 @@ export function LoginForm() {
     return (
     <Form {...form}>
       <div><Toaster/></div>
-      <Card>
+      <Card className="drop-shadow-lg">
           <CardHeader className="space-y-1">
             <CardTitle className="text-3xl font-bold">Log In</CardTitle>
             <CardDescription>

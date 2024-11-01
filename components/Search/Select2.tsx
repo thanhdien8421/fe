@@ -50,7 +50,6 @@ const Select2 = () => {
         "Long An",
         "Tây Ninh",
         "Bình Phước",
-
         "Quảng Nam",
         "Quảng Ngãi",
         "Phú Yên",
@@ -61,8 +60,7 @@ const Select2 = () => {
         "Hưng Yên",
         "Bắc Ninh",
         "Bắc Giang",
-        "Vĩnh Phúc",
-        "Mộc Châu"  // Lặp lại để hoàn thành 64 nếu cần
+        "Vĩnh Phúc"
     ];
     const [inputValue, setInputValue] = useState("");
     const [selected, setSelected] = useState("");
@@ -73,10 +71,10 @@ const Select2 = () => {
                 <IoLocationOutline size={20} />
                 <p className='ml-5'>{selected ? selected : "Khu vực"}</p>
             </div>
-            <ul className={` bg-white mt-2 absolute top-[45px] w-full text-start rounded-[2px] overflow-y-auto 
+            <ul className={` bg-white mt-2 absolute top-[45px] w-full text-start rounded-[2px] overflow-y-auto drop-shadow-lg
                               ${open ? "max-h-60 " : "max-h-0"}`}>
                 <div className='sticky top-0'>
-                    <input type="text" placeholder='Enter area' className='placeholder:text-gray-400 p-2 w-full outline-none '
+                    <input type="text" placeholder='Nhập khu vực bạn muốn chọn' className='placeholder:text-gray-400 p-2 w-full outline-none'
                         value={inputValue}
                         onChange={(e) => setInputValue(e.target.value.toLowerCase())}
                     />

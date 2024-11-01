@@ -14,7 +14,7 @@ const SearchBar = () => {
             />
             <Select2 />
             <div>
-                <button className="flex-1 bg-green-600 text-white text-[1rem] rounded-md m-3  px-4 py-2 hover:bg-green-700">
+                <button className="flex-1 bg-sky-600 text-white text-[1rem] rounded-md m-3  px-4 py-2 hover:bg-green-700">
                     Tìm kiếm
                 </button>
             </div>
