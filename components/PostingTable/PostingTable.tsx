@@ -14,11 +14,12 @@ import { FaRegEdit } from "react-icons/fa";
 import { MdDeleteSweep } from "react-icons/md";
 import { IoMdAdd } from "react-icons/io";
 import { InfoJob } from "@/lib/data";
+import Link from "next/link";
 
 export function TableDemo() {
     return (
         <>
-            <div className="w-[60px] h-[30px] hover:bg-gray-200 border border-gray-500 rounded-sm flex flex-row text-center justify-center "><IoMdAdd className="m-[5px]" /></div>
+            <div className="w-[60px] h-[30px] hover:bg-gray-200 border border-gray-500 rounded-sm flex flex-row text-center justify-center "><Link href='/post'><IoMdAdd className="m-[5px]" /></Link></div>
             <Table className="border border-green-200 rounded-xl select-none">
                 <TableCaption>Danh sách bài đăng của bạn.</TableCaption>
                 <TableHeader>

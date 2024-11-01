@@ -49,7 +49,7 @@ export function LoginForm() {
       if (result.success) {
         toast.success(result.message)
         if (values.email == "employee@gmail.com") router.push('/job')
-        else if (values.email == "employer@gmail.com") router.push('/')
+        else if (values.email == "employer@gmail.com") router.push('/recruitment')
       }
       else toast.error("Đã xảy ra lỗi")
     });
