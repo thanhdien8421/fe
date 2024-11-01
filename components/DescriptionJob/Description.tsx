@@ -1,6 +1,6 @@
 "use client";
-
-import { DialogDemo } from "@/components/Folder Components/Dialog/Dialog";
+import { Button } from "../ui/button";
+import { UploadCVForm } from "../Form/UploadCVForm";
 import { JobPost } from "@/lib/interface";
 import React from "react";
 import { GiTakeMyMoney } from "react-icons/gi";
@@ -56,7 +56,7 @@ export default function DescriptionJobPage({ job }:{job:JobPost}) {
                 <TfiTime size={27} color="white" />
               </div>
               <div className="flex mt-1 flex-col ml-4  ">
-                <div> Kinh Nghiệm </div>
+                <div> Kinh nghiệm </div>
                 <div> {job.exp}</div>
               </div>
             </div>
@@ -79,9 +79,13 @@ export default function DescriptionJobPage({ job }:{job:JobPost}) {
           <Itemdescription title={"Quyền lợi"} des={job.interest}></Itemdescription>
           <Itemdescription title={"Địa điểm làm việc"} des={job.locationDetail}></Itemdescription>
           <Itemdescription title={"Cách thức ứng tuyển"} des={["Ứng viên nộp hồ sơ trực tuyến bằng cách bấm Ứng tuyển ngay dưới đây."]}></Itemdescription>
-          <div className=" text-center mt-[20px] w-[150px] bg-[#00b14f] rounded-[7px] p-[7px] font-semibold text-white hover:bg-green-600 ">
+          {/* <div className=" text-center mt-[20px] w-[150px] bg-[#00b14f] rounded-[7px] p-[7px] font-semibold text-white hover:bg-green-600 ">
             <DialogDemo />
-          </div>
+          </div> */}
+          <div className="flex gap-3 w-[950px] mt-10">
+          <UploadCVForm title={job.title} id={job.id} />
+          <Button variant={"secondary"}>Lưu tin</Button>
+        </div>
         </div>
       </div>
     );

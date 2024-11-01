@@ -4,9 +4,10 @@ import SearchBar from "@/components/Search/SearchBar";
 import React from "react";
 import { InfoJob } from "@/lib/data";
 import { JobPost } from "@/lib/interface";
-import Link from "next/link";
+import { useState } from "react";
 
 export default function JobPage() {
+  const [keyword, changeKeyword] = useState<string>("")
   return (
     <div className="pb-10">
       <div className=" mx-[15%]  pt-[60px]">
