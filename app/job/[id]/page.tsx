@@ -96,12 +96,12 @@ const DesriptionJobPage = ({
   return (
     <div className="bg-[#f4f5f5]  flex flex-col justify-center pb-[80px] items-center">
       <div className="w-[80%] mt-[50px] overflow-hidden">
-        <Title></Title>
+        <Title/>
         <div className="flex gap-3 w-[950px] mt-10">
           <UploadCVForm title={params.id} id={params.id} />
           <Button variant={"secondary"}>Lưu tin</Button>
         </div>
-        <Body></Body>
+        <Body/>
 
       </div>
     </div>

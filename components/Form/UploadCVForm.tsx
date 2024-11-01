@@ -87,6 +87,7 @@ export const UploadCVForm = ({
       if (result.success) {
         toast.success(result.message)
       }
+      else toast.error("Đã xảy ra lỗi")
     })
   }
   return (
