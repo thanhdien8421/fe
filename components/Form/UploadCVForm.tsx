@@ -9,7 +9,7 @@ import { CgDanger } from "react-icons/cg";
 import { UploadCVSchema } from "@/schema/UploadCVSchema";
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
-import React, { useState } from "react";
+import React, { useState, useTransition } from "react";
 import { z } from "zod"
 import {
   Form,
@@ -23,7 +23,8 @@ import {
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { FaCloudUploadAlt } from "react-icons/fa";
-
+import { UploadCV } from "@/action/uploadCV";
+import toast, { Toaster } from "react-hot-toast";
 interface UploadCVFormProps {
   id: string,
   title: string
@@ -62,6 +63,7 @@ export const UploadCVForm = ({
   id,
   title
 }: UploadCVFormProps) => {
+  const [isPending, startTransition] = useTransition()
   const [hidden, setHidden] = useState<boolean>(true)
   const [fileName, setFileName] = useState<string>("")
   // 1. Define your form.
@@ -80,14 +82,17 @@ export const UploadCVForm = ({
   function onSubmit(values: z.infer<typeof UploadCVSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
-    console.log('Form Values:', values);
-    if (values.file) {
-      console.log('Uploaded File:', values.file);
-    }
+    startTransition(async () => {
+      const result = await UploadCV(values);
+      if (result.success) {
+        toast.success(result.message)
+      }
+    })
   }
   return (
     <div>
-      <button className="bg-[#00b14f] rounded-[7px] p-[7px] font-semibold text-white hover:bg-green-600" onClick={() => setHidden(false)}>
+      <Toaster />
+      <button className="bg-[#00b14f] rounded-[7px] p-[7px] font-semibold text-white hover:bg-green-600" onClick={() => setHidden(false)} disabled={isPending}>
         Ứng tuyển ngay
       </button>
       {!hidden && <div className="bg-gray-500 fixed w-screen h-screen bg-opacity-25 top-0 left-0 flex justify-center items-center">
@@ -96,7 +101,7 @@ export const UploadCVForm = ({
             <Card className="w-full md:max-w-[40rem] mx-3">
               <CardHeader className="flex justify-between items-center border-b-[1px] flex-row shadow-sm">
                 <h3 className="text-xl font-bold">Ứng tuyển <span className="text-cyan-600">{title}</span></h3>
-                <Button onClick={() => setHidden(true)} className="w-[50px] rounded-full h-[50px] bg-gray-100 hover:bg-gray-300" type="button"><IoCloseOutline color="black" /></Button>
+                <Button onClick={() => setHidden(true)} className="w-[50px] rounded-full h-[50px] bg-gray-100 hover:bg-gray-300" type="button" disabled={isPending}><IoCloseOutline color="black" /></Button>
               </CardHeader>
               <CardContent className="overflow-y-scroll h-[350px] px-7 py-5 flex flex-col gap-5">
 
@@ -109,12 +114,27 @@ export const UploadCVForm = ({
                       </div>
 
                       <p className="text-gray-500">Hỗ trợ định dạng .doc, .docx, pdf có kích thước dưới 5MB</p>
-                      <Button variant={"secondary"} type="button"><label htmlFor="upload-photo">Chọn CV</label></Button>
-                      <Input type="file" id="upload-photo" onChange={(e) => {
-                        const file = e.target.files?.[0] || null;
-                        form.setValue("file", file); // Set the file in form state
-                      }} />
+                      <div className="flex gap-3 items-center flex-wrap">
+                        <Button variant={"secondary"} type="button" disabled={isPending}><label htmlFor="upload-photo">Chọn CV</label></Button>
+                        <FormField
+                          control={form.control}
+                          name="file"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormControl>
+                                <Input type="file" id="upload-photo" onChange={(e) => {
+                                  const file = e.target.files?.[0] || null;
+                                  form.setValue("file", file); // Set the file in form state
+                                  if (file) setFileName(file.name)
+                                }} className="hidden" disabled={isPending} />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
 
+                        <p>{fileName}</p>
+                      </div>
                     </div>
                     <p className="text-cyan-700">Vui lòng nhập thông tin chi tiết</p>
                     <FormField
@@ -124,7 +144,7 @@ export const UploadCVForm = ({
                         <FormItem>
                           <FormLabel>Họ và tên</FormLabel>
                           <FormControl>
-                            <Input placeholder="shadcn" {...field} />
+                            <Input placeholder="shadcn" {...field} disabled={isPending} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -138,7 +158,7 @@ export const UploadCVForm = ({
                           <FormItem>
                             <FormLabel>Email</FormLabel>
                             <FormControl>
-                              <Input placeholder="shadcn" {...field} />
+                              <Input placeholder="shadcn" {...field} disabled={isPending} />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -151,7 +171,7 @@ export const UploadCVForm = ({
                           <FormItem>
                             <FormLabel>Số điện thoại</FormLabel>
                             <FormControl>
-                              <Input placeholder="shadcn" {...field} />
+                              <Input placeholder="shadcn" {...field} disabled={isPending} />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -167,7 +187,7 @@ export const UploadCVForm = ({
                     render={({ field }) => (
                       <FormItem>
                         <FormControl>
-                          <Textarea placeholder="shadcn" {...field} />
+                          <Textarea placeholder="shadcn" {...field} disabled={isPending}/>
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -190,8 +210,8 @@ export const UploadCVForm = ({
               </CardContent>
 
               <CardFooter className="py-5 px-7 flex gap-3 border-t-[1px] shadow-lg">
-                <Button className="min-w-[100px]" onClick={() => setHidden(true)} type="button">Hủy</Button>
-                <Button className="shink-1 bg-cyan-600 hover:bg-cyan-500 grow" type="submit">Nộp hồ sơ ứng tuyển</Button>
+                <Button className="min-w-[100px]" onClick={() => setHidden(true)} type="button" disabled={isPending}>Hủy</Button>
+                <Button className="shink-1 bg-cyan-600 hover:bg-cyan-500 grow" type="submit" disabled={isPending}>Nộp hồ sơ ứng tuyển</Button>
               </CardFooter>
             </Card>
           </form>
