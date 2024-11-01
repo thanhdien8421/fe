@@ -3,7 +3,6 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
-import { LoginSchema } from "@/schema/LoginSchema"
 import { Button } from "@/components/ui/button"
 import {
   Form,
@@ -30,6 +29,13 @@ import Link from "next/link"
 import { useRouter } from 'next/navigation'
 import { SignUp } from "@/action/signup"
 import { SignupSchema } from "@/schema/SignupSchema"
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from "@/components/ui/select";
 
 export function SignupForm() {
   const router = useRouter()
@@ -39,7 +45,8 @@ export function SignupForm() {
     defaultValues: {
       email: "",
       password: "",
-      confirmPassword: ""
+      confirmPassword: "",
+      role:"Ứng viên"
     },
   })
   const [isPending, startTransition] = useTransition()
@@ -53,8 +60,9 @@ export function SignupForm() {
       const result = await SignUp(values);
       if (result.success) {
         toast.success(result.message)
-        if (values.email == "employee@gmail.com") router.push('/job')
-        else if (values.email == "employer@gmail.com") router.push('/')
+        if (values.role=="Ứng viên")
+             router.push('/profile?role=1')
+        else router.push('/profile?role=2')
       }
       else toast.error("Đã xảy ra lỗi")
     });
@@ -62,9 +70,9 @@ export function SignupForm() {
   return (
     <Form {...form}>
       <div><Toaster /></div>
-      <Card>
+      <Card className=" drop-shadow-xl">
         <CardHeader className="space-y-1">
-          <CardTitle className="text-3xl font-bold">Log Up</CardTitle>
+          <CardTitle className="text-3xl font-bold">Sign Up</CardTitle>
           <CardDescription>
             Đăng ký tài khoản mới
           </CardDescription>
@@ -107,17 +115,40 @@ export function SignupForm() {
                 <FormItem>
                   <FormLabel>Xác nhận mật khẩu</FormLabel>
                   <FormControl>
-                    <Input placeholder="example@email.com" {...field} disabled={isPending} />
+                    <Input placeholder="••••••••" {...field} disabled={isPending} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
+            <FormField
+          control={form.control}
+          name="role"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Bạn là?</FormLabel>
+              <FormControl>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Ứng viên" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Ứng viên">Ứng viên</SelectItem>
+                    <SelectItem value="Nhà tuyển dụng">Nhà tuyển dụng</SelectItem>
+                  </SelectContent>
+                </Select>
+              </FormControl>
+            </FormItem>
+          )}
+        />
             <Button type="submit" disabled={isPending} className="bg-blue-800">Đăng ký</Button>
           </form>
         </CardContent>
         <CardFooter>
-          Chưa có tài khoản? Đăng ký ngay tại<pre> </pre><Link href={"/signup"}><u className="text-sky-700">Sign Up</u></Link>
+          <pre>                                                  </pre>
         </CardFooter>
       </Card>
     </Form>

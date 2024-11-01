@@ -12,6 +12,8 @@ export const SignupSchema = z
     confirmPassword: z
       .string()
       .min(4, { message: "Mật khẩu cần dài ít nhất 4 ký tự." }),
+    role: z
+      .string()
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Mật khẩu xác nhận không khớp.",

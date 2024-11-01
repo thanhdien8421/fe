@@ -7,25 +7,24 @@ const Footer = () => {
     <footer className="bg-black text-white p-10">
       <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
         <div>
-          <Image src="/images/logo.jpg" alt="Logo" width={150} height={50} className="mb-4" />
-          <p>JobCenter</p>
+          <Image src="/images/logo.png" alt="Logo" width={150} height={50} className="mb-4" />
         </div>
         <div>
           <h3 className="font-bold mb-3">Hỗ trợ</h3>
           <ul>
             <li>
               <Link href="/category/new-arrivals">
-                <span className="cursor-pointer hover:underline">ABCD</span>
+                <span className="cursor-pointer hover:underline">Viết CV</span>
               </Link>
             </li>
             <li>
               <Link href="/category/sale">
-                <span className="cursor-pointer hover:underline">AAAA</span>
+                <span className="cursor-pointer hover:underline">Hướng dẫn sử dụng</span>
               </Link>
             </li>
             <li>
               <Link href="/category/top-rated">
-                <span className="cursor-pointer hover:underline">Something</span>
+                <span className="cursor-pointer hover:underline">Báo cáo sự cố</span>
               </Link>
             </li>
           </ul>

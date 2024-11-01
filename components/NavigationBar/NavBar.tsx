@@ -117,7 +117,7 @@ const NavBar = () => {
             <nav className='flex flex-row items-center justify-between ml-[20px] h-[100px] rounded-[10px] '>
                 <div className='flex flex-row items-center justify-center'>
                     <Link href="/" className=' justify-self-center col-start-1 mr-[5px] object-fit'>
-                        <Image src="/images/logo.jpg" alt="Logo" width={1000} height={1000} className='w-1/2 h-auto justify-self-center'/>
+                        <Image src="/images/logo.png" alt="Logo" width={150} height={50} className='w-1/2 h-auto justify-self-center'/>
                     </Link>
                     <PartOfNavbar links={navLink} />
                 </div>

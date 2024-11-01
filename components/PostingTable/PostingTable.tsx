@@ -18,7 +18,7 @@ import Link from "next/link";
 
 export function TableDemo() {
     return (
-        <>
+        <div className="flex flex-col gap-5">
             <div className="w-[60px] h-[30px] hover:bg-gray-200 border border-gray-500 rounded-sm flex flex-row text-center justify-center "><Link href='/post'><IoMdAdd className="m-[5px]" /></Link></div>
             <Table className="border border-green-200 rounded-xl select-none">
                 <TableCaption>Danh sách bài đăng của bạn.</TableCaption>
@@ -30,6 +30,7 @@ export function TableDemo() {
                         <TableHead className="text-center">Ngày tuyển dụng</TableHead>
                         <TableHead className="text-center">Ngày kết thúc</TableHead>
                         <TableHead >Trạng thái</TableHead>
+                        <TableHead >Xem chi tiết</TableHead>
                         <TableHead className="text-center">Chỉnh sửa</TableHead>
                         <TableHead className="text-center">Xóa bài viết</TableHead>
                     </TableRow>
@@ -39,10 +40,11 @@ export function TableDemo() {
                         <TableRow key={post.id} className="text-center">
                             <TableCell className="">{post.id}</TableCell>
                             <TableCell className="font-medium text-start">{post.title}</TableCell>
-                            <TableCell className="w-[200px]">{post.location}</TableCell>
+                            <TableCell className="w-[200px]">{post.location.join(', ')}</TableCell>
                             <TableCell>{post.start_date}</TableCell>
                             <TableCell>{post.end_date}</TableCell>
                             <TableCell ><SwitchStatusBtn /></TableCell>
+                            <TableCell ><Button className="bg-sky-500"><Link href={`/job/${post.id}`}>Xem</Link></Button></TableCell>
                             <TableCell ><Button className="bg-gray-500 hover:bg-green-400"><FaRegEdit className="text-center h-full" />Chỉnh sửa</Button></TableCell>
                             <TableCell ><Button className="bg-red-500"><MdDeleteSweep />Xóa</Button></TableCell>
 
@@ -56,7 +58,7 @@ export function TableDemo() {
                 </TableFooter>
             </Table>
 
-        </>
+        </div>
     )
 }
 
