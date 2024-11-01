@@ -71,7 +71,7 @@ export const InfoJob : JobPost[] = [
         "Hỗ trợ nhân viên chăm sóc, tư vấn và chốt deal",
         "Tìm kiếm khách hàng có nhu cầu ",
       ],
-      nameCompany: "Công ty TNHH (demo)",
+      nameCompany: "Công ty TNHH DEMO",
       request: [
         "Tối thiểu 6 tháng - 1 năm kinh nghiệm về quản lý mảng Bất động sản (Bắt buộc)",
         "Tốt nghiệp THPT trở lên",
@@ -100,230 +100,186 @@ export const InfoJob : JobPost[] = [
     },
     {
       id: "2",
-      urlLogo: "https://tinyurl.com/mwy9cv28",
-      title: "Trưởng phòng kinh doanh",
+      urlLogo: "https://thicao.com/wp-content/uploads/2019/08/logo-ban-le-stater-bros-markets.jpg",
+      title: "Nhân viên tư vấn bán hàng",
       titleCompany: [
-        "Quản lý điều hành, hoạt động bán hàng của phòng kinh doanh phụ trách",
-        "Đào tạo, giám sát công việc, có trách nhiệm về hoạt động của tất cả khu vực trực thuộc bộ phận mình phụ trách",
-        "Xây dựng kế hoạch, chiến lược bán hàng nhằm đảm bảo chỉ tiêu doanh thu được giao",
-        "Hỗ trợ nhân viên chăm sóc, tư vấn và chốt deal",
-        "Tìm kiếm khách hàng có nhu cầu ",
+        "Tư vấn và giới thiệu sản phẩm đến khách hàng",
+        "Chăm sóc khách hàng hiện có và phát triển khách hàng mới",
+        "Lập kế hoạch bán hàng theo tuần và tháng",
+        "Thực hiện các chiến dịch marketing để thúc đẩy doanh số",
+        "Ghi nhận và báo cáo công việc hàng tuần cho quản lý"
       ],
-      nameCompany: "Công ty TNHH (demo)",
+      nameCompany: "Công ty Cổ phần ABC",
       request: [
-        "Tối thiểu 6 tháng - 1 năm kinh nghiệm về quản lý mảng Bất động sản (Bắt buộc)",
-        "Tốt nghiệp THPT trở lên",
-        "Khả năng giao tiếp tốt và đàm phán, có khả năng tạo mối quan hệ khách hàng lâu dài.",
-        "Kỹ năng tổ chức, quản lý thời gian và làm việc độc lập, làm việc theo đội nhóm.",
-        "Đam mê kinh doanh, yêu thích môi trường làm việc Bất Động Sản",
-        "Mong muốn phát triển đội ngũ bán hàng chuyên nghiệp, đam mê kinh doanh"
+        "Không yêu cầu kinh nghiệm, chấp nhận đào tạo từ đầu",
+        "Tốt nghiệp Trung học phổ thông trở lên",
+        "Kỹ năng giao tiếp tốt và tự tin, có khả năng làm việc nhóm",
+        "Có tinh thần trách nhiệm và yêu thích công việc kinh doanh",
+        "Thái độ tích cực và kiên nhẫn khi làm việc với khách hàng"
       ],
-      salary: "15-20",
+      salary: "8-12",
       location: [
-        "Hà Nội"
+        "Đà Nẵng"
       ],
       locationDetail: [
-        "Hồ Chí Minh: TP.HCM, 51 Kinh Dương Vương, P12, Quận 6, Quận 6",
-        " Long An: Long An, Huyện Tân Trụ, Tân Trụ"
+        "Đà Nẵng: 123 Nguyễn Văn Linh, Hải Châu",
+        "Quảng Nam: TP Tam Kỳ, Nguyễn Du"
       ],
-      exp: "6 tháng - 1 năm",
+      exp: "Không yêu cầu kinh nghiệm",
       interest: [
-        "Nhận hoa hồng trên giá trị sản phẩm bán được từ 30 triệu/sản phẩm",
-        "Thưởng nóng từ 20 triệu/sản phẩm",
-        "Được đào tạo bài bản, chuyên nghiệp các công tác hỗ trợ bán hàng",
-        "Tham gia miễn phí 100% chương trình đào tạo cơ bản và nâng cao với nghề",
-        "Chế độ Bảo hiểm xã hội, nghỉ phép 12 ngày/ năm, các chế độ khác tuân thủ đúng quy định của pháp luật"
+        "Hoa hồng trên sản phẩm bán ra từ 5-10 triệu/sản phẩm",
+        "Thưởng nóng theo tuần và tháng dựa trên doanh số",
+        "Chế độ bảo hiểm đầy đủ, nghỉ phép 12 ngày/năm",
+        "Hỗ trợ đồng phục và công cụ làm việc",
+        "Đào tạo kỹ năng bán hàng và chăm sóc khách hàng"
       ],
-      working_time: "Thời gian làm việc từ 8 giờ sáng đến 17 giờ chiều cùng ngày. Thứ 7 và chủ nhật công ty không hoạt động"
+      working_time: "Thời gian làm việc từ 8 giờ sáng đến 5 giờ chiều, nghỉ cuối tuần thứ 7 và Chủ Nhật"
     },
     {
       id: "3",
-      urlLogo: "https://tinyurl.com/mwy9cv28",
-      title: "Trưởng phòng kinh doanh",
+      urlLogo: "https://thicao.com/wp-content/uploads/2019/08/logo-ban-le-dermstore.jpg",
+      title: "Quản lý dự án",
       titleCompany: [
-        "Quản lý điều hành, hoạt động bán hàng của phòng kinh doanh phụ trách",
-        "Đào tạo, giám sát công việc, có trách nhiệm về hoạt động của tất cả khu vực trực thuộc bộ phận mình phụ trách",
-        "Xây dựng kế hoạch, chiến lược bán hàng nhằm đảm bảo chỉ tiêu doanh thu được giao",
-        "Hỗ trợ nhân viên chăm sóc, tư vấn và chốt deal",
-        "Tìm kiếm khách hàng có nhu cầu ",
+        "Quản lý tiến độ và chất lượng dự án theo kế hoạch đã đề ra",
+        "Lập kế hoạch và giám sát ngân sách dự án",
+        "Hỗ trợ đội ngũ triển khai dự án đạt kết quả tốt nhất",
+        "Chịu trách nhiệm báo cáo và cập nhật tình hình dự án cho ban lãnh đạo",
+        "Xử lý các tình huống phát sinh trong quá trình triển khai"
       ],
-      nameCompany: "Công ty TNHH (demo)",
+      nameCompany: "Công ty TNHH XYZ",
       request: [
-        "Tối thiểu 6 tháng - 1 năm kinh nghiệm về quản lý mảng Bất động sản (Bắt buộc)",
-        "Tốt nghiệp THPT trở lên",
-        "Khả năng giao tiếp tốt và đàm phán, có khả năng tạo mối quan hệ khách hàng lâu dài.",
-        "Kỹ năng tổ chức, quản lý thời gian và làm việc độc lập, làm việc theo đội nhóm.",
-        "Đam mê kinh doanh, yêu thích môi trường làm việc Bất Động Sản",
-        "Mong muốn phát triển đội ngũ bán hàng chuyên nghiệp, đam mê kinh doanh"
+        "Tối thiểu 2 năm kinh nghiệm quản lý dự án",
+        "Tốt nghiệp Đại học ngành Kinh tế, Kỹ thuật hoặc tương đương",
+        "Kỹ năng lãnh đạo, lập kế hoạch và giải quyết vấn đề tốt",
+        "Khả năng làm việc dưới áp lực và tinh thần trách nhiệm cao",
+        "Có kinh nghiệm làm việc trong lĩnh vực xây dựng là lợi thế"
       ],
-      salary: "15-20",
+      salary: "20-25",
       location: [
-        "Hà Nội"
+        "Hà Nội", 
+        "Hồ Chí Minh"
       ],
       locationDetail: [
-        "Hồ Chí Minh: TP.HCM, 51 Kinh Dương Vương, P12, Quận 6, Quận 6",
-        " Long An: Long An, Huyện Tân Trụ, Tân Trụ"
+        "Hà Nội: 45 Lê Văn Lương, Thanh Xuân",
+        "Hồ Chí Minh: 112 Nguyễn Đình Chiểu, Quận 1"
       ],
-      exp: "6 tháng - 1 năm",
+      exp: "2 năm",
       interest: [
-        "Nhận hoa hồng trên giá trị sản phẩm bán được từ 30 triệu/sản phẩm",
-        "Thưởng nóng từ 20 triệu/sản phẩm",
-        "Được đào tạo bài bản, chuyên nghiệp các công tác hỗ trợ bán hàng",
-        "Tham gia miễn phí 100% chương trình đào tạo cơ bản và nâng cao với nghề",
-        "Chế độ Bảo hiểm xã hội, nghỉ phép 12 ngày/ năm, các chế độ khác tuân thủ đúng quy định của pháp luật"
+        "Thưởng dự án và các chế độ thưởng khác theo hiệu quả công việc",
+        "Chế độ bảo hiểm đầy đủ, nghỉ phép 15 ngày/năm",
+        "Được tham gia các chương trình đào tạo nâng cao chuyên môn",
+        "Môi trường làm việc năng động và chuyên nghiệp",
+        "Được hỗ trợ các thiết bị làm việc cần thiết"
       ],
-      working_time: "Thời gian làm việc từ 8 giờ sáng đến 17 giờ chiều cùng ngày. Thứ 7 và chủ nhật công ty không hoạt động"
+      working_time: "Thời gian làm việc từ 8 giờ sáng đến 5 giờ chiều, nghỉ thứ 7 và Chủ Nhật"
     },
     {
       id: "4",
-      urlLogo: "https://tinyurl.com/mwy9cv28",
-      title: "Trưởng phòng kinh doanh",
+      urlLogo: "https://thicao.com/wp-content/uploads/2019/08/logo-cua-hang-ban-le-strandbags.jpg",
+      title: "Nhân viên Digital Marketing",
       titleCompany: [
-        "Quản lý điều hành, hoạt động bán hàng của phòng kinh doanh phụ trách",
-        "Đào tạo, giám sát công việc, có trách nhiệm về hoạt động của tất cả khu vực trực thuộc bộ phận mình phụ trách",
-        "Xây dựng kế hoạch, chiến lược bán hàng nhằm đảm bảo chỉ tiêu doanh thu được giao",
-        "Hỗ trợ nhân viên chăm sóc, tư vấn và chốt deal",
-        "Tìm kiếm khách hàng có nhu cầu ",
+        "Xây dựng và thực hiện các chiến dịch marketing trực tuyến",
+        "Quản lý các kênh truyền thông xã hội và nội dung website",
+        "Tối ưu hóa quảng cáo Google Ads, Facebook Ads để đạt hiệu quả cao",
+        "Theo dõi và báo cáo hiệu quả chiến dịch cho quản lý",
+        "Nghiên cứu từ khóa và xây dựng kế hoạch SEO"
       ],
-      nameCompany: "Công ty TNHH (demo)",
+      nameCompany: "Công ty CP Tiếp thị Số 123",
       request: [
-        "Tối thiểu 6 tháng - 1 năm kinh nghiệm về quản lý mảng Bất động sản (Bắt buộc)",
-        "Tốt nghiệp THPT trở lên",
-        "Khả năng giao tiếp tốt và đàm phán, có khả năng tạo mối quan hệ khách hàng lâu dài.",
-        "Kỹ năng tổ chức, quản lý thời gian và làm việc độc lập, làm việc theo đội nhóm.",
-        "Đam mê kinh doanh, yêu thích môi trường làm việc Bất Động Sản",
-        "Mong muốn phát triển đội ngũ bán hàng chuyên nghiệp, đam mê kinh doanh"
+        "Tối thiểu 1 năm kinh nghiệm trong lĩnh vực Digital Marketing",
+        "Tốt nghiệp Cao đẳng/Đại học ngành Marketing hoặc liên quan",
+        "Kỹ năng phân tích dữ liệu và báo cáo, có kinh nghiệm về SEO",
+        "Có khả năng làm việc độc lập và theo nhóm",
+        "Sáng tạo, có tinh thần học hỏi và yêu thích Marketing"
       ],
-      salary: "15-20",
+      salary: "10-15",
       location: [
-        "Hà Nội"
+        "Hồ Chí Minh"
       ],
       locationDetail: [
-        "Hồ Chí Minh: TP.HCM, 51 Kinh Dương Vương, P12, Quận 6, Quận 6",
-        " Long An: Long An, Huyện Tân Trụ, Tân Trụ"
+        "Hồ Chí Minh: 90 Nguyễn Thái Bình, Quận Tân Bình",
+        "Bình Dương: 56 Đại lộ Bình Dương, Thủ Dầu Một"
       ],
-      exp: "6 tháng - 1 năm",
+      exp: "1 năm",
       interest: [
-        "Nhận hoa hồng trên giá trị sản phẩm bán được từ 30 triệu/sản phẩm",
-        "Thưởng nóng từ 20 triệu/sản phẩm",
-        "Được đào tạo bài bản, chuyên nghiệp các công tác hỗ trợ bán hàng",
-        "Tham gia miễn phí 100% chương trình đào tạo cơ bản và nâng cao với nghề",
-        "Chế độ Bảo hiểm xã hội, nghỉ phép 12 ngày/ năm, các chế độ khác tuân thủ đúng quy định của pháp luật"
+        "Hoa hồng doanh số từ chiến dịch marketing thành công",
+        "Thưởng nóng theo từng dự án đạt mục tiêu",
+        "Được tham gia các khóa đào tạo nâng cao về Digital Marketing",
+        "Chế độ bảo hiểm và nghỉ phép theo quy định của pháp luật",
+        "Môi trường làm việc thân thiện, sáng tạo"
       ],
-      working_time: "Thời gian làm việc từ 8 giờ sáng đến 17 giờ chiều cùng ngày. Thứ 7 và chủ nhật công ty không hoạt động"
+      working_time: "Làm việc từ 8 giờ sáng đến 5 giờ chiều, nghỉ thứ 7 và Chủ Nhật"
     },
     {
       id: "5",
-      urlLogo: "https://tinyurl.com/mwy9cv28",
-      title: "Trưởng phòng kinh doanh",
+      urlLogo: "https://thicao.com/wp-content/uploads/2019/08/logo-cua-hang-fao-schwarz.jpg",
+      title: "Chuyên viên phân tích tài chính",
       titleCompany: [
-        "Quản lý điều hành, hoạt động bán hàng của phòng kinh doanh phụ trách",
-        "Đào tạo, giám sát công việc, có trách nhiệm về hoạt động của tất cả khu vực trực thuộc bộ phận mình phụ trách",
-        "Xây dựng kế hoạch, chiến lược bán hàng nhằm đảm bảo chỉ tiêu doanh thu được giao",
-        "Hỗ trợ nhân viên chăm sóc, tư vấn và chốt deal",
-        "Tìm kiếm khách hàng có nhu cầu ",
+        "Phân tích và đánh giá dữ liệu tài chính để đưa ra quyết định đầu tư",
+        "Chuẩn bị báo cáo tài chính, dự đoán và phân tích xu hướng",
+        "Đưa ra các khuyến nghị đầu tư dựa trên dữ liệu tài chính",
+        "Hỗ trợ xây dựng chiến lược tài chính và kế hoạch đầu tư",
+        "Đảm bảo tuân thủ các quy định pháp luật liên quan"
       ],
-      nameCompany: "Công ty TNHH (demo)",
+      nameCompany: "Công ty Tài chính ABC",
       request: [
-        "Tối thiểu 6 tháng - 1 năm kinh nghiệm về quản lý mảng Bất động sản (Bắt buộc)",
-        "Tốt nghiệp THPT trở lên",
-        "Khả năng giao tiếp tốt và đàm phán, có khả năng tạo mối quan hệ khách hàng lâu dài.",
-        "Kỹ năng tổ chức, quản lý thời gian và làm việc độc lập, làm việc theo đội nhóm.",
-        "Đam mê kinh doanh, yêu thích môi trường làm việc Bất Động Sản",
-        "Mong muốn phát triển đội ngũ bán hàng chuyên nghiệp, đam mê kinh doanh"
+        "Tối thiểu 1-2 năm kinh nghiệm trong lĩnh vực phân tích tài chính",
+        "Tốt nghiệp Đại học ngành Tài chính, Kinh tế hoặc tương đương",
+        "Kỹ năng phân tích, đánh giá và lập báo cáo tài chính xuất sắc",
+        "Khả năng làm việc dưới áp lực cao và chi tiết",
+        "Ưu tiên ứng viên có chứng chỉ CFA hoặc CPA"
       ],
-      salary: "15-20",
+      salary: "18-25",
       location: [
         "Hà Nội"
       ],
       locationDetail: [
-        "Hồ Chí Minh: TP.HCM, 51 Kinh Dương Vương, P12, Quận 6, Quận 6",
-        " Long An: Long An, Huyện Tân Trụ, Tân Trụ"
+        "Hà Nội: 12 Nguyễn Trãi, Thanh Xuân"
       ],
-      exp: "6 tháng - 1 năm",
+      exp: "1-2 năm",
       interest: [
-        "Nhận hoa hồng trên giá trị sản phẩm bán được từ 30 triệu/sản phẩm",
-        "Thưởng nóng từ 20 triệu/sản phẩm",
-        "Được đào tạo bài bản, chuyên nghiệp các công tác hỗ trợ bán hàng",
-        "Tham gia miễn phí 100% chương trình đào tạo cơ bản và nâng cao với nghề",
-        "Chế độ Bảo hiểm xã hội, nghỉ phép 12 ngày/ năm, các chế độ khác tuân thủ đúng quy định của pháp luật"
+        "Thưởng theo hiệu quả công việc và lợi nhuận đầu tư",
+        "Chế độ bảo hiểm đầy đủ và nghỉ phép theo quy định",
+        "Cơ hội phát triển và thăng tiến trong môi trường chuyên nghiệp",
+        "Tham gia các khóa đào tạo chuyên sâu về phân tích tài chính",
+        "Được hỗ trợ tài liệu và công cụ làm việc tiên tiến"
       ],
-      working_time: "Thời gian làm việc từ 8 giờ sáng đến 17 giờ chiều cùng ngày. Thứ 7 và chủ nhật công ty không hoạt động"
+      working_time: "Làm việc từ 8 giờ sáng đến 5 giờ chiều, nghỉ thứ 7 và Chủ Nhật"
     },
     {
       id: "6",
-      urlLogo: "https://tinyurl.com/mwy9cv28",
-      title: "Trưởng phòng kinh doanh",
+      urlLogo: "https://thicao.com/wp-content/uploads/2019/08/logo-cua-hang-boots.jpg",
+      title: "Trợ lý hành chính",
       titleCompany: [
-        "Quản lý điều hành, hoạt động bán hàng của phòng kinh doanh phụ trách",
-        "Đào tạo, giám sát công việc, có trách nhiệm về hoạt động của tất cả khu vực trực thuộc bộ phận mình phụ trách",
-        "Xây dựng kế hoạch, chiến lược bán hàng nhằm đảm bảo chỉ tiêu doanh thu được giao",
-        "Hỗ trợ nhân viên chăm sóc, tư vấn và chốt deal",
-        "Tìm kiếm khách hàng có nhu cầu ",
+        "Hỗ trợ các công việc hành chính, tổ chức hồ sơ và dữ liệu",
+        "Phối hợp với các phòng ban để quản lý tài liệu và lịch trình",
+        "Thực hiện các công tác hậu cần cho các sự kiện, hội nghị",
+        "Theo dõi và cập nhật danh sách tài sản, vật tư của công ty",
+        "Làm báo cáo công việc định kỳ cho quản lý"
       ],
-      nameCompany: "Công ty TNHH (demo)",
+      nameCompany: "Công ty Dịch vụ Văn phòng DEF",
       request: [
-        "Tối thiểu 6 tháng - 1 năm kinh nghiệm về quản lý mảng Bất động sản (Bắt buộc)",
-        "Tốt nghiệp THPT trở lên",
-        "Khả năng giao tiếp tốt và đàm phán, có khả năng tạo mối quan hệ khách hàng lâu dài.",
-        "Kỹ năng tổ chức, quản lý thời gian và làm việc độc lập, làm việc theo đội nhóm.",
-        "Đam mê kinh doanh, yêu thích môi trường làm việc Bất Động Sản",
-        "Mong muốn phát triển đội ngũ bán hàng chuyên nghiệp, đam mê kinh doanh"
+        "Không yêu cầu kinh nghiệm, sẵn sàng đào tạo",
+        "Tốt nghiệp Trung cấp trở lên ngành Quản trị Kinh doanh hoặc liên quan",
+        "Kỹ năng tổ chức, quản lý thời gian và chi tiết tốt",
+        "Khả năng giao tiếp, làm việc độc lập và theo nhóm",
+        "Thành thạo tin học văn phòng (Word, Excel, PowerPoint)"
       ],
-      salary: "15-20",
+      salary: "7-10",
       location: [
-        "Hà Nội"
+        "Hồ Chí Minh"
       ],
       locationDetail: [
-        "Hồ Chí Minh: TP.HCM, 51 Kinh Dương Vương, P12, Quận 6, Quận 6",
-        " Long An: Long An, Huyện Tân Trụ, Tân Trụ"
+        "Hồ Chí Minh: 88 Võ Văn Kiệt, Quận 1"
       ],
-      exp: "6 tháng - 1 năm",
+      exp: "Không yêu cầu kinh nghiệm",
       interest: [
-        "Nhận hoa hồng trên giá trị sản phẩm bán được từ 30 triệu/sản phẩm",
-        "Thưởng nóng từ 20 triệu/sản phẩm",
-        "Được đào tạo bài bản, chuyên nghiệp các công tác hỗ trợ bán hàng",
-        "Tham gia miễn phí 100% chương trình đào tạo cơ bản và nâng cao với nghề",
-        "Chế độ Bảo hiểm xã hội, nghỉ phép 12 ngày/ năm, các chế độ khác tuân thủ đúng quy định của pháp luật"
+        "Chế độ bảo hiểm xã hội, y tế theo quy định",
+        "Được tham gia các hoạt động teambuilding, du lịch hàng năm",
+        "Được đào tạo kỹ năng hành chính và quản lý hồ sơ",
+        "Nghỉ phép 12 ngày/năm, chế độ tăng lương định kỳ",
+        "Môi trường làm việc ổn định và thân thiện"
       ],
-      working_time: "Thời gian làm việc từ 8 giờ sáng đến 17 giờ chiều cùng ngày. Thứ 7 và chủ nhật công ty không hoạt động"
-    },
-    {
-      id: "7",
-      urlLogo: "https://tinyurl.com/mwy9cv28",
-      title: "Trưởng phòng kinh doanh",
-      titleCompany: [
-        "Quản lý điều hành, hoạt động bán hàng của phòng kinh doanh phụ trách",
-        "Đào tạo, giám sát công việc, có trách nhiệm về hoạt động của tất cả khu vực trực thuộc bộ phận mình phụ trách",
-        "Xây dựng kế hoạch, chiến lược bán hàng nhằm đảm bảo chỉ tiêu doanh thu được giao",
-        "Hỗ trợ nhân viên chăm sóc, tư vấn và chốt deal",
-        "Tìm kiếm khách hàng có nhu cầu ",
-      ],
-      nameCompany: "Công ty TNHH (demo)",
-      request: [
-        "Tối thiểu 6 tháng - 1 năm kinh nghiệm về quản lý mảng Bất động sản (Bắt buộc)",
-        "Tốt nghiệp THPT trở lên",
-        "Khả năng giao tiếp tốt và đàm phán, có khả năng tạo mối quan hệ khách hàng lâu dài.",
-        "Kỹ năng tổ chức, quản lý thời gian và làm việc độc lập, làm việc theo đội nhóm.",
-        "Đam mê kinh doanh, yêu thích môi trường làm việc Bất Động Sản",
-        "Mong muốn phát triển đội ngũ bán hàng chuyên nghiệp, đam mê kinh doanh"
-      ],
-      salary: "15-20",
-      location: [
-        "Hà Nội"
-      ],
-      locationDetail: [
-        "Hồ Chí Minh: TP.HCM, 51 Kinh Dương Vương, P12, Quận 6, Quận 6",
-        " Long An: Long An, Huyện Tân Trụ, Tân Trụ"
-      ],
-      exp: "6 tháng - 1 năm",
-      interest: [
-        "Nhận hoa hồng trên giá trị sản phẩm bán được từ 30 triệu/sản phẩm",
-        "Thưởng nóng từ 20 triệu/sản phẩm",
-        "Được đào tạo bài bản, chuyên nghiệp các công tác hỗ trợ bán hàng",
-        "Tham gia miễn phí 100% chương trình đào tạo cơ bản và nâng cao với nghề",
-        "Chế độ Bảo hiểm xã hội, nghỉ phép 12 ngày/ năm, các chế độ khác tuân thủ đúng quy định của pháp luật"
-      ],
-      working_time: "Thời gian làm việc từ 8 giờ sáng đến 17 giờ chiều cùng ngày. Thứ 7 và chủ nhật công ty không hoạt động"
+      working_time: "Làm việc từ 8 giờ sáng đến 5 giờ chiều, nghỉ cuối tuần thứ 7 và Chủ Nhật"
     }
   ]

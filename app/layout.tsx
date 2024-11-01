@@ -4,6 +4,7 @@ import "./globals.css";
 import NavBar from "@/components/NavigationBar/NavBar";
 import { ProgressBarLayout } from "@/components/Common/process-bar";
 import Footer from "@/components/Footer/Footer";
+import ReduxProvider from "@/hooks/redux-provider";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -20,9 +21,11 @@ export default function RootLayout({
       <title>CV Website</title>
       <body className="bg-sky-200 bg-gradient-to-t">
         <NavBar />
+        <ReduxProvider>
         <ProgressBarLayout>
           {children}
         </ProgressBarLayout>
+        </ReduxProvider>
         <Footer/>
       </body>
     </html>

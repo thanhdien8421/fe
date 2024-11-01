@@ -1,7 +1,11 @@
 import React, { useState } from 'react'
 import { IoLocationOutline } from "react-icons/io5";
+import { useAppSelector, useAppDispatch } from '@/hooks';
+import { setTag } from '@/hooks/slices/useTag';
+
 const Select2 = () => {
     const provincesAndCities = [
+        "",
         "Hà Nội",
         "Hải Phòng",
         "Đà Nẵng",
@@ -65,6 +69,7 @@ const Select2 = () => {
     const [inputValue, setInputValue] = useState("");
     const [selected, setSelected] = useState("");
     const [open, setOpen] = useState(false);
+    const dispatch = useAppDispatch()
     return (
         <div className='flex-1 w-80 text-[14px] relative top-6 cursor-pointer'>
             <div onClick={() => setOpen(!open)} className='bg-white w-full flex items-center justify-space'>
@@ -86,8 +91,8 @@ const Select2 = () => {
                                 ? "block"
                                 : "hidden"
                             }`}
-                            onClick={() => { setSelected(area); setOpen(false); }}
-                        >{area}</li>
+                            onClick={() => { setSelected(area); setOpen(false); dispatch(setTag(area)) }}
+                        >{area === "" ? "Tất cả": area}</li>
                     ))
                 }
 
