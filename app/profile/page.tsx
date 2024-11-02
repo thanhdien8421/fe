@@ -1,8 +1,8 @@
-import { Profile } from "@/components/Profile/profile";
+import { Profile } from "@/components/Common/profile";
 
-export default function() {
+export default function Account() {
     return(
-    <div className="bg-black h-screen flex flex-col items-center pt-10">
+    <div className="h-screen flex flex-col items-center pt-10">
     <Profile/>
     </div>
     )

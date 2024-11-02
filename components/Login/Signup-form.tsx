@@ -64,7 +64,7 @@ export function SignupForm() {
       <div><Toaster /></div>
       <Card>
         <CardHeader className="space-y-1">
-          <CardTitle className="text-3xl font-bold">Log Up</CardTitle>
+          <CardTitle className="text-3xl font-bold">Sign Up</CardTitle>
           <CardDescription>
             Đăng ký tài khoản mới
           </CardDescription>

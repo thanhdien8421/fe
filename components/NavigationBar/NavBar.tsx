@@ -128,7 +128,7 @@ const NavBar = () => {
                     <button className="bg-sky-600 text-white px-4 py-2 rounded hover:bg-sky-700 transition duration-200">
                         <Link href={"/signup"}>Đăng ký</Link>
                     </button>
-                    <Link target="_blank" href={"/job"} className="bg-green-800 text-white px-4 py-2 rounded hover:bg-gray-700 transition duration-200">
+                    <Link target="_blank" href={"/post"} className="bg-green-800 text-white px-4 py-2 rounded hover:bg-gray-700 transition duration-200">
                         Đăng tuyển & tìm hồ sơ
                     </Link>
                 </div>

@@ -19,7 +19,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <title>CV Website</title>
-      <body className="bg-sky-200 bg-gradient-to-t">
+      <body className="bg-gradient-to-t">
         <NavBar />
         <ReduxProvider>
         <ProgressBarLayout>
