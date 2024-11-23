@@ -48,26 +48,28 @@ const PartOfNavbar: React.FC<PartOfNavbarProps> = ({ links }) => {
         <ul className='col-start-1 text-[1rem] flex items-center gap-6 md:text-[1rem]'>
             {links.map((link: MenuItemType) => {
                 return (
-                    <HoverCard key={link.id}>
-                        <HoverCardTrigger href={link.url} className='m-[10px] ml-5 mr-5 bg-white w-auto h-[100%]
+                    <div className='z-10'>
+                        <HoverCard key={link.id}>
+                            <HoverCardTrigger href={link.url} className='m-[10px] ml-5 mr-5 bg-white w-auto h-[100%]
                                                                     text-center rounded-[5px]  hover:text-sky-500'>
-                            {link.title}
-                        </HoverCardTrigger>
-                        <HoverCardContent className='w-auto translate-x-1/3'>
-                            {link?.extention.map((a: any) => {
-                                return (
-                                    <Link href={"/"} className="flex items-center mt-3  border border-gray-300 rounded-md bg-gray-100 p-2 "
-                                    key={a.urlIcon}>
-                                        {iconMap[a.urlIcon]}
-                                        <p className="text-gray-800 ml-8 mr-8 w-[330px] h-auto  hover:text-sky-500">
-                                            {a.titleIcon}
-                                        </p>
-                                    </Link>
-                                )
-                            })}
+                                {link.title}
+                            </HoverCardTrigger>
+                            <HoverCardContent className='w-auto top-5 left-6 '>
+                                {link?.extention.map((a: any) => {
+                                    return (
+                                        <Link href={"/"} className="flex items-center mt-3  border border-gray-300 rounded-md bg-gray-100 p-2 "
+                                            key={a.urlIcon}>
+                                            {iconMap[a.urlIcon]}
+                                            <p className="text-gray-800 ml-8 mr-8 w-[330px] h-auto  hover:text-sky-500">
+                                                {a.titleIcon}
+                                            </p>
+                                        </Link>
+                                    )
+                                })}
 
-                        </HoverCardContent>
-                    </HoverCard>
+                            </HoverCardContent>
+                        </HoverCard>
+                    </div>
                 )
             })}
         </ul>

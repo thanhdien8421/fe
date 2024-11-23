@@ -115,11 +115,14 @@ const NavBar = () => {
     return (
         <div className='bg-white drop-shadow-xl'>
             <nav className='flex flex-row items-center justify-between ml-[20px] h-[100px] rounded-[10px] '>
-                <div className='flex flex-row items-center justify-center'>
+                <div className='flex flex-row items-center justify-center '>
                     <Link href="/" className=' justify-self-center col-start-1 mr-[5px] object-fit'>
-                        <Image src="/images/logo.png" alt="Logo" width={150} height={50} className='w-1/2 h-auto justify-self-center'/>
+                        <Image src="/images/logo.png" alt="Logo" width={150} height={50} className='w-1/2 h-auto justify-self-center' />
                     </Link>
-                    <PartOfNavbar links={navLink} />
+                    <div >
+                        <PartOfNavbar links={navLink} />
+                    </div>
+
                 </div>
                 <div className="flex space-x-4 m-7 text-[1rem]">
                     <button className="border border-sky-600 text-sky-600 px-4 py-2 rounded hover:bg-sky-600 hover:text-white transition duration-200">

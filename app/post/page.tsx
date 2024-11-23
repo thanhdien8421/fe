@@ -1,5 +1,5 @@
 "use client";
-import JobCard from "@/components/Folder Components/JobCard/JobCard";
+import JobCard from "@/components/JobCard/JobCard";
 import SearchBar from "@/components/Search/SearchBar";
 import SearchInput from "@/components/SearchInput/SearchInput";
 import { Calendar } from "@/components/ui/calendar";
