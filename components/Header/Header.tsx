@@ -39,7 +39,7 @@ const Header = () => {
                     dành cho bạn</h2>
 
                 <SearchBar />
-                <img src="https://cdn-new.topcv.vn/unsafe/800x/https://static.topcv.vn/v4/image/welcome/section-header/banner.png" alt=""
+                <img src="https://i.pinimg.com/564x/7f/df/ef/7fdfefc2826a128907423022067a2028.jpg" alt=""
                     className='flex-1 rounded-xl mr-2' />
             </div>
            
