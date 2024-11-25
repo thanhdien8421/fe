@@ -1,12 +1,12 @@
 "use client";
 import { Button } from "../ui/button";
 import { UploadCVForm } from "../Form/UploadCVForm";
-import { JobDescription, JobPost } from "@/lib/interface";
+import { JobPost, JobPostAndDescription } from "@/lib/interface";
 import React from "react";
 import { GiTakeMyMoney } from "react-icons/gi";
 import { RiMapPin2Line } from "react-icons/ri";
 import { TfiTime } from "react-icons/tfi";
-
+import { MdGroup } from "react-icons/md";
 interface ItemdescriptionProp {
   title: string;
   des: string[];
@@ -26,10 +26,8 @@ export function Itemdescription({ title, des }: ItemdescriptionProp) {
 
 export default function DescriptionJobPage({
   job,
-  jobDescription,
 }: {
-  job: JobPost;
-  jobDescription: JobDescription;
+  job: JobPostAndDescription;
 }) {
   let Title = () => {
     return (
@@ -45,7 +43,7 @@ export default function DescriptionJobPage({
               </div>
               <div className="flex mt-1 flex-col ml-4">
                 <div className="text-2xl font-semibold ">Mức lương</div>
-                <div>{jobDescription.salary} </div>{" "}
+                <div>{job.salary} </div>{" "}
               </div>
             </div>
             <div className="flex flex-row mt-3 justify-start   ">
@@ -54,7 +52,7 @@ export default function DescriptionJobPage({
               </div>
               <div className="flex mt-1 flex-col ml-4">
                 <div className="text-2xl font-semibold ">Địa điểm</div>
-                <div>Thành phố {jobDescription.location}</div>{" "}
+                <div>Thành phố {job.location}</div>{" "}
               </div>
             </div>
             <div className="flex flex-row mt-3 justify-start   ">
@@ -63,7 +61,16 @@ export default function DescriptionJobPage({
               </div>
               <div className="flex mt-1 flex-col ml-4  ">
                 <div className="text-2xl font-semibold "> Kinh nghiệm </div>
-                <div> {jobDescription.experience}</div>
+                <div> {job.experience}</div>
+              </div>
+            </div>
+            <div className="flex flex-row mt-3 justify-start   ">
+              <div className="bg-green-500 rounded-[999px] w-[45px] h-[45px] flex justify-center items-center mt-2">
+                <MdGroup size={27} color="white" />
+              </div>
+              <div className="flex mt-1 flex-col ml-4">
+                <div className="text-2xl font-semibold">Số lượng</div>
+                <div>{job.quantity} nhân viên</div>
               </div>
             </div>
           </div>
@@ -84,18 +91,18 @@ export default function DescriptionJobPage({
           <Itemdescription
             title={"Yêu cầu ứng viên"}
             des={[
-              `Trình độ: ${jobDescription.level}`,
-              `Giới tính : ${jobDescription.gender}`,
-              `Kinh nghiệm : ${jobDescription.experience}`,
+              `Trình độ: ${job.level}`,
+              `Giới tính : ${job.gender}`,
+              `Kinh nghiệm : ${job.experience}`,
             ]}
           ></Itemdescription>
           <Itemdescription
             title={"Thời gian làm việc"}
-            des={[jobDescription.employmentType]}
+            des={[job.employmentType]}
           ></Itemdescription>
           <Itemdescription
             title={"Địa điểm làm việc"}
-            des={[jobDescription.location]}
+            des={[job.location]}
           ></Itemdescription>
           <Itemdescription
             title={"Cách thức ứng tuyển"}

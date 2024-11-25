@@ -1,177 +1,43 @@
+// JobPostForm.tsx
 "use client";
-import { useRouter } from "next/navigation";
 import React, { useRef } from "react";
 
-function JobPostForm() {
-  const router = useRouter();
-  const titleRef = useRef<HTMLTextAreaElement>(null);
+const JobPostForm: React.FC = () => {
+  const titleRef = useRef<HTMLInputElement>(null);
   const descriptionRef = useRef<HTMLTextAreaElement>(null);
   const datePostedRef = useRef<HTMLInputElement>(null);
   const deadlineRef = useRef<HTMLInputElement>(null);
-  const locationRef = useRef<HTMLSelectElement>(null);
-  const experienceRef = useRef<HTMLSelectElement>(null);
-  const levelRef = useRef<HTMLSelectElement>(null);
+  const locationRef = useRef<HTMLInputElement>(null);
+  const experienceRef = useRef<HTMLInputElement>(null);
+  const levelRef = useRef<HTMLInputElement>(null);
   const salaryRef = useRef<HTMLInputElement>(null);
   const quantityRef = useRef<HTMLInputElement>(null);
   const employmentTypeRef = useRef<HTMLSelectElement>(null);
   const genderRef = useRef<HTMLSelectElement>(null);
 
-  const submitRecruitmentPost = async (id: any) => {
-    const recruitmentPost = {
-      location: locationRef.current?.value,
-      level: levelRef.current?.value || "staff", // Mặc định là 'staff'
-      experience: experienceRef.current?.value,
-      salary: salaryRef.current?.value,
-      quantity: Number(quantityRef.current?.value),
-      employmentType: employmentTypeRef.current?.value,
-      gender: genderRef.current?.value || "Not required", // Mặc định là 'Not required'
-      recruitmentPostId: id,
-    };
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
 
-    try {
-      const response = await fetch(
-        "http://localhost:8000/api/v1/job-description",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(recruitmentPost),
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error("Failed to create recruitment post");
-      }
-
-      const result = await response.json();
-      if (result.error) {
-        alert(result.error);
-        return; // Nếu có l��i, thông báo và trả về.
-      }
-      router.push("/recruitment");
-    } catch (error) {
-      console.error("Error creating recruitment post:", error);
-    }
-  };
-  const submitJobPost = async () => {
     const jobPost = {
       title: titleRef.current?.value,
       description: descriptionRef.current?.value,
       datePosted: datePostedRef.current?.value,
       deadline: deadlineRef.current?.value,
       location: locationRef.current?.value,
-      employerId: 1,
+      experience: experienceRef.current?.value,
+      level: levelRef.current?.value,
+      salary: salaryRef.current?.value,
+      quantity: Number(quantityRef.current?.value),
+      employmentType: employmentTypeRef.current?.value,
+      gender: genderRef.current?.value,
     };
-    try {
-      const response = await fetch(
-        "http://localhost:8000/api/v1/recruitment-post",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(jobPost),
-        }
-      );
 
-      if (!response.ok) {
-        throw new Error("Failed to create job post");
-      }
-
-      const result = await response.json();
-      if (result.error) {
-        alert(result.error);
-        return; // Nếu có l��i, thông báo và trả về.
-      } else {
-        await submitRecruitmentPost(result.data.id);
-      }
-    } catch (error) {
-      console.error("Error creating job post:", error);
-    }
+    console.log(jobPost);
+    // Gửi dữ liệu đến server ở đây...
   };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    await submitJobPost(); // Gọi hàm gửi bài đăng việc làm
-    // Gọi hàm gửi bài đăng tuyển dụng
-  };
-
-  const provincesAndCities = [
-    "Hà Nội",
-    "Hồ Chí Minh",
-    "Cần Thơ",
-    "Hải Phòng",
-    "Đà Nẵng",
-    "Hải Dương",
-    "Thái Bình",
-    "Nam Định",
-    "Ninh Bình",
-    "Tuyên Quang",
-    "Quảng Ninh",
-    "Hà Giang",
-    "Lào Cai",
-    "Sơn La",
-    "Điện Biên",
-    "Yên Bái",
-    "Hòa Bình",
-    "Thanh Hóa",
-    "Nghệ An",
-    "Hà Tĩnh",
-    "Quảng Bình",
-    "Quảng Trị",
-    "Thừa Thiên Huế",
-    "Đắk Lắk",
-    "Đắk Nông",
-    "Gia Lai",
-    "Kon Tum",
-    "Khánh Hòa",
-    "Ninh Thuận",
-    "Bình Thuận",
-    "Lâm Đồng",
-    "Bình Dương",
-    "Đồng Nai",
-    "Bà Rịa - Vũng Tàu",
-    "Tiền Giang",
-    "Bến Tre",
-    "Trà Vinh",
-    "Vĩnh Long",
-    "Đồng Tháp",
-    "An Giang",
-    "Kiên Giang",
-    "Hậu Giang",
-    "Sóc Trăng",
-    "Bạc Liêu",
-    "Cà Mau",
-    "Long An",
-    "Tây Ninh",
-    "Bình Phước",
-    "Quảng Nam",
-    "Quảng Ngãi",
-    "Phú Yên",
-    "Thái Nguyên",
-    "Lạng Sơn",
-    "Cao Bằng",
-    "Hà Nam",
-    "Hưng Yên",
-    "Bắc Ninh",
-    "Bắc Giang",
-    "Vĩnh Phúc",
-    "Mộc Châu",
-  ];
-
-  const experienceOptions = [
-    "Không yêu cầu kinh nghiệm",
-    "Dưới 1 năm",
-    "Trên 1 năm",
-    "Trên 2 năm",
-    "Trên 3 năm",
-    "Trên 4 năm",
-    "Trên 5 năm",
-  ];
 
   return (
-    <div className="bg-gray-100 p-6">
+    <div className="">
       <div className="w-[50%] mx-auto bg-white p-8 rounded-md shadow-md">
         <h2 className="text-2xl font-bold text-center mb-6">
           Tạo Bài Đăng Tuyển Dụng
@@ -184,13 +50,13 @@ function JobPostForm() {
             >
               Tiêu đề:
             </label>
-            <textarea
+            <input
+              type="text"
               ref={titleRef}
               required
               className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
             />
           </div>
-
           <div className="mb-4">
             <label
               htmlFor="description"
@@ -204,7 +70,6 @@ function JobPostForm() {
               className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
             />
           </div>
-
           <div className="mb-4">
             <label
               htmlFor="datePosted"
@@ -219,7 +84,6 @@ function JobPostForm() {
               className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
             />
           </div>
-
           <div className="mb-4">
             <label
               htmlFor="deadline"
@@ -234,7 +98,6 @@ function JobPostForm() {
               className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
             />
           </div>
-
           <div className="mb-4">
             <label
               htmlFor="location"
@@ -242,20 +105,13 @@ function JobPostForm() {
             >
               Địa điểm:
             </label>
-            <select
+            <input
+              type="text"
               ref={locationRef}
               required
               className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
-            >
-              <option value="">Chọn địa điểm</option>
-              {provincesAndCities.map((city) => (
-                <option key={city} value={city}>
-                  {city}
-                </option>
-              ))}
-            </select>
+            />
           </div>
-
           <div className="mb-4">
             <label
               htmlFor="experience"
@@ -263,20 +119,13 @@ function JobPostForm() {
             >
               Kinh nghiệm:
             </label>
-            <select
+            <input
+              type="text"
               ref={experienceRef}
               required
               className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
-            >
-              <option value="">Chọn kinh nghiệm</option>
-              {experienceOptions.map((exp) => (
-                <option key={exp} value={exp}>
-                  {exp}
-                </option>
-              ))}
-            </select>
+            />
           </div>
-
           <div className="mb-4">
             <label
               htmlFor="level"
@@ -284,23 +133,13 @@ function JobPostForm() {
             >
               Cấp độ:
             </label>
-            <select
-              id="level"
+            <input
+              type="text"
               ref={levelRef}
               required
-              className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
-            >
-              <option value="" disabled>
-                Chọn cấp độ
-              </option>
-              <option value="Intern">Thực tập sinh</option>
-              <option value="Junior">Junior</option>
-              <option value="Mid-level">Mid-level</option>
-              <option value="Senior">Senior</option>
-              <option value="Lead">Lead</option>
-            </select>
+              className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+            />
           </div>
-
           <div className="mb-4">
             <label
               htmlFor="salary"
@@ -315,7 +154,6 @@ function JobPostForm() {
               className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
             />
           </div>
-
           <div className="mb-4">
             <label
               htmlFor="quantity"
@@ -330,7 +168,6 @@ function JobPostForm() {
               className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
             />
           </div>
-
           <div className="mb-4">
             <label
               htmlFor="employmentType"
@@ -349,7 +186,6 @@ function JobPostForm() {
               <option value="Freelance">Tự do</option>
             </select>
           </div>
-
           <div className="mb-4">
             <label
               htmlFor="gender"
@@ -367,7 +203,6 @@ function JobPostForm() {
               <option value="Female">Nữ</option>
             </select>
           </div>
-
           <button
             type="submit"
             className="w-full bg-green-600 text-white py-2 rounded-md hover:bg-green-700"
@@ -378,6 +213,6 @@ function JobPostForm() {
       </div>
     </div>
   );
-}
+};
 
 export default JobPostForm;

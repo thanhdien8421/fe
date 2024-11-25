@@ -63,7 +63,7 @@ export function SignupForm() {
         localStorage.setItem("userId", result.data.id);
         localStorage.setItem("userName", result.data.name);
         toast.success(result.message);
-        // router.push("/profile?role=1");
+        router.push("/profile?role=1");
       } else toast.error("Đã xảy ra lỗi");
     });
   }

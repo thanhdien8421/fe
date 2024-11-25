@@ -27,3 +27,17 @@ export interface JobDescription {
   employmentType: string;
   gender: string;
 }
+export interface JobPostAndDescription {
+  id: number;
+  title: string;
+  description: string;
+  datePosted: string;
+  deadline: string;
+  location: string;
+  experience: string;
+  level: string;
+  salary: string;
+  quantity: string;
+  employmentType: string;
+  gender: string;
+}
