@@ -1,7 +1,7 @@
-"use client"
-import * as React from "react"
+"use client";
+import * as React from "react";
 import { FaCamera } from "react-icons/fa";
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -9,16 +9,30 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { SwitchForm } from "./toggle-follow"
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { SwitchForm } from "./toggle-follow";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 
 export function Profile() {
-  const role = useSearchParams().get("role")
+  const [email, setEmail] = React.useState("");
+  const [userId, setUserId] = React.useState("");
+  const [nameUser, setNameUser] = React.useState("");
+  const role = useSearchParams().get("role");
+
+  React.useEffect(() => {
+    // Chỉ truy cập localStorage trong client-side
+    const storedEmail = localStorage.getItem("userEmail");
+    const storedUserId = localStorage.getItem("userId");
+    const storedNameUser = localStorage.getItem("userName");
+
+    if (storedEmail) setEmail(storedEmail);
+    if (storedUserId) setUserId(storedUserId);
+    if (storedNameUser) setNameUser(storedNameUser);
+  }, []);
   return (
     <div className="flex items-start gap-3">
       <Card className="w-[350px]">
@@ -45,7 +59,9 @@ export function Profile() {
           </form>
         </CardContent>
         <CardFooter className="flex justify-between">
-          <Button className="min-w-[100px]"><Link href='/job'>Lưu</Link></Button>
+          <Button className="min-w-[100px]">
+            <Link href="/job">Lưu</Link>
+          </Button>
         </CardFooter>
       </Card>
       <Card>
@@ -55,22 +71,35 @@ export function Profile() {
               <Avatar>
                 <AvatarImage src="https://github.com/shadcn.png" />
                 <AvatarFallback>CN</AvatarFallback>
-
               </Avatar>
               <FaCamera className="absolute bottom-0 text-cyan-500 left-1" />
             </div>
             <div>
               <p>Xin chào</p>
-              <p className="font-bold">D HUNG</p>
-              <div className="bg-gray-600 text-[10px] text-white text-center py-1 px-1">{role == '1' ? " Ứng viên " : " Nhà tuyển dụng " }</div>
+              <p className="font-bold">{nameUser}</p>
+              <div className="bg-gray-600 text-[10px] text-white text-center py-1 px-1">
+                {role == "1" ? " Ứng viên " : " Nhà tuyển dụng "}
+              </div>
             </div>
           </div>
-
         </CardContent>
         <CardFooter>
-          {role == '1' ? <SwitchForm /> : <p className="max-w-[300px]">Bạn chỉ có thể toàn tâm toàn ý khi được làm những gì bạn yêu thích. Đừng lấy tiền làm mục tiêu của mình. Thay vào đó, hãy theo đuổi những điều bạn yêu thích và cố gắng làm thật tốt. Đến khi đó, bạn sẽ nhận được ánh mắt tôn trọng và ngưỡng mộ từ những người xung quanh <br></br> <b><i>Maya Angelou</i></b></p>}
+          {role == "1" ? (
+            <SwitchForm />
+          ) : (
+            <p className="max-w-[300px]">
+              Bạn chỉ có thể toàn tâm toàn ý khi được làm những gì bạn yêu
+              thích. Đừng lấy tiền làm mục tiêu của mình. Thay vào đó, hãy theo
+              đuổi những điều bạn yêu thích và cố gắng làm thật tốt. Đến khi đó,
+              bạn sẽ nhận được ánh mắt tôn trọng và ngưỡng mộ từ những người
+              xung quanh <br></br>{" "}
+              <b>
+                <i>Maya Angelou</i>
+              </b>
+            </p>
+          )}
         </CardFooter>
       </Card>
     </div>
-  )
+  );
 }
