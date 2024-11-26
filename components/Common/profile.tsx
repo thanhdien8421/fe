@@ -10,18 +10,66 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { SwitchForm } from "./toggle-follow";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
+import toast, { Toaster } from "react-hot-toast";
+import { useRouter } from "next/navigation";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { ProfileUpdateSchema } from "@/schema/ProfileSchema";
+import { useForm } from "react-hook-form";
 
 export function Profile() {
   const [email, setEmail] = React.useState("");
   const [userId, setUserId] = React.useState("");
   const [nameUser, setNameUser] = React.useState("");
   const role = useSearchParams().get("role");
+  const [isPending, startTransition] = React.useTransition()
+
+  const router = useRouter()
+
+  const form = useForm<z.infer<typeof ProfileUpdateSchema>>({
+    resolver: zodResolver(ProfileUpdateSchema),
+    defaultValues: {
+      email: "a@gmail.com",
+      password: " ",
+      phone: "",
+      address: "",
+      name: "",
+      gender: "",
+      age: 18
+    }
+  })
+
+  function onSubmit(values: z.infer<typeof ProfileUpdateSchema>) {
+    startTransition(async () => {
+      const result = await FirstUpdateProfile(values);
+      if (result.success) {
+        toast.success(result.message);
+        router.push("/login");
+      } else toast.error("Đã xảy ra lỗi");
+    });
+  }
 
   React.useEffect(() => {
     // Chỉ truy cập localStorage trong client-side
@@ -33,37 +81,98 @@ export function Profile() {
     if (storedUserId) setUserId(storedUserId);
     if (storedNameUser) setNameUser(storedNameUser);
   }, []);
+
   return (
     <div className="flex items-start gap-3">
-      <Card className="w-[350px]">
-        <CardHeader>
-          <CardTitle>Cài đặt thông tin cá nhân</CardTitle>
-          <CardDescription>Các thông tin bắt buộc.</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form>
-            <div className="grid w-full items-center gap-4">
-              <div className="flex flex-col space-y-1.5">
-                <Label htmlFor="name">Họ và tên</Label>
-                <Input id="name" placeholder="Đoàn Trí Hùng" />
-              </div>
-              <div className="flex flex-col space-y-1.5">
-                <Label htmlFor="phone">Số điện thoại</Label>
-                <Input id="phone" placeholder="0394529624" />
-              </div>
-              <div className="flex flex-col space-y-1.5">
-                <Label htmlFor="email">Email</Label>
-                <Input id="email" placeholder="hello@gmail.com" />
-              </div>
-            </div>
-          </form>
-        </CardContent>
-        <CardFooter className="flex justify-between">
-          <Button className="min-w-[100px]">
-            <Link href="/job">Lưu</Link>
-          </Button>
-        </CardFooter>
-      </Card>
+      <div><Toaster /></div>
+      <Form {...form}>
+        <Card className="drop-shadow-lg">
+          <CardHeader className="w-[350px]">
+            <CardTitle className="text-3xl font-bold">Cài đặt thông tin cá nhân</CardTitle>
+            <CardDescription>
+              Các thông tin bắt buộc
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+              <FormField
+                control={form.control}
+                name="phone"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Số điện thoại</FormLabel>
+                    <FormControl>
+                      <Input {...field} placeholder = "" disabled={isPending} />
+                    </FormControl>
+                    <FormDescription>
+                      Số điện thoại liên hệ
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="address"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Địa chỉ</FormLabel>
+                    <FormControl>
+                      <Input {...field} disabled={isPending} />
+                    </FormControl>
+                    <FormDescription>
+                      Địa chỉ nơi ở
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="age"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Tuổi</FormLabel>
+                    <FormControl>
+                      <Input {...field} type="number" disabled={isPending} />
+                    </FormControl>
+                    <FormDescription>
+                      Tuổi của bạn 
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="gender"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Giới tính</FormLabel>
+                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Chọn" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value="Nam">Nam</SelectItem>
+                        <SelectItem value="Nữ">Nữ</SelectItem>
+                        <SelectItem value="Khác">Khác</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <FormDescription>
+                      Giới tính
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <Button type="submit" disabled={isPending} className="bg-blue-800">Cập nhật</Button>
+            </form>
+          </CardContent>
+        </Card>
+      </Form>
       <Card>
         <CardContent className="my-5 border-b-2">
           <div className="flex items-center gap-5">
@@ -102,4 +211,46 @@ export function Profile() {
       </Card>
     </div>
   );
+}
+
+async function FirstUpdateProfile(values: z.infer<typeof ProfileUpdateSchema>) {
+  console.log("Aloooooooooo")
+  const data = {
+    phone: values.phone,
+    address: values.address,
+    gender: values.gender,
+    age: values.age
+  };
+
+  const apiUrl = `http://localhost:8000/api/v1/employees/${localStorage.getItem("userId")}`;
+
+  return await fetch(apiUrl, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  })
+    .then((response) => {
+      return response.json();
+    })
+    .then((data) => {
+      console.log("Data received:", data);
+      if (data.error) {
+        throw new Error("Error: " + data.error);
+      } else {
+        return {
+          message: data.message,
+          success: true,
+          data: data.data[0],
+        };
+      }
+    })
+    .catch((error) => {
+      return {
+        message: error,
+        success: false,
+        data: null,
+      };
+    });
 }

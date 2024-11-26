@@ -5,7 +5,7 @@ import React from 'react'
 
 export default function JobCard({ job }: { job: JobPost }) {
     return (
-        <div key={job.id} className="max-w-sm w-[300px] mx-auto bg-white border rounded-lg shadow-md overflow-hidden cursor-pointer">
+        <div key={job.id} className="max-w-sm w-[300px] mx-auto bg-white border rounded-lg shadow-md overflow-hidden cursor-pointer z-0">
             <div className="relative group  bg-gray-100 rounded-lg overflow-hidden shadow-lg">
                 <Link href={`/job/${job.id}`}>
                     <img className=" w-full h-48 object-cover" src={job.urlLogo} alt="Placeholder Image" />

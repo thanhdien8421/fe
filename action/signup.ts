@@ -1,13 +1,6 @@
 import { z } from "zod";
 import { SignupSchema } from "@/schema/SignupSchema";
 
-// Helper function to delay with a Promise
-function delay(ms: number) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
-
-async function fetchPostData(url: string, data: any) {}
-// Make UploadCV an async function
 export async function SignUp(values: z.infer<typeof SignupSchema>) {
   const data = {
     email: values.email,
@@ -29,24 +22,27 @@ export async function SignUp(values: z.infer<typeof SignupSchema>) {
     .then((data) => {
       console.log("Data received:", data); // Xử lý dữ liệu nhận được
       if (data.error) {
-        throw new Error("Error: " + data.error);
+        if (data.message === "Email đã tồn tại") {
+          throw new Error("Email đã tồn tại");
+        } else throw new Error("Lỗi hệ thống");
       } else {
         return {
           message: data.message,
           success: true,
           data: data.data[0],
+          type:""
         };
       }
-      // Xử lý dữ liệu nhận được
     })
     .catch((error) => {
+      let errorType = "Lỗi hệ thống"
+      if (error.message == "Email đã tồn tại") errorType = "Email đã tồn tại";
+      
       return {
         message: error,
         success: false,
         data: null,
+        type: errorType
       };
     });
-  // Thực hiện yêu cầu POST
-
-  // Log the values after the delay
 }

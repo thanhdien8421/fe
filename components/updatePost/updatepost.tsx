@@ -49,7 +49,7 @@ const UpdatePost: React.FC<UpdateFormProps> = ({ initJob }) => {
       const result = await response.json();
       if (result.error) {
         alert(result.error);
-        return; // Nếu có l��i, thông báo và trả về.
+        return; // Nếu có lỗi, thông báo và trả về.
       }
       router.push("/recruitment");
       console.log("Recruitment post created:", result);

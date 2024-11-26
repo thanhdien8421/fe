@@ -51,10 +51,6 @@ export function SignupForm() {
   });
   const [isPending, startTransition] = useTransition();
 
-  async function fakeSubmit(values: any) {
-    return new Promise((resolve) => setTimeout(() => resolve(values), 2000));
-  }
-
   function onSubmit(values: z.infer<typeof SignupSchema>) {
     startTransition(async () => {
       const result = await SignUp(values);
@@ -64,7 +60,10 @@ export function SignupForm() {
         localStorage.setItem("userName", result.data.name);
         toast.success(result.message);
         router.push("/profile?role=1");
-      } else toast.error("Đã xảy ra lỗi");
+      } else if (result.type == "Email đã tồn tại") 
+        toast.error("Email đã tồn tại. Vui lòng sử dụng email khác.");
+        else toast.error("Đã xảy ra lỗi. Vui lòng thử lại.");
+        console.log(result)
     });
   }
   return (
@@ -157,7 +156,7 @@ export function SignupForm() {
           </form>
         </CardContent>
         <CardFooter>
-          <pre> </pre>
+          <pre>                                             </pre>
         </CardFooter>
       </Card>
     </Form>

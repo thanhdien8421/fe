@@ -23,12 +23,12 @@ export default function JobPage() {
   }, [keyword, tag]);
   return (
     <div className="pb-10">
-      <div className=" mx-[15%]  pt-[60px] z-0">
-        <SearchBar changeKeyword={changeKeyword} />
-        <p>{keyword}</p>
+      <div className=" mx-[15%]  pt-[60px] z-50 relative">
+        <SearchBar/>
+        {/* <p>{keyword}</p> */}
       </div>
-      <p>{tag}</p>
-      <div className="text-center mt-[50px] mx-[12%] gap-[50px]  grid grid-cols-3 z-0">
+      {/* <p>{tag}</p> */}
+      <div className="text-center mt-[50px] mx-[12%] gap-[50px]  grid grid-cols-3 z-0 relative">
         {filter.map((job: JobPost) => (
           <JobCard job={job} key={job.id} />
         ))}
