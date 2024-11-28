@@ -48,8 +48,8 @@ const PartOfNavbar: React.FC<PartOfNavbarProps> = ({ links }) => {
         <ul className='col-start-1 text-[1rem] flex items-center gap-6 md:text-[1rem]'>
             {links.map((link: MenuItemType) => {
                 return (
-                    <div className='z-10'>
-                        <HoverCard key={link.id}>
+                    <div className='z-10' key={link.id}>
+                        <HoverCard>
                             <HoverCardTrigger href={link.url} className='m-[10px] ml-5 mr-5 bg-white w-auto h-[100%]
                                                                     text-center rounded-[5px]  hover:text-sky-500'>
                                 {link.title}

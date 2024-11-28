@@ -10,6 +10,19 @@ export interface MenuItemType {
   }[];
 }
 
+export interface JobCardData {
+    id: number;
+    urlLogo: string;
+    title: string;
+    company: string;
+    salary: string;
+    location: string[];
+    exp: string;
+    working_time: string;
+    start_date: string;
+    end_date: string;
+}
+
 export interface JobPost {
   id: number;
   title: string;

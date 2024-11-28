@@ -25,10 +25,21 @@ import { Textarea } from "@/components/ui/textarea"
 import { FaCloudUploadAlt } from "react-icons/fa";
 import { UploadCV } from "@/action/uploadCV";
 import toast, { Toaster } from "react-hot-toast";
-interface UploadCVFormProps {
+interface CreateRecordProps {
   id: string,
   title: string
 }
+
+//   title           String
+//   description     String
+//   owner           Employee                  @relation(fields: [ownerId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+//   ownerId         Int
+//   recruitmentPost RecordOnRecruitmentPost[]
+//   fileCv          File                      @relation(fields: [fileCvId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+//   fileCvId        Int
+//   experience      ExperienceOnRecord[]
+//   education       EducationOnRecord[]
+//   certificate  
 
 const Section = ({
   title,
@@ -59,10 +70,10 @@ const Section = ({
   )
 }
 
-export const UploadCVForm = ({
+export const CreateRecordForm = ({
   id,
   title
-}: UploadCVFormProps) => {
+}: CreateRecordProps) => {
   const [isPending, startTransition] = useTransition()
   const [hidden, setHidden] = useState<boolean>(true)
   const [fileName, setFileName] = useState<string>("")

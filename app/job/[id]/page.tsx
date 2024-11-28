@@ -1,7 +1,5 @@
 "use client";
 import DescriptionJobPage from "@/components/DescriptionJob/Description";
-
-import { InfoJob } from "@/lib/data";
 import { JobPostAndDescription } from "@/lib/interface";
 import React from "react";
 

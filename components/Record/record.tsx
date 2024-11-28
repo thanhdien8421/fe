@@ -88,11 +88,6 @@ export default function Record() {
     const [object, setObject] = useState<RecordType>({ title: "", description: "", education: [], experience: [], certificate: [], CV: "" });
     const [clicked, setClicked] = useState<Boolean>(false);
     const router = useRouter();
-    const [cer, setCer] = React.useState<CertificateAttr[]>([]);
-    const [edu, setEdu] = React.useState<EducationAttr[]>([]);
-    const [exp, setExp] = React.useState<ExperienceAttr[]>([]);  
-    const [datas, setData] = React.useState<RecordData>({title:"",description:"",education:[],experience:[], certificate:[], CV:""});
-  
     const form = useForm<z.infer<typeof RecordSchema>>({
         resolver: zodResolver(RecordSchema),
         defaultValues: {
@@ -147,48 +142,66 @@ export default function Record() {
     const [error, setError] = React.useState<string>("");
     const [currentPage, setCurrentPage] = React.useState<number>(1);
 
-    React.useEffect(() => {
-        const fetchAllData = async () => {
-            try {
-                const [certResponse, eduResponse, expResponse] = await Promise.all([
-                    fetch(`http://localhost:8000/api/v1/certificates/employee/1`),
-                    fetch(`http://localhost:8000/api/v1/educations/employee/1`),
-                    fetch(`http://localhost:8000/api/v1/experiences/employee/1`)
-                ]);
-    
-                if (!certResponse.ok || !eduResponse.ok || !expResponse.ok) {
-                    throw new Error("Failed to fetch one or more resources.");
-                }
-    
-                const certData = await certResponse.json();
-                const eduData = await eduResponse.json();
-                const expData = await expResponse.json();
-    
-                // Update individual states
-                console.log(certData)
-                setCer(certData.data);
-                setEdu(eduData.data);
-                setExp(expData.data);
-    
-                // Update combined state
-                setData({
-                    ...datas,
-                    certificate: certData.data,
-                    education: eduData.data,
-                    experience: expData.data
-                });
-            } catch (error) {
-                setError("An error occurred while fetching data.");
-                console.error(error);
-            } finally {
-                setLoading(false);
+    const fetchCertificate = async () => {
+        try {
+            const response = await fetch(
+                `http://localhost:8000/api/v1/certificates`
+            );
+            if (!response.ok) {
+                throw new Error("Network response was not ok");
             }
-        };
+            const data = await response.json();
+            setData({...datas, education: data.data.result});
+        } catch (error) {
+            setError("Lỗi");
+        } finally {
+            setLoading(false);
+        }
+    };
+    const fetchEducation = async () => {
+        try {
+          const response = await fetch(
+            `http://localhost:8000/api/v1/educations`
+          );
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          const data = await response.json();
+          setData({...datas, education: data.data});
+        } catch (error) {
+          setError("Lỗi");
+        } finally {
+          setLoading(false);
+        }
+    };
+    const fetchExperience = async () => {
+        try {
+          const response = await fetch(
+            `http://localhost:8000/api/v1/experiences`
+          );
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          const data = await response.json();
+          setData({...datas, education: data.data});
+        } catch (error) {
+          setError("Lỗi");
+        } finally {
+          setLoading(false);
+        }
+    };
+
+    const [datas, setData] = React.useState<RecordData>({title:"",description:"",education:[],experience:[], certificate:[], CV:""});
+    // fetchCertificate();
+    // fetchEducation();
+    // fetchExperience();
+    console.log(datas);
     
-        fetchAllData();
-    }, [currentPage]); // Runs whenever `currentPage` changes
-    
-    const RecordPreview: React.FC<RecordProps> = ({ data }) => {
+    React.useEffect(() => {
+        //Promise.all([fetchCertificate(), fetchEducation(), fetchExperience]);
+    }, [currentPage]); // Chạy lại khi currentPage hoặc pageSize thay đổi
+
+    const RecordPreview: React.FC<RecordProps> = async ({ data }) => {
         return (
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
                 <div className="block w-full p-6 bg-gray-100 border border-gray-300 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
@@ -212,7 +225,7 @@ export default function Record() {
             </form>
         )
     }
-    console.log(localStorage.getItem("userId"))
+    
     return (
         <div className='flex flex-row w-full gap-3 p-5'>
             <div className="flex flex-col w-1/2 justify-start gap-10">

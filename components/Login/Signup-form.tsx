@@ -149,7 +149,6 @@ export function SignupForm() {
                 </FormItem>
               )}
             />
-
             <Button type="submit" disabled={isPending} className="bg-blue-800">
               Đăng ký
             </Button>

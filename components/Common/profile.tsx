@@ -39,7 +39,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { ProfileUpdateSchema } from "@/schema/ProfileSchema";
 import { useForm } from "react-hook-form";
 
-export function Profile() {
+export function ProfileUpdate() {
   const [email, setEmail] = React.useState("");
   const [userId, setUserId] = React.useState("");
   const [nameUser, setNameUser] = React.useState("");
@@ -214,13 +214,14 @@ export function Profile() {
 }
 
 async function FirstUpdateProfile(values: z.infer<typeof ProfileUpdateSchema>) {
-  console.log("Aloooooooooo")
   const data = {
     phone: values.phone,
     address: values.address,
     gender: values.gender,
     age: values.age
   };
+
+  console.log(JSON.stringify(data));
 
   const apiUrl = `http://localhost:8000/api/v1/employees/${localStorage.getItem("userId")}`;
 
