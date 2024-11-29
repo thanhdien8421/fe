@@ -39,61 +39,44 @@ import EditButton from "../ui/edit";
 import TrashButton from "../ui/trash";
 import { Checkbox } from "../ui/checkbox";
 import { RecordType } from "@/app/record/page";
+import clsx from "clsx";
 
-export default function Certificate({type, getData} : {type : string, getData : RecordType}) {
-  const [data, setData] = React.useState<CertificateAttr[]>([]);
+export default function Certificate({ type, data, onCheck }: { type: string, data: RecordType, onCheck: (data: RecordType) => void }) {
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState<string>("");
   const [currentPage, setCurrentPage] = React.useState<number>(1);
 
-  const fetchData = async () => {
-    try {
-      const response = await fetch(
-        `http://localhost:8000/api/v1/certificates/employee/1`
-      );
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      const data = await response.json();
-      setData(data.data);
-    } catch (error) {
-      setError("Lỗi");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  React.useEffect(() => {
-    fetchData();
-  }, [currentPage]); // Chạy lại khi currentPage hoặc pageSize thay đổi
-
   const AddPostButton: React.FC = () => {
     return (
-      <div className="flex items-center justify-center ">
-        <AddCertificate />
+      <div className="flex items-center justify-center">
+        
       </div>
     );
   };
 
   return (
-    <Card className="drop-shadow-sm h-[400px] pb-2">
+    <Card className="drop-shadow-sm h-[300px] pb-2 bg-gray-50">
       <CardHeader className="flex flex-row border-b-2 rounded-t-lg bg-[#4A628A]">
         <p className="text-lg font-semibold text-gray-800">Chứng chỉ</p>
-        {type == "profile" ?
-        <div className="ml-auto pr-[15px]">
-          <AddPostButton />
-        </div> : <></>
-        }
+          <Button className="ml-auto pr-[15px] bg-orange-500 border-2 border-white flex flex-col item-start w-8 h-8">
+            <AddCertificate />
+          </Button>
       </CardHeader>
-      <CardContent className="my-5 gap-1 h-3/4">
-        <div className="flex flex-col overflow-y-auto gap-4 h-full">
-          {data.map((obj) => {
-            return (
-              <CertificateCard obj={obj} type={type} getData={getData} key={obj.id} />
-            )
-          }
-          )}
-        </div>
+      <CardContent className="py-5 gap-1 h-3/4">
+        {(data.certificate.length == 0) ?
+          <h1 className="w-full h-full text-center p-20 text-gray-500">
+            Chưa có dữ liệu
+          </h1>
+          :
+          <div className="flex flex-col overflow-y-auto gap-4 h-full">
+            {data.certificate.map((obj) => {
+              return (
+                <CertificateCard obj={obj} type={type} data={data} key={obj.id} onCheck={onCheck} />
+              )
+            }
+            )}
+          </div>
+        }
       </CardContent>
     </Card>
   );
@@ -107,9 +90,11 @@ function formatDate(isoDate: string) {
   return `${day}-${month}-${year}`;
 }
 
-export const CertificateCard: React.FC<CertificateProps> = ({ obj, type, getData }) => {
+export const CertificateCard: React.FC<CertificateProps> = ({ obj, type, data, onCheck }) => {
+  const index = data.certificate.findIndex((mem) => (mem.id == obj.id))
   return (
-    <div className="flex flex-row w-full gap-10 p-3 bg-white border border-gray-200 rounded-lg shadow-md transition duration-300 hover:shadow-xl hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+    <div className={clsx("flex flex-row w-full gap-10 p-3 bg-white border border-gray-200 rounded-lg shadow-md transition duration-300 hover:shadow-xl hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700",
+      { "hidden": index != -1 && data.cerCheck[index] === false && type === "preview", "": index != -1 && data.cerCheck[index] === true && type === "preview" },)}>
       <div className="flex flex-row justify-between gap-10">
         <div className="grid grid-cols-5 col-span-10 gap-3 justify-between">
           <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100">{obj.name}</h2>
@@ -118,14 +103,21 @@ export const CertificateCard: React.FC<CertificateProps> = ({ obj, type, getData
             <p>Ngày cấp: <span className="font-medium">{formatDate(obj.verifiedDate)}</span></p>
           </div>
         </div>
-        { type == "profile" ? 
+        {type == "profile" ?
           (
-          <div className="flex flex-row gap-2">
-          <EditButton val={'/record'} />
-          <TrashButton val={`records/${obj.id}`} />
-          </div>
-          ) : ( type == "preview" ? <></> : <Checkbox onClick={() => {getData.certificate.push(obj.id)} }/>)
-          }
+            <div className="flex flex-row gap-2">
+              <EditButton val={'/record'} />
+              <TrashButton val={`records/${obj.id}`} />
+            </div>
+          ) : (type == "preview" ? <></> :
+            <Checkbox onCheckedChange={() => {
+              let newdata = JSON.parse(JSON.stringify(data))
+              if (index !== -1) {
+                newdata.cerCheck[index] = !data.cerCheck[index];
+                onCheck(newdata);
+              }
+            }} />)
+        }
       </div>
     </div>
   )
@@ -141,7 +133,8 @@ export interface CertificateAttr {
 interface CertificateProps {
   obj: CertificateAttr;
   type: string;
-  getData: RecordType;
+  data: RecordType;
+  onCheck: (data: RecordType) => void
 }
 
 export function AddCertificate() {
@@ -162,7 +155,7 @@ export function AddCertificate() {
   async function onSubmit(values: z.infer<typeof CertificateSchema>) {
     const apiUrl = `http://localhost:8000/api/v1/certificates`
 
-    values.employeeId = 1;
+    values.employeeId = Number(localStorage.getItem("userId"));
     values.url = "abc.com";
     values.image = "net.jpg";
 
@@ -206,11 +199,9 @@ export function AddCertificate() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <button>
-          <div className="flex items-center justify-center w-5 h-5 text-gray-700 rounded-full transition duration-200 ease-in-out cursor-pointer">
-            <IoMdAdd className="text-2xl" />
+          <div className="flex items-center justify-center w-5 h-5 rounded-full transition duration-200 ease-in-out cursor-pointer">
+            <IoMdAdd className="text-4xl text-white" />
           </div>
-        </button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>

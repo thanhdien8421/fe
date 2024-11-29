@@ -38,7 +38,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { ProfileUpdateSchema } from "@/schema/ProfileSchema";
 import { useForm } from "react-hook-form";
 
-export default function Profile() {
+export default function Profile({data} : {data : UserData}) {
     const [email, setEmail] = React.useState("");
     const [userId, setUserId] = React.useState("");
     const [nameUser, setNameUser] = React.useState("");
@@ -70,24 +70,11 @@ export default function Profile() {
         });
     }
 
-    React.useEffect(() => {
-        // Chỉ truy cập localStorage trong client-side
-        const storedEmail = localStorage.getItem("userEmail");
-        const storedUserId = localStorage.getItem("userId");
-        const storedNameUser = localStorage.getItem("userName");
-
-        if (storedEmail) setEmail(storedEmail);
-        if (storedUserId) setUserId(storedUserId);
-        if (storedNameUser) setNameUser(storedNameUser);
-    }, []);
     return (
         <Form {...form}>
-            <Card className="drop-shadow-sm">
+            <Card className="drop-shadow-sm w-full">
                 <CardHeader className="w-full">
                     <CardTitle className="text-3xl font-bold">Thông tin cá nhân</CardTitle>
-                    <CardDescription>
-                       Thông tin của bạn
-                    </CardDescription>
                 </CardHeader>
                 <CardContent>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -98,7 +85,7 @@ export default function Profile() {
                                 <FormItem>
                                     <FormLabel>Số điện thoại</FormLabel>
                                     <FormControl>
-                                        <Input {...field} placeholder="" disabled={isPending} />
+                                        <Input {...field} placeholder={data.phone} disabled={true} />
                                     </FormControl>
                                     <FormDescription>
                                         Số điện thoại liên hệ
@@ -114,7 +101,7 @@ export default function Profile() {
                                 <FormItem>
                                     <FormLabel>Địa chỉ</FormLabel>
                                     <FormControl>
-                                        <Input {...field} disabled={isPending} />
+                                        <Input {...field} placeholder={data.address} disabled={true} />
                                     </FormControl>
                                     <FormDescription>
                                         Địa chỉ nơi ở
@@ -130,7 +117,7 @@ export default function Profile() {
                                 <FormItem>
                                     <FormLabel>Tuổi</FormLabel>
                                     <FormControl>
-                                        <Input {...field} type="number" disabled={isPending} />
+                                        <Input {...field} type="number" placeholder={Number(data.age).toString()} disabled={true} />
                                     </FormControl>
                                     <FormDescription>
                                         Tuổi của bạn
@@ -145,10 +132,10 @@ export default function Profile() {
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel>Giới tính</FormLabel>
-                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <Select onValueChange={field.onChange} defaultValue={field.value} disabled={true}>
                                         <FormControl>
                                             <SelectTrigger>
-                                                <SelectValue placeholder="Chọn" />
+                                                <SelectValue placeholder={data.gender} />
                                             </SelectTrigger>
                                         </FormControl>
                                         <SelectContent>
@@ -170,4 +157,15 @@ export default function Profile() {
             </Card>
         </Form>
     )
+}
+
+export interface UserData {
+    id: number; 
+    phone: string; 
+    address: string; 
+    email: string; 
+    name: string; 
+    gender: string;
+    age: number; 
+    avatar: string
 }

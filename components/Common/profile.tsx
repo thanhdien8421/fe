@@ -65,7 +65,7 @@ export function ProfileUpdate() {
     startTransition(async () => {
       const result = await FirstUpdateProfile(values);
       if (result.success) {
-        toast.success(result.message);
+        toast.success("Cập nhật thành công. Quay về trang đăng nhập.");
         router.push("/login");
       } else toast.error("Đã xảy ra lỗi");
     });
@@ -83,132 +83,124 @@ export function ProfileUpdate() {
   }, []);
 
   return (
-    <div className="flex items-start gap-3">
-      <div><Toaster /></div>
-      <Form {...form}>
-        <Card className="drop-shadow-lg">
-          <CardHeader className="w-[350px]">
-            <CardTitle className="text-3xl font-bold">Cài đặt thông tin cá nhân</CardTitle>
-            <CardDescription>
-              Các thông tin bắt buộc
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-              <FormField
-                control={form.control}
-                name="phone"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Số điện thoại</FormLabel>
-                    <FormControl>
-                      <Input {...field} placeholder = "" disabled={isPending} />
-                    </FormControl>
-                    <FormDescription>
-                      Số điện thoại liên hệ
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="address"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Địa chỉ</FormLabel>
-                    <FormControl>
-                      <Input {...field} disabled={isPending} />
-                    </FormControl>
-                    <FormDescription>
-                      Địa chỉ nơi ở
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="age"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Tuổi</FormLabel>
-                    <FormControl>
-                      <Input {...field} type="number" disabled={isPending} />
-                    </FormControl>
-                    <FormDescription>
-                      Tuổi của bạn 
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="gender"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Giới tính</FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Chọn" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        <SelectItem value="Nam">Nam</SelectItem>
-                        <SelectItem value="Nữ">Nữ</SelectItem>
-                        <SelectItem value="Khác">Khác</SelectItem>
-                      </SelectContent>
-                    </Select>
-                    <FormDescription>
-                      Giới tính
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <Button type="submit" disabled={isPending} className="bg-blue-800">Cập nhật</Button>
-            </form>
-          </CardContent>
-        </Card>
-      </Form>
-      <Card>
-        <CardContent className="my-5 border-b-2">
-          <div className="flex items-center gap-5">
-            <div className="relative">
-              <Avatar>
-                <AvatarImage src="https://github.com/shadcn.png" />
-                <AvatarFallback>CN</AvatarFallback>
-              </Avatar>
-              <FaCamera className="absolute bottom-0 text-cyan-500 left-1" />
-            </div>
-            <div>
-              <p>Xin chào</p>
-              <p className="font-bold">{nameUser}</p>
-              <div className="bg-gray-600 text-[10px] text-white text-center py-1 px-1">
-                {role == "1" ? " Ứng viên " : " Nhà tuyển dụng "}
+    <div>
+      <Toaster />
+      <div className="w-screen flex flex-row">
+        <div className="w-1/3 flex justify-center">
+          <Card className="h-fit drop-shadow-md">
+            <CardContent className="my-5 border-b-2">
+              <div className="flex items-center gap-5">
+                <div className="relative">
+                  <Avatar>
+                    <AvatarImage src="https://github.com/shadcn.png" />
+                    <AvatarFallback>CN</AvatarFallback>
+                  </Avatar>
+                  <FaCamera className="absolute bottom-0 text-cyan-500 left-1" />
+                </div>
+                <div>
+                  <p>Xin chào</p>
+                  <p className="font-bold">{nameUser}</p>
+                  <div className="bg-gray-600 text-[10px] text-white text-center py-1 px-1">
+                    Ứng viên
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-        </CardContent>
-        <CardFooter>
-          {role == "1" ? (
-            <SwitchForm />
-          ) : (
-            <p className="max-w-[300px]">
-              Bạn chỉ có thể toàn tâm toàn ý khi được làm những gì bạn yêu
-              thích. Đừng lấy tiền làm mục tiêu của mình. Thay vào đó, hãy theo
-              đuổi những điều bạn yêu thích và cố gắng làm thật tốt. Đến khi đó,
-              bạn sẽ nhận được ánh mắt tôn trọng và ngưỡng mộ từ những người
-              xung quanh <br></br>{" "}
-              <b>
-                <i>Maya Angelou</i>
-              </b>
-            </p>
-          )}
-        </CardFooter>
-      </Card>
+            </CardContent>
+            <CardFooter className="flex flex-col">
+              <p className="max-w-[300px] text-justify">
+                Chỉ cần một vài bước nữa thôi là bạn sẽ có thể tìm kiếm công việc ngay lập tức
+                cùng <b>JobCenter</b>!
+              </p>
+              <p className="max-w-[300px] text-justify">
+                Hãy hoàn thành bằng cách điền vào biểu mẫu bên cạnh.
+              </p>
+            </CardFooter>
+          </Card>
+        </div>
+        <Form {...form}>
+          <Card className="drop-shadow-lg w-1/3">
+            <CardHeader className="w-full">
+              <CardTitle className="text-3xl font-bold pb-5">Cập nhật thông tin cá nhân</CardTitle>
+              <CardDescription className="w-2/3">
+                Những thông tin cần thiết để chúng tôi và <br></br> nhà tuyển dụng biết bạn là ai
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="font-sans">
+              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+                <FormField
+                  control={form.control}
+                  name="phone"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel><b>Số điện thoại</b></FormLabel>
+                      <FormControl>
+                        <Input {...field} placeholder="0xxxxxxxxx" disabled={isPending} />
+                      </FormControl>
+                      <FormDescription>
+                        Số điện thoại chính dùng để liên hệ
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="address"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel><b>Địa chỉ</b></FormLabel>
+                      <FormControl>
+                        <Input {...field} placeholder="123 Đồng Khởi, Q.1, Tp.HCM" disabled={isPending} />
+                      </FormControl>
+                      <FormDescription>
+                        Địa chỉ thường trú hoặc nơi ở hiện tại
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="age"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel><b>Tuổi</b></FormLabel>
+                      <FormControl>
+                        <Input {...field} type="number" name="quantity" min="18" max="150" placeholder="18" disabled={isPending} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="gender"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel><b>Giới tính</b></FormLabel>
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Chọn" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem value="Nam">Nam</SelectItem>
+                          <SelectItem value="Nữ">Nữ</SelectItem>
+                          <SelectItem value="Khác">Khác</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <Button type="submit" disabled={isPending} className="bg-blue-800">Cập nhật</Button>
+              </form>
+            </CardContent>
+          </Card>
+        </Form>
+        <div className="w-1/3"></div>
+      </div>
     </div>
   );
 }

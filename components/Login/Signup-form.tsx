@@ -58,8 +58,8 @@ export function SignupForm() {
         localStorage.setItem("userEmail", result.data.email);
         localStorage.setItem("userId", result.data.id);
         localStorage.setItem("userName", result.data.name);
-        toast.success(result.message);
-        router.push("/profile?role=1");
+        toast.success("Đăng ký tài khoản thành công");
+        router.push("/signup/info-update");
       } else if (result.type == "Email đã tồn tại") 
         toast.error("Email đã tồn tại. Vui lòng sử dụng email khác.");
         else toast.error("Đã xảy ra lỗi. Vui lòng thử lại.");

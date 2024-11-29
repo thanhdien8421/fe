@@ -13,86 +13,12 @@ import { RecordSchema } from '@/schema/RecordSchema'
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
+import { Interface } from 'readline'
 
 export default function Record() {
-    const data: RecordData = {
-        title: "Bản mẫu Record",
-        description: "Bản mẫu đầu tiên để xác định định dạng",
-        education: [{
-            id: 1,
-            school: "HCMUT",
-            major: "KHMT",
-            description: "Cử nhân",
-            startDate: "1/1/2000",
-            endDate: "1/1/2004"
-        }, {
-            id: 2,
-            school: "HCMUT",
-            major: "KHMT",
-            description: "Cử nhân",
-            startDate: "1/1/2000",
-            endDate: "1/1/2004"
-        }, {
-            id: 3,
-            school: "HCMUT",
-            major: "KHMT",
-            description: "Cử nhân",
-            startDate: "1/1/2000",
-            endDate: "1/1/2004"
-        }],
-        experience: [{
-            id: 1,
-            company: "LNG",
-            position: "Trưởng phòng",
-            description: "abcd",
-            startDate: "1/1/2000",
-            endDate: "1/1/2004",
-        },
-        {
-            id: 2,
-            company: "LNG",
-            position: "Trưởng phòng",
-            description: "abcd",
-            startDate: "1/1/2000",
-            endDate: "1/1/2004"
-        },
-        {
-            id: 3,
-            company: "LNG",
-            position: "Trưởng phòng",
-            description: "abcd",
-            startDate: "1/1/2000",
-            endDate: "1/1/2004"
-        }],
-        certificate: [{
-            id: 1,
-            name: "IELTS",
-            organization: "IDP",
-            verifiedDate: "1/1/2020",
-        },
-        {
-            id: 2,
-            name: "IELTS",
-            organization: "IDP",
-            verifiedDate: "1/1/2020",
-        },
-        {
-            id: 3,
-            name: "IELTS",
-            organization: "IDP",
-            verifiedDate: "1/1/2020",
-        }],
-        CV: "Link file CV"
-    }
-
-    const [object, setObject] = useState<RecordType>({ title: "", description: "", education: [], experience: [], certificate: [], CV: "" });
     const [clicked, setClicked] = useState<Boolean>(false);
     const router = useRouter();
-    const [cer, setCer] = React.useState<CertificateAttr[]>([]);
-    const [edu, setEdu] = React.useState<EducationAttr[]>([]);
-    const [exp, setExp] = React.useState<ExperienceAttr[]>([]);  
-    const [datas, setData] = React.useState<RecordData>({title:"",description:"",education:[],experience:[], certificate:[], CV:""});
-  
+    const [content, setContent] = React.useState<RecordType>({title:"",description:"",fileCvLink:"",education: [], eduCheck: [], experience: [], expCheck: [], certificate: [], cerCheck: [] });
     const form = useForm<z.infer<typeof RecordSchema>>({
         resolver: zodResolver(RecordSchema),
         defaultValues: {
@@ -102,8 +28,17 @@ export default function Record() {
             fileCV: ""
         }
     })
+    const onCheck = (data: RecordType) => {
+        setContent(data);
+    }
 
-    const CreateRecord = async (obj: RecordType) => {
+    const CreateRecord = async (values: z.infer<typeof RecordSchema>) => {
+        const dto = {
+            title: values.title,
+            description: values.description,
+            ownerId: Number(localStorage.getItem("userId")),
+            fileCvId: 1
+        }
         const apiUrl = `http://localhost:8000/api/v1/records`
 
         return await fetch(apiUrl, {
@@ -111,7 +46,7 @@ export default function Record() {
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify(data),
+            body: JSON.stringify(dto),
         })
             .then((response) => {
                 return response.json();
@@ -124,7 +59,7 @@ export default function Record() {
                     return {
                         message: data.message,
                         success: true,
-                        data: data.data[0],
+                        data: data.data,
                     };
                 }
             })
@@ -137,15 +72,68 @@ export default function Record() {
             });
     }
 
-    async function onSubmit() {
-        // const result = await CreateRecord(object);
-        // if (result.success) router.push('/profile');
-        console.log(object)
+    const UpdateEduExpCer = async (recordId : number) => {
+        try {
+            const eduRes = await Promise.all(content.eduCheck.map((val, index) => val ? fetch(
+                `http://localhost:8000/api/v1/records/${recordId}/educations/${content.education[index].id}`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    }}) 
+                    : null  
+            ))
+            const expRes = await Promise.all(content.expCheck.map((val, index) => val ? fetch(
+                `http://localhost:8000/api/v1/records/${recordId}/experiences/${content.experience[index].id}`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    }}) 
+                    : null  
+            ))
+            const cerRes = await Promise.all(content.cerCheck.map((val, index) => val ? fetch(
+                `http://localhost:8000/api/v1/records/${recordId}/certificates/${content.certificate[index].id}`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    }}) 
+                    : null) 
+            )
+
+            // if (!certResponse.ok || !eduResponse.ok || !expResponse.ok) {
+            //     throw new Error("Failed to fetch one or more resources.");
+            // }
+
+            const certData = cerRes.filter((val)=>(val !== null)).map((val) => val.json());
+            const eduData = eduRes.filter((val)=>(val !== null)).map((val) => val.json());
+            const expData = expRes.filter((val)=>(val !== null)).map((val) => val.json());
+            console.log(eduData)
+        } catch (error) {
+            setError("An error occurred while fetching data.");
+            console.error(error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    async function onSubmit(values: z.infer<typeof RecordSchema>) {
+        console.log(content)
+        const result = await CreateRecord(values);
+        console.log(result);
+        const update = await UpdateEduExpCer(result.data.id);
+        if (result.success) router.push('/profile'); 
     }
 
     const [loading, setLoading] = React.useState(true);
     const [error, setError] = React.useState<string>("");
     const [currentPage, setCurrentPage] = React.useState<number>(1);
+
+    function handleFileUpload(event: React.ChangeEvent<HTMLInputElement>) {
+        const file = event.target.files?.[0];
+        if (file) {
+            form.setValue("fileCV", file.name); // Store the file name or other necessary metadata
+            // Upload logic here if required
+        }
+    }
 
     React.useEffect(() => {
         const fetchAllData = async () => {
@@ -155,27 +143,23 @@ export default function Record() {
                     fetch(`http://localhost:8000/api/v1/educations/employee/1`),
                     fetch(`http://localhost:8000/api/v1/experiences/employee/1`)
                 ]);
-    
+
                 if (!certResponse.ok || !eduResponse.ok || !expResponse.ok) {
                     throw new Error("Failed to fetch one or more resources.");
                 }
-    
+
                 const certData = await certResponse.json();
                 const eduData = await eduResponse.json();
                 const expData = await expResponse.json();
-    
-                // Update individual states
-                console.log(certData)
-                setCer(certData.data);
-                setEdu(eduData.data);
-                setExp(expData.data);
-    
-                // Update combined state
-                setData({
-                    ...datas,
+
+                setContent({
+                    ...content,
                     certificate: certData.data,
+                    cerCheck: certData.data.map(() => false),
                     education: eduData.data,
-                    experience: expData.data
+                    eduCheck: eduData.data.map(() => false),
+                    experience: expData.data,
+                    expCheck: expData.data.map(() => false)
                 });
             } catch (error) {
                 setError("An error occurred while fetching data.");
@@ -184,10 +168,10 @@ export default function Record() {
                 setLoading(false);
             }
         };
-    
+
         fetchAllData();
-    }, [currentPage]); // Runs whenever `currentPage` changes
-    
+    }, [currentPage]); 
+
     const RecordPreview: React.FC<RecordProps> = ({ data }) => {
         return (
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -195,12 +179,12 @@ export default function Record() {
                     <Textarea {...form.register("title")} placeholder="Title" className='min-h-10 border-b-1 rounded-b-none border-black border-l-0 border-t-0 border-r-0 bg-gray-100 hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700' />
                     <Textarea {...form.register("description")} placeholder="Title" className='mt-8 min-h-40 h-fit bg-gray-100 border border-gray-300 hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700' />
                     <div className="flex flex-col gap-2"><p className="font-semibold text-gray-900 p-5 text-2xl">Thông tin cá nhân</p></div>
-                    <div className="flex flex-col gap-2"><p className="font-semibold text-gray-900 p-5 text-2xl">Trình độ học vấn</p> {data.education.map((mem: EducationAttr) => <EducationCard obj={mem} type="preview" getData={object} key={mem.id} />)}</div>
-                    <div className="flex flex-col gap-2"><p className="font-semibold text-gray-900 p-5 text-2xl">Kinh nghiệm làm việc</p> {data.experience.map((mem: ExperienceAttr) => <ExperienceCard obj={mem} type="preview" getData={object} key={mem.id} />)}</div>
-                    <div className="flex flex-col gap-2"><p className="font-semibold text-gray-900 p-5 text-2xl">Bằng cấp, chứng chỉ</p> {data.certificate.map((mem: CertificateAttr) => <CertificateCard obj={mem} type="preview" getData={object} key={mem.id} />)}</div>
+                    <div className="flex flex-col gap-2"><p className="font-semibold text-gray-900 p-5 text-2xl">Trình độ học vấn</p> {data.education.map((mem: EducationAttr) => <EducationCard obj={mem} type="preview" data={content} key={mem.id} onCheck={onCheck} />)}</div>
+                    <div className="flex flex-col gap-2"><p className="font-semibold text-gray-900 p-5 text-2xl">Kinh nghiệm làm việc</p> {data.experience.map((mem: ExperienceAttr) => <ExperienceCard obj={mem} type="preview" data={content} key={mem.id} onCheck={onCheck} />)}</div>
+                    <div className="flex flex-col gap-2"><p className="font-semibold text-gray-900 p-5 text-2xl">Bằng cấp, chứng chỉ</p> {data.certificate.map((mem: CertificateAttr) => <CertificateCard obj={mem} type="preview" data={content} key={mem.id} onCheck={onCheck} />)}</div>
                     <div className="grid w-full max-w-sm items-center gap-1.5 pt-5">
                         <Label htmlFor="CV của bạn"><p className="font-semibold text-gray-900 p-5 text-2xl">CV của bạn</p></Label>
-                        <Input id="picture" type="file" {...form.register("fileCV")} />
+                        <Input id="file" type="file" onChange={handleFileUpload} />
                     </div>
 
                 </div>
@@ -212,16 +196,17 @@ export default function Record() {
             </form>
         )
     }
-    console.log(localStorage.getItem("userId"))
+
+    console.log(content.eduCheck)
     return (
         <div className='flex flex-row w-full gap-3 p-5'>
             <div className="flex flex-col w-1/2 justify-start gap-10">
-                <RecordPreview data={datas} />
+                <RecordPreview data={content} />
             </div>
             <div className="flex flex-col gap-5 w-1/2 h-fit">
-                <Education type="" getData={object} />
-                <Experience type="" getData={object} />
-                <Certificate type="" getData={object} />
+                <Education type="" data={content} onCheck={onCheck} />
+                <Experience type="" data={content} onCheck={onCheck} />
+                <Certificate type="" data={content} onCheck={onCheck} />
             </div>
         </div>
     )
@@ -230,21 +215,15 @@ export default function Record() {
 export interface RecordType {
     title: string;
     description: string;
-    education: number[];
-    experience: number[];
-    certificate: number[];
-    CV: string;
-}
-
-export interface RecordData {
-    title: string;
-    description: string;
+    fileCvLink:string;
     education: EducationAttr[];
+    eduCheck: Boolean[];
     experience: ExperienceAttr[];
+    expCheck: Boolean[];
     certificate: CertificateAttr[];
-    CV: string;
+    cerCheck: Boolean[];
 }
 
 interface RecordProps {
-    data: RecordData
+    data: RecordType
 }

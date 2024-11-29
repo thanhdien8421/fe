@@ -60,7 +60,7 @@ export function LoginForm() {
         localStorage.setItem("userEmail", result.user?.email);
         localStorage.setItem("userId", result.user?.id);
         localStorage.setItem("userName", result.user?.name);
-        router.push('/job');
+        router.push('/profile');
       } else toast.error(result.message);
     });
   }
