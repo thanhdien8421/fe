@@ -4,12 +4,8 @@ import DescriptionJobPage from "@/components/DescriptionJob/Description";
 import { InfoJob } from "@/lib/data";
 import { JobPostAndDescription } from "@/lib/interface";
 import React from "react";
-import UpdatePost from "@/components/updatePost/updatepost";
-export default function UpdateResuiment({
-  params,
-}: {
-  params: { id: string };
-}) {
+
+export default function DescriptinPage({ params }: { params: { id: string } }) {
   const [jobData, setJobData] = React.useState<JobPostAndDescription | null>(
     null
   );
@@ -51,7 +47,7 @@ export default function UpdateResuiment({
   return (
     <div>
       {jobData ? (
-        <UpdatePost initJob={jobData} />
+        <DescriptionJobPage job={jobData} />
       ) : (
         <p>Không tìm thấy công việc...</p>
       )}

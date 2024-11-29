@@ -60,6 +60,11 @@ export function LoginForm() {
         localStorage.setItem("userEmail", result.user?.email);
         localStorage.setItem("userId", result.user?.id);
         localStorage.setItem("userName", result.user?.name);
+        localStorage.setItem("type", result.user?.type);
+        if (result.user?.type === "Employee") {
+          localStorage.setItem("phone", result.user?.phone);
+        }
+        router.push("/profile");
       } else toast.error(result.message);
     });
   }

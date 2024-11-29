@@ -41,3 +41,16 @@ export interface JobPostAndDescription {
   employmentType: string;
   gender: string;
 }
+export interface RecordApply {
+  recordId: number;
+  recruitmentPostId: number;
+  job: string;
+  title: string;
+  status: string;
+  createdAt: string;
+  updatedAt: string;
+  employerName: string;
+  employerEmail: string;
+  employerPhone: string;
+  employerAvatar: string;
+}

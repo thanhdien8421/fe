@@ -49,7 +49,7 @@ function JobPostForm() {
         alert(result.error);
         return; // Nếu có l��i, thông báo và trả về.
       }
-      router.push("/recruitment");
+      router.push("/recruitment/manage");
     } catch (error) {
       console.error("Error creating recruitment post:", error);
     }
