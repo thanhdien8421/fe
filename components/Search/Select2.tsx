@@ -71,14 +71,14 @@ const Select2 = () => {
     const [open, setOpen] = useState(false);
     const dispatch = useAppDispatch()
     return (
-        <div className='flex-1 w-80 text-[14px] relative top-6 cursor-pointer'>
-            <div onClick={() => setOpen(!open)} className='bg-white w-full flex items-center justify-space'>
-                <IoLocationOutline size={20} />
-                <p className='ml-5'>{selected ? selected : "Khu vực"}</p>
+        <div className='flex-1 w-10 text-[14px] relative top-5 cursor-pointer border-gray-200'>
+            <div onClick={() => setOpen(!open)} className='bg-white flex items-center justify-space'>
+                <IoLocationOutline size={20} className='mt-3'/>
+                <p className='mr-5 mt-3'>{selected ? selected : "Khu vực"}</p>
             </div>
-            <ul className={` bg-white mt-2 absolute top-[45px] w-full text-start rounded-[2px] overflow-y-auto drop-shadow-lg
+            <ul className={` bg-white mt-2 absolute top-[45px] w-80 text-start rounded-[2px] overflow-y-auto drop-shadow-lg
                               ${open ? "max-h-60 " : "max-h-0"}`}>
-                <div className='sticky top-0'>
+                <div className='sticky top-0' key={0}>
                     <input type="text" placeholder='Nhập khu vực bạn muốn chọn' className='placeholder:text-gray-400 p-2 w-full outline-none'
                         value={inputValue}
                         onChange={(e) => setInputValue(e.target.value.toLowerCase())}
@@ -103,6 +103,3 @@ const Select2 = () => {
 }
 
 export default Select2
-{/* /* <li className='p-2 text-sm hover:bg-slate-20 '>Sample</li>
-                <li className='p-2 text-sm hover:bg-slate-20 '>Sample</li> */
-}

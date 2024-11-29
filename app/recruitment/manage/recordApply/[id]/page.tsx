@@ -121,7 +121,7 @@ const RecruitmentedList = ({ params }: { params: { id: string } }) => {
                 <TableCell>{item.employerPhone}</TableCell>
                 <TableCell>
                   <Button className="bg-sky-500">
-                    <Link href={`/recruitment`}>Xem</Link>
+                    <Link href={`/record/${item.recordId}`}>Xem</Link>
                   </Button>
                 </TableCell>
                 <TableCell>{item.status}</TableCell>

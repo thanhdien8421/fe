@@ -54,3 +54,15 @@ export interface RecordApply {
   employerPhone: string;
   employerAvatar: string;
 }
+export interface JobCardData {
+  id: number;
+  urlLogo: string;
+  title: string;
+  company: string;
+  salary: string;
+  location: string[];
+  exp: string;
+  working_time: string;
+  start_date: string;
+  end_date: string;
+}
