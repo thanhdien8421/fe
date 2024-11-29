@@ -35,17 +35,18 @@ const RecruitmentedList = () => {
   const [currentPage, setCurrentPage] = React.useState<number>(1);
   const [pageSize] = React.useState<number>(10); // Số lượng bản ghi trên mỗi trang
   const [totalPosts, setTotalPosts] = React.useState<number>(0); // Tổng số bài đăng
-  const [status, setStatus] = React.useState<string>("active");
+  const [status, setStatus] = React.useState<string>("still");
   const fetchJobData = async () => {
     try {
       const response = await fetch(
-        `http://localhost:8000/api/v1/recruitment-post?page=${currentPage}&pageSize=${pageSize}`
+        `http://localhost:8000/api/v1/recruitment-post?page=${currentPage}&pageSize=${pageSize}&still=${status}`
       );
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
       const data = await response.json();
       setJobData(data.data.recruitmentPosts);
+      console.log(data.data.totalPosts);
       setTotalPosts(data.data.totalPosts); // Giả sử API trả về tổng số bài đăng
     } catch (error) {
       setError("Lỗi: Không tìm thấy dữ liệu");
@@ -114,42 +115,42 @@ const RecruitmentedList = () => {
 
       <div className="flex space-x-4 mb-4">
         <Button
-          className={`px-4 py-2 rounded-md ${
-            status === "active"
+          className={`px-4 py-2 rounded-md font-bold ${
+            status === "still"
               ? "bg-green-500 cursor-default hover:bg-green-500  "
-              : "bg-gray-200 hover:bg-green-600 transition ease-in-out duration-300"
+              : "bg-gray-200 hover:bg-green-600 transition ease-in-out duration-300 text-black"
           }`}
           onClick={() => {
-            if (status !== "active") {
+            if (status !== "still") {
               setCurrentPage(1);
-              setStatus("active");
+              setStatus("still");
             }
           }}
         >
           Đang mở
         </Button>
         <Button
-          className={`px-4 py-2 rounded-md ${
-            status !== "active"
-              ? "bg-amber-500 text-white cursor-default hover:bg-amber-500"
-              : " bg-gray-200 hover:bg-amber-600 transition ease-in-out duration-300"
+          className={`px-4 py-2 rounded-md font-bold ${
+            status !== "still"
+              ? "bg-amber-500 text-white cursor-default hover:bg-amber-500 "
+              : " bg-gray-200 hover:bg-amber-600 transition ease-in-out duration-300 text-black"
           }`}
           onClick={() => {
-            if (status !== "noActive") {
+            if (status !== "nostill") {
               setCurrentPage(1);
 
-              setStatus("noActive");
+              setStatus("nostill");
             }
           }}
         >
           Đã đóng
         </Button>
       </div>
-      <div className="flex flex-col gap-5">
+      <div className="flex flex-col gap-5 min-h-[500px]">
         <div className="ml-auto pr-[15px]">
           <AddPostButton />
         </div>
-        <Table className="border border-green-200 rounded-xl select-none">
+        <Table className="border border-green-200 rounded-xl select-none ">
           <TableHeader>
             <TableRow className="text-center">
               <TableHead className="w-[5%] text-center">STT</TableHead>
@@ -157,7 +158,7 @@ const RecruitmentedList = () => {
               <TableHead className="w-[20%] text-center">Mô tả</TableHead>
               <TableHead className="text-center">Địa điểm</TableHead>
 
-              {status !== "noActive" && (
+              {status === "still" && (
                 <>
                   <TableHead className="text-center">Ngày tuyển dụng</TableHead>
                   <TableHead className="text-center">Ngày kết thúc</TableHead>
@@ -182,7 +183,7 @@ const RecruitmentedList = () => {
                   {post.description}
                 </TableCell>
                 <TableCell>{post.location}</TableCell>
-                {status !== "noActive" && (
+                {status === "still" && (
                   <>
                     <TableCell>{formatDate(post.datePosted)}</TableCell>
                     <TableCell>{formatDate(post.deadline)}</TableCell>
@@ -225,43 +226,45 @@ const RecruitmentedList = () => {
               </TableRow>
             ))}
           </TableBody>
-          <TableFooter>
-            <TableRow>
-              <TableCell colSpan={9} className="text-center">
-                <div className="flex justify-center items-center space-x-4 mt-4">
-                  <Button
-                    onClick={() =>
-                      setCurrentPage((prev) => Math.max(prev - 1, 1))
-                    }
-                    disabled={currentPage === 1}
-                    className={`px-4 py-2 rounded-lg text-white transition duration-200 ${
-                      currentPage === 1
-                        ? "bg-gray-400 cursor-not-allowed"
-                        : "bg-blue-600 hover:bg-blue-700"
-                    }`}
-                  >
-                    Trước
-                  </Button>
-                  <span className="text-lg font-semibold">
-                    Trang {currentPage} / {totalPages}
-                  </span>
-                  <Button
-                    onClick={() =>
-                      setCurrentPage((prev) => Math.min(prev + 1, totalPages))
-                    }
-                    disabled={currentPage === totalPages}
-                    className={`px-4 py-2 rounded-lg text-white transition duration-200 ${
-                      currentPage === totalPages
-                        ? "bg-gray-400 cursor-not-allowed"
-                        : "bg-blue-600 hover:bg-blue-700"
-                    }`}
-                  >
-                    Sau
-                  </Button>
-                </div>
-              </TableCell>
-            </TableRow>
-          </TableFooter>
+          {totalPages > 1 && (
+            <TableFooter>
+              <TableRow>
+                <TableCell colSpan={9} className="text-center">
+                  <div className="flex justify-center items-center space-x-4 mt-4">
+                    <Button
+                      onClick={() =>
+                        setCurrentPage((prev) => Math.max(prev - 1, 1))
+                      }
+                      disabled={currentPage === 1}
+                      className={`px-4 py-2 rounded-lg text-white transition duration-200 ${
+                        currentPage === 1
+                          ? "bg-gray-400 cursor-not-allowed"
+                          : "bg-blue-600 hover:bg-blue-700"
+                      }`}
+                    >
+                      Trước
+                    </Button>
+                    <span className="text-lg font-semibold">
+                      Trang {currentPage} / {totalPages}
+                    </span>
+                    <Button
+                      onClick={() =>
+                        setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+                      }
+                      disabled={currentPage === totalPages}
+                      className={`px-4 py-2 rounded-lg text-white transition duration-200 ${
+                        currentPage === totalPages
+                          ? "bg-gray-400 cursor-not-allowed"
+                          : "bg-blue-600 hover:bg-blue-700"
+                      }`}
+                    >
+                      Sau
+                    </Button>
+                  </div>
+                </TableCell>
+              </TableRow>
+            </TableFooter>
+          )}
         </Table>
       </div>
     </div>
