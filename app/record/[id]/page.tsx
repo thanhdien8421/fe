@@ -15,22 +15,17 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { Interface } from 'readline'
 import { RecordType } from '../page'
+import { UserData } from '@/components/Profile/profileForm'
+import Image from 'next/image'
+import Link from 'next/link'
 
-export default function RecordView() {
+export default function RecordView({recordId, postId} : {recordId: number, postId: number}) {
     const [clicked, setClicked] = useState<Boolean>(false);
     const router = useRouter();
-    const [content, setContent] = React.useState<RecordType>({title:"",description:"",fileCvLink:"",education: [], eduCheck: [], experience: [], expCheck: [], certificate: [], cerCheck: [] });
-    // const form = useForm<z.infer<typeof RecordSchema>>({
-    //     resolver: zodResolver(RecordSchema),
-    //     defaultValues: {
-    //         title: "",
-    //         description: "",
-    //         ownerId: 1,
-    //         fileCV: ""
-    //     }
-    // })
+    const [content, setContent] = React.useState<RecordType>({ title: "", description: "", fileCvLink: "", education: [], eduCheck: [], experience: [], expCheck: [], certificate: [], cerCheck: [] });
+    const [userData, setUserData] = useState<UserData>({ id: 0, phone: "", address: "", email: "", name: "", gender: "", age: 18, avatar: "" })
 
-    const onCheck = (data: RecordType) => {}
+    const onCheck = (data: RecordType) => { }
 
     async function onSubmit(values: z.infer<typeof RecordSchema>) {
         console.log(content)
@@ -53,14 +48,13 @@ export default function RecordView() {
         const fetchAllData = async () => {
             try {
                 const [recordResponse] = await Promise.all([fetch(`http://localhost:8000/api/v1/records/${localStorage.getItem("userId")}`)]);
-
                 if (!recordResponse.ok) {
                     throw new Error("Failed to fetch record.");
                 }
 
                 const recordData = await recordResponse.json();
                 setContent({
-                    ...content, 
+                    ...content,
                     title: recordData.data.title,
                     description: recordData.data.description
                 }
@@ -68,16 +62,18 @@ export default function RecordView() {
                 console.log("++++")
                 console.log(recordData)
 
-                const [cerResponse, eduResponse, expResponse] = await Promise.all([
+                const [userResponse, cerResponse, eduResponse, expResponse] = await Promise.all([
+                    fetch(`http://localhost:8000/api/v1/employees/${localStorage.getItem("userId")}`),
                     fetch(`http://localhost:8000/api/v1/records/${recordData.data.id}/certificates`),
                     fetch(`http://localhost:8000/api/v1/records/${recordData.data.id}/educations`),
                     fetch(`http://localhost:8000/api/v1/records/${recordData.data.id}/experiences`)
                 ]);
 
-                if (!expResponse || !cerResponse || !eduResponse) {
+                if (!userResponse.ok) {
                     throw new Error("Failed to fetch one or more resources.");
                 }
 
+                const userInfo = await userResponse.json();
                 const cerData = await cerResponse.json();
                 const eduData = await eduResponse.json();
                 const expData = await expResponse.json();
@@ -89,8 +85,9 @@ export default function RecordView() {
                     education: eduData.data,
                     eduCheck: eduData.data.map(() => true),
                     experience: expData.data,
-                    expCheck: expData.data.map(() => true),
+                    expCheck: expData.data.map(() => true)
                 });
+                setUserData(userInfo.data)
                 console.log(cerData)
             } catch (error) {
                 setError("An error occurred while fetching data.");
@@ -101,43 +98,143 @@ export default function RecordView() {
         };
 
         fetchAllData();
-    }, [currentPage]); 
+    }, [currentPage]);
+
+    const AcceptCV = async () => {
+        const data = {
+            recordId: recordId,
+            status: "APPROVED",
+            recruitmentPostId: postId
+        }
+
+        const apiUrl = `http://localhost:8000/api/v1/record-post`;
+
+        return await fetch(apiUrl, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+        })
+            .then((response) => {
+                return response.json();
+            })
+            .then((data) => {
+                console.log("Data received:", data);
+                if (data.error) {
+                    throw new Error("Error: " + data.error);
+                } else {
+                    return {
+                        message: data.message,
+                        success: true,
+                        data: data.data,
+                    };
+                }
+            })
+            .catch((error) => {
+                return {
+                    message: error,
+                    success: false,
+                    data: null,
+                };
+            });
+    }
+
+    const DenyCV = async () => {
+        const data = {
+            recordId: recordId,
+            status: "REJECTED",
+            recruitmentPostId: postId
+        }
+
+        const apiUrl = `http://localhost:8000/api/v1/record-post`;
+
+        return await fetch(apiUrl, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+        })
+            .then((response) => {
+                return response.json();
+            })
+            .then((data) => {
+                console.log("Data received:", data);
+                if (data.error) {
+                    throw new Error("Error: " + data.error);
+                } else {
+                    return {
+                        message: data.message,
+                        success: true,
+                        data: data.data,
+                    };
+                }
+            })
+            .catch((error) => {
+                return {
+                    message: error,
+                    success: false,
+                    data: null,
+                };
+            });
+    }
 
     const RecordForm: React.FC<RecordProps> = ({ data }) => {
         return (
-            //<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-            <div>
-                <div className="block w-full p-6 bg-gray-100 border border-gray-300 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
-                    <h1 className='min-h-10 border-b-1 rounded-b-none border-black border-l-0 border-t-0 border-r-0 bg-gray-100 hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700'>{data.title}</h1>
-                    <p className='mt-8 min-h-40 h-fit bg-gray-100 border border-gray-300 hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700'>{data.description}</p>
-                    <div className="flex flex-col gap-2"><p className="font-semibold text-gray-900 p-5 text-2xl">Thông tin cá nhân</p></div>
+            <div className='flex flex-col items-center w-1/2 p-5 gap-5'>
+                <div className="block w-full p-6 text-2xl font-semibold bg-gray-100 border border-gray-300 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+                    <h1 className='min-h-10 border-b-1 rounded-b-none border-black border-l-0 border-t-0 border-r-0 bg-gray-100 hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700'>Thông tin cá nhân</h1>
+                    <div className='flex flex-row border-2 border-gray-500 m-2 p-5 gap-10'>
+                        <div className='flex flex-col justify-center'>
+                            <img
+                                src={userData.avatar}
+                                alt={"Hình ảnh đại diện"}
+                                width={100}
+                                height={100}
+                                className="justify-self-center"
+                            />
+                            <p>{userData.name}</p>
+                        </div>
+                        <div className='grid grid-cols-1 items-start text-base font-mono text-normal'>
+                            <div className='grid grid-cols-3 justify-between'><p>Email:</p><p>{userData.email}</p></div>
+                            <div className='grid grid-cols-3 justify-between'><p>Địa chỉ:</p><p>{userData.address}</p></div>
+                            <div className='grid grid-cols-3 justify-between'><p>Số điện thoại:</p><p>{userData.phone}</p></div>
+                            <div className='grid grid-cols-3 justify-between'><p>Tuổi:</p><p>{userData.age}</p></div>
+                            <div className='grid grid-cols-3 justify-between'><p>Giới tính:</p><p>{userData.gender}</p></div>
+                        </div>
+                    </div>
                     <div className="flex flex-col gap-2"><p className="font-semibold text-gray-900 p-5 text-2xl">Trình độ học vấn</p> {data.education.map((mem: EducationAttr) => <EducationCard obj={mem} type="preview" data={content} key={mem.id} onCheck={onCheck} />)}</div>
                     <div className="flex flex-col gap-2"><p className="font-semibold text-gray-900 p-5 text-2xl">Kinh nghiệm làm việc</p> {data.experience.map((mem: ExperienceAttr) => <ExperienceCard obj={mem} type="preview" data={content} key={mem.id} onCheck={onCheck} />)}</div>
                     <div className="flex flex-col gap-2"><p className="font-semibold text-gray-900 p-5 text-2xl">Bằng cấp, chứng chỉ</p> {data.certificate.map((mem: CertificateAttr) => <CertificateCard obj={mem} type="preview" data={content} key={mem.id} onCheck={onCheck} />)}</div>
                     <div className="grid w-full max-w-sm items-center gap-1.5 pt-5">
-                        <Label htmlFor="CV của bạn"><p className="font-semibold text-gray-900 p-5 text-2xl">CV của bạn</p></Label>
+                        <Label htmlFor="CV đính kèm"><p className="font-semibold text-gray-900 p-5 text-2xl">CV đính kèm</p></Label>
                     </div>
 
                 </div>
-                <div className='flex justify-center'>
-                    <Button type="submit" className='bg-green-700 w-20'>
+                <div className='flex justify-center gap-10'>
+                    <Button type="submit" className='bg-green-700 w-20' onClick={AcceptCV}>
                         Chấp thuận
                     </Button>
-                    <Button type="submit" className='bg-red-700 w-20'>
+                    <Button type="submit" className='bg-red-700 w-20' onClick={DenyCV}>
                         Từ chối
                     </Button>
+                    <Link href="/recruitment/manage">
+                        <Button type="submit" className='bg-gray-600 w-20'>
+                            Thoát
+                        </Button>
+                    </Link>
                 </div>
             </div>
-            //</form>
         )
     }
 
     console.log(content.eduCheck)
     return (
-        <div className='flex flex-row w-full gap-3 p-5'>
-            <div className="flex flex-col w-1/2 justify-start gap-10">
-                <RecordForm data={content} />
-            </div>
+        <div className='w-full flex flex-row'>
+            <div className='w-1/4'></div>
+            <RecordForm data={content} />
+            <div className='w-1/4'></div>
         </div>
     )
 }

@@ -50,12 +50,12 @@ export default function Experience({ type, data, onCheck }: { type: string, data
   return (
     <Card className="drop-shadow-sm h-[300px] pb-2 bg-gray-50">
       <CardHeader className="flex flex-row border-b-2 rounded-t-lg bg-[#7AB2D3]">
-        <p className="text-lg font-semibold text-gray-800">Experience</p>
-        <Button className="ml-auto pr-[15px] bg-orange-500 border-2 border-white flex flex-col item-start w-8 h-8">
-          {/* <AddExperience /> */}
+        <p className="text-xl font-semibold text-gray-800">Kinh nghiệm làm việc</p>
+        <Button className="ml-auto pr-[15px] border-2 border-yellow-400 hover:bg-yellow-400 bg-transparent flex flex-col item-start w-8 h-8">
+          <AddExperience data={data} onCheck={onCheck}/>
         </Button>
       </CardHeader>
-      <CardContent className="py-5 gap-1 h-3/4 bg-gray-50">
+      <CardContent className="py-5 gap-1 h-3/4">
         {(data.experience.length == 0) ?
           <h1 className="w-full h-full text-center p-20 text-gray-500">
             Chưa có dữ liệu
@@ -137,7 +137,7 @@ interface ExperienceProps {
 }
 
 
-export function AddExperience(onCheck : RecordType) {
+export function AddExperience({data, onCheck} : {data: RecordType, onCheck: (data : RecordType) => void}) {
   const [open, setOpen] = useState(false);
 
   const form = useForm<z.infer<typeof ExperienceSchema>>({
@@ -161,7 +161,7 @@ export function AddExperience(onCheck : RecordType) {
     values.url = "abc.com";
     values.image = "net.jpg";
 
-    return await fetch(apiUrl, {
+    const result = await fetch(apiUrl, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -181,7 +181,7 @@ export function AddExperience(onCheck : RecordType) {
           return {
             message: data.message,
             success: true,
-            data: data.data[0],
+            data: data.data,
           };
         }
       })
@@ -191,18 +191,27 @@ export function AddExperience(onCheck : RecordType) {
           success: false,
           data: null,
         };
+      })
+      if (result.success) {
+      const newdata = JSON.parse(JSON.stringify(data));
+      const newinfo : ExperienceAttr = {
+        id: result.data.id,
+        company: result.data.company,
+        position: result.data.position,
+        description: result.data.description,
+        startDate: result.data.startDate,
+        endDate: result.data.endDate
       }
-        // if (result.success) {
-        //     toast.success(result.message);
-        //     router.push("/login");
-        // } else toast.error("Đã xảy ra lỗi");
-      );
+      newdata.experience.push(newinfo); 
+      newdata.expCheck.push(true);
+      onCheck(newdata);
+    }
   }
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
           <div className="flex items-center justify-center w-5 h-5 rounded-full transition duration-200 ease-in-out cursor-pointer">
-            <IoMdAdd className="text-4xl text-white" />
+            <IoMdAdd className="text-4xl text-yellow-400 hover:text-white hover:bg-white font-bold" />
           </div>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
@@ -212,95 +221,70 @@ export function AddExperience(onCheck : RecordType) {
             Nhập thông tin mà bạn muốn thêm vào
           </DialogDescription>
         </DialogHeader>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-            <FormField
-              control={form.control}
-              name="company"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Công ty</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="AAA"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <div className="grid gap-4 py-4">
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="company" className="text-right">
+              Công ty
+            </Label>
+            <Input
+              {...form.register("company")}
+              id="company"
+              placeholder="JobCenter..."
+              className="col-span-3"
             />
-            <FormField
-              control={form.control}
-              name="position"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Vị trí</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Quản lý"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="position" className="text-right">
+              Vị trí
+            </Label>
+            <Input
+              {...form.register("position")}
+              id="position"
+              placeholder="Dev..."
+              className="col-span-3"
             />
-            <FormField
-              control={form.control}
-              name="description"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Chi tiết</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Mô tả"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormDescription>
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="description" className="text-right">
+              Mô tả
+            </Label>
+            <Input
+              {...form.register("description")}
+              id="description"
+              placeholder="..."
+              className="col-span-3"
             />
-            <FormField
-              control={form.control}
-              name="startDate"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Start</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="1/1/2020"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="start" className="text-right">
+              Ngày bắt đầu
+            </Label>
+            <Input
+              {...form.register("startDate")}
+              id="start"
+              type="date"
+              placeholder="dd/mm/yyyy"
+              className="col-span-3"
             />
-            <FormField
-              control={form.control}
-              name="endDate"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Start</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="1/1/2024"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="end" className="text-right">
+              Ngày kết thúc
+            </Label>
+            <Input
+              {...form.register("endDate")}
+              id="end"
+              type="date"
+              placeholder="dd/mm/yyyy"
+              className="col-span-3"
             />
-            <Button type="submit" className="bg-blue-800">
+          </div>
+        </div>
+          <Button type="submit" className="bg-blue-800">
               Thêm
-            </Button>
-          </form>
-        </Form>
+          </Button>
+        </form>
       </DialogContent>
     </Dialog>
   )

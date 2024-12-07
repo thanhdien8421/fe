@@ -57,9 +57,9 @@ export default function Certificate({ type, data, onCheck }: { type: string, dat
   return (
     <Card className="drop-shadow-sm h-[300px] pb-2 bg-gray-50">
       <CardHeader className="flex flex-row border-b-2 rounded-t-lg bg-[#4A628A]">
-        <p className="text-lg font-semibold text-gray-800">Chứng chỉ</p>
-          <Button className="ml-auto pr-[15px] bg-orange-500 border-2 border-white flex flex-col item-start w-8 h-8">
-            <AddCertificate />
+        <p className="text-xl font-semibold text-gray-800">Bằng cấp, chứng chỉ</p>
+          <Button className="ml-auto pr-[15px] bg-transparent hover:bg-yellow-200 border-2 border-yellow-200 flex flex-col item-start w-8 h-8">
+            <AddCertificate data={data} onCheck={onCheck}/>
           </Button>
       </CardHeader>
       <CardContent className="py-5 gap-1 h-3/4">
@@ -137,7 +137,7 @@ interface CertificateProps {
   onCheck: (data: RecordType) => void
 }
 
-export function AddCertificate() {
+export function AddCertificate({data, onCheck} : {data: RecordType, onCheck: (data : RecordType) => void}) {
   const [open, setOpen] = useState(false);
 
   const form = useForm<z.infer<typeof CertificateSchema>>({
@@ -159,7 +159,7 @@ export function AddCertificate() {
     values.url = "abc.com";
     values.image = "net.jpg";
 
-    return await fetch(apiUrl, {
+    const result = await fetch(apiUrl, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -179,7 +179,7 @@ export function AddCertificate() {
           return {
             message: data.message,
             success: true,
-            data: data.data[0],
+            data: data.data,
           };
         }
       })
@@ -189,18 +189,26 @@ export function AddCertificate() {
           success: false,
           data: null,
         };
+      })
+
+      if (result.success) {
+        const newdata = JSON.parse(JSON.stringify(data));
+        const newinfo : CertificateAttr = {
+          id: result.data.id,
+          name: result.data.name,
+          organization: result.data.organization,
+          verifiedDate: result.data.verifiedDate
+        }
+        newdata.certificate.push(newinfo); 
+        newdata.cerCheck.push(true);
+        onCheck(newdata);
       }
-        // if (result.success) {
-        //     toast.success(result.message);
-        //     router.push("/login");
-        // } else toast.error("Đã xảy ra lỗi");
-      );
   }
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
           <div className="flex items-center justify-center w-5 h-5 rounded-full transition duration-200 ease-in-out cursor-pointer">
-            <IoMdAdd className="text-4xl text-white" />
+            <IoMdAdd className="text-4xl text-yellow-400 text-bold" />
           </div>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
@@ -210,63 +218,47 @@ export function AddCertificate() {
             Nhập thông tin mà bạn muốn thêm vào
           </DialogDescription>
         </DialogHeader>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-            <FormField
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Tên</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="VSTEP"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <div className="grid gap-4 py-4">
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="name" className="text-right">
+              Tên gọi
+            </Label>
+            <Input
+              {...form.register("name")}
+              id="name"
+              placeholder="TOEIC/IELTS/TOEFL..."
+              className="col-span-3"
             />
-            <FormField
-              control={form.control}
-              name="organization"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Chuyên ngành</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="IIG"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="organization" className="text-right">
+              Tổ chức
+            </Label>
+            <Input
+              {...form.register("organization")}
+              id="organization"
+              defaultValue="British Council/IDP/IIG..."
+              className="col-span-3"
             />
-            <FormField
-              control={form.control}
-              name="verifiedDate"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Chi tiết</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Ngày cấp"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormDescription>
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="verifiedDate" className="text-right">
+              Ngày cấp
+            </Label>
+            <Input
+              {...form.register("verifiedDate")}
+              id="verifiedDate"
+              type="date"
+              placeholder="dd/mm/yyyy"
+              className="col-span-3"
             />
-            <Button type="submit" className="bg-blue-800">
+          </div>
+        </div>
+          <Button type="submit" className="bg-blue-800">
               Thêm
-            </Button>
-          </form>
-        </Form>
+          </Button>
+        </form>
       </DialogContent>
     </Dialog>
   )

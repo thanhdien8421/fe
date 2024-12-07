@@ -70,8 +70,8 @@ export function SwitchForm() {
                         <div>
                           <p>Khi có cơ hội việc làm phù hợp, NTD sẽ liên hệ và trao đổi với bạn qua: </p>
                           <ul className="list-disc pl-5">
-                            <li>Nhắn tin qua Zalo</li>
-                            <li>NEmail và Số điện thoại của bạn</li>
+                            <li key={0}>Nhắn tin qua Zalo</li>
+                            <li key={1}>NEmail và Số điện thoại của bạn</li>
                           </ul>
                         </div>
                       ) : "Khi bạn cho phép, các NTD uy tín có thể chủ động kết nối và gửi đến bạn những cơ hội việc làm hấp dẫn nhất, giúp nhân đôi hiệu quả tìm việc."}

@@ -185,9 +185,9 @@ export default function Record() {
     const fetchAllData = async () => {
       try {
         const [certResponse, eduResponse, expResponse] = await Promise.all([
-          fetch(`http://localhost:8000/api/v1/certificates/employee/1`),
-          fetch(`http://localhost:8000/api/v1/educations/employee/1`),
-          fetch(`http://localhost:8000/api/v1/experiences/employee/1`),
+          fetch(`http://localhost:8000/api/v1/certificates/employee/${localStorage.getItem("userId")}`),
+          fetch(`http://localhost:8000/api/v1/educations/employee/${localStorage.getItem("userId")}`),
+          fetch(`http://localhost:8000/api/v1/experiences/employee/${localStorage.getItem("userId")}`),
         ]);
 
         if (!certResponse.ok || !eduResponse.ok || !expResponse.ok) {
@@ -224,12 +224,12 @@ export default function Record() {
         <div className="block w-full p-6 bg-gray-100 border border-gray-300 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
           <Textarea
             {...form.register("title")}
-            placeholder="Title"
+            placeholder="Tiêu đề"
             className="min-h-10 border-b-1 rounded-b-none border-black border-l-0 border-t-0 border-r-0 bg-gray-100 hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700"
           />
           <Textarea
             {...form.register("description")}
-            placeholder="Title"
+            placeholder="Ghi chú"
             className="mt-8 min-h-40 h-fit bg-gray-100 border border-gray-300 hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
           />
           <div className="flex flex-col gap-2">

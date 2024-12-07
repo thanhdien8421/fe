@@ -5,7 +5,7 @@ import Link from "next/link";
 export default function EditButton({val} : {val : string}) {
     return(
         <Link href={val}>
-        <Button className="text-green-500 bg-white border-green-500 border-2 w-8 h-8">
+        <Button className="text-green-500 bg-white border-green-500 hover:bg-green-200 border-2 w-8 h-8">
             <FaPen/>
         </Button>
         </Link>

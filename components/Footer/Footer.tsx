@@ -12,17 +12,17 @@ const Footer = () => {
         <div>
           <h3 className="font-bold mb-3">Hỗ trợ</h3>
           <ul>
-            <li>
+            <li key={1}>
               <Link href="/category/new-arrivals">
                 <span className="cursor-pointer hover:underline">Viết CV</span>
               </Link>
             </li>
-            <li>
+            <li key={2}>
               <Link href="/category/sale">
                 <span className="cursor-pointer hover:underline">Hướng dẫn sử dụng</span>
               </Link>
             </li>
-            <li>
+            <li key={3}>
               <Link href="/category/top-rated">
                 <span className="cursor-pointer hover:underline">Báo cáo sự cố</span>
               </Link>
@@ -32,17 +32,17 @@ const Footer = () => {
         <div>
           <h3 className="font-bold mb-3">Về chúng tôi</h3>
           <ul>
-            <li>
+            <li key={1}>
               <Link href="/about">
                 <span className="cursor-pointer hover:underline">Giới thiệu</span>
               </Link>
             </li>
-            <li>
+            <li key={2}>
               <Link href="/contact">
                 <span className="cursor-pointer hover:underline">Cơ cấu</span>
               </Link>
             </li>
-            <li>
+            <li key={3}>
               <Link href="/policy">
                 <span className="cursor-pointer hover:underline">Thống kê</span>
               </Link>
@@ -52,17 +52,17 @@ const Footer = () => {
         <div>
           <h3 className="font-bold mb-3">Liên hệ</h3>
           <ul>
-            <li>
+            <li key={1}>
               <Link href="/account/orders">
                 <span className="cursor-pointer hover:underline">Địa chỉ</span>
               </Link>
             </li>
-            <li>
+            <li key={2}>
               <Link href="/account/settings">
                 <span className="cursor-pointer hover:underline">Email</span>
               </Link>
             </li>
-            <li>
+            <li key={3}>
               <Link href="/account/help">
                 <span className="cursor-pointer hover:underline">Hotline</span>
               </Link>

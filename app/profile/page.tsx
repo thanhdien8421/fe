@@ -68,8 +68,8 @@ export default function Account() {
                     fetch(`http://localhost:8000/api/v1/records/employee/${localStorage.getItem("userId")}`)
                 ]);
 
-                if (!userResponse || !certResponse.ok || !eduResponse.ok || !expResponse.ok || !recordResponse.ok) {
-                    throw new Error("Failed to fetch one or more resources.");
+                if (!userResponse.ok) {
+                    throw new Error("Failed to load user info");
                 }
                 
                 const userInfo = await userResponse.json();
@@ -101,10 +101,11 @@ export default function Account() {
     }, [currentPage]);
 
     console.log(content);
+    console.log(userData);
     return (
         <div className="flex flex-row p-2 gap-20 ">
             <div className="flex flex-col w-1/3 gap-5">
-                <div className="w-2/3 flex flex-col items-center">
+                <div className="w-2/3 flex flex-col items-center mt-5">
                     <Card className="h-fit drop-shadow-md">
                         <CardContent className="my-5 border-b-2">
                             <div className="flex items-center gap-5">
@@ -137,7 +138,7 @@ export default function Account() {
                 <Profile data={userData}/>
             </div>
             <div className="flex flex-col gap-5 w-3/5 h-fit pt-5 pb-5">
-                <RecordList data={recordlist} />
+                <RecordList data={recordlist}/>
                 <Education type={"profile"} data={content} onCheck={onCheck} />
                 <Experience type={"profile"} data={content} onCheck={onCheck} />
                 <Certificate type={"profile"} data={content} onCheck={onCheck} />

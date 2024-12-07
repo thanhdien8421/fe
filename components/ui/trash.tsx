@@ -36,7 +36,7 @@ export default function TrashButton({val} : {val : string}) {
         }
     }
     return(
-        <Button className="text-red-700 bg-white border-red-700 border-2 w-8 h-8" onClick={() => onClick(val)}>
+        <Button className="text-red-700 bg-white border-red-700 border-2 w-8 h-8 hover:bg-red-200" onClick={() => onClick(val)}>
             <FaTrashAlt/>
         </Button>
     )
