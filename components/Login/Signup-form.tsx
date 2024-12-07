@@ -51,21 +51,19 @@ export function SignupForm() {
   });
   const [isPending, startTransition] = useTransition();
 
-  async function fakeSubmit(values: any) {
-    return new Promise((resolve) => setTimeout(() => resolve(values), 2000));
-  }
-
   function onSubmit(values: z.infer<typeof SignupSchema>) {
     startTransition(async () => {
       const result = await SignUp(values);
-      if (result.success == true) {
+      if (result.success) {
         localStorage.setItem("userEmail", result.data.email);
         localStorage.setItem("userId", result.data.id);
         localStorage.setItem("userName", result.data.name);
-        localStorage.setItem("type", result.data.type);
-        toast.success(result.message);
-        router.push("/profile?role=1");
-      } else toast.error("Đã xảy ra lỗi");
+        toast.success("Đăng ký tài khoản thành công");
+        router.push("/signup/info-update");
+      } else if (result.data.type == "Email đã tồn tại") 
+        toast.error("Email đã tồn tại. Vui lòng sử dụng email khác.");
+        else toast.error("Đã xảy ra lỗi. Vui lòng thử lại.");
+        console.log(result)
     });
   }
   return (
@@ -151,14 +149,13 @@ export function SignupForm() {
                 </FormItem>
               )}
             />
-
             <Button type="submit" disabled={isPending} className="bg-blue-800">
               Đăng ký
             </Button>
           </form>
         </CardContent>
         <CardFooter>
-          <pre> </pre>
+          <pre>                                             </pre>
         </CardFooter>
       </Card>
     </Form>

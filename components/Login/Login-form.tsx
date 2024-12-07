@@ -54,21 +54,21 @@ export function LoginForm() {
   function onSubmit(values: z.infer<typeof LoginSchema>) {
     startTransition(async () => {
       const result = await Login(values);
-      console.log(result);
-      if (result.success == true) {
-        console.log(result);
+      if (result.success) {
         toast.success(result.message);
         console.log(result.user);
         localStorage.setItem("userEmail", result.user?.email);
         localStorage.setItem("userId", result.user?.id);
         localStorage.setItem("userName", result.user?.name);
         localStorage.setItem("type", result.user?.type);
-        if (result.user?.type === "Employee") {
+        if (result.user?.type === null) router.push("/");
+        if (result.user?.type == "Employee") {
           localStorage.setItem("phone", result.user?.phone);
+          router.push("/profile");
         }
-
-        router.push("/profile");
-      } else toast.error(result.message);
+        else router.push("/recruitment/manage");
+      }
+      else toast.error(result.message);
     });
   }
   return (

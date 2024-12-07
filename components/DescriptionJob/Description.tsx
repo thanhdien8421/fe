@@ -17,7 +17,7 @@ export function Itemdescription({ title, des }: ItemdescriptionProp) {
       <strong className="text-xl   ">{title}</strong>
       <ul className="list-disc pl-[20px] text-gray-600 mt-[10px]">
         {des.map((title: string) => (
-          <li>{title}</li>
+          <li key={title}>{title}</li>
         ))}
       </ul>
     </div>

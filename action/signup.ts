@@ -13,6 +13,7 @@ export async function SignUp(values: z.infer<typeof SignupSchema>) {
     email: values.email,
     password: values.password,
     name: values.name,
+    avatar: "https://github.com/shadcn.png"
   };
   const apiUrl = "http://localhost:8000/api/v1/employees";
 

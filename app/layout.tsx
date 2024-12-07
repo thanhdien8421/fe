@@ -18,15 +18,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <title>CV Website</title>
+      <title>JobCenter</title>
       <body>
-        <NavBar />
+        <div className="relative z-50">
+          <NavBar/>
+        </div>
         <ReduxProvider>
-        <ProgressBarLayout>
-          {children}
-        </ProgressBarLayout>
+          <ProgressBarLayout>
+            {children}
+          </ProgressBarLayout>
         </ReduxProvider>
-        <Footer/>
+        <Footer />
       </body>
     </html>
   );
