@@ -25,7 +25,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
+} from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -44,9 +44,9 @@ export function ProfileUpdate() {
   const [userId, setUserId] = React.useState("");
   const [nameUser, setNameUser] = React.useState("");
   const role = useSearchParams().get("role");
-  const [isPending, startTransition] = React.useTransition()
+  const [isPending, startTransition] = React.useTransition();
 
-  const router = useRouter()
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof ProfileUpdateSchema>>({
     resolver: zodResolver(ProfileUpdateSchema),
@@ -57,14 +57,14 @@ export function ProfileUpdate() {
       address: "",
       name: "",
       gender: "",
-      age: 18
-    }
-  })
+      age: 18,
+    },
+  });
 
   function onSubmit(values: z.infer<typeof ProfileUpdateSchema>) {
     startTransition(async () => {
       const result = await FirstUpdateProfile(values);
-      if (result.success) {
+      if (result.success == true) {
         toast.success("Cập nhật thành công. Quay về trang đăng nhập.");
         router.push("/login");
       } else toast.error("Đã xảy ra lỗi");
@@ -108,8 +108,8 @@ export function ProfileUpdate() {
             </CardContent>
             <CardFooter className="flex flex-col">
               <p className="max-w-[300px] text-justify">
-                Chỉ cần một vài bước nữa thôi là bạn sẽ có thể tìm kiếm công việc ngay lập tức
-                cùng <b>JobCenter</b>!
+                Chỉ cần một vài bước nữa thôi là bạn sẽ có thể tìm kiếm công
+                việc ngay lập tức cùng <b>JobCenter</b>!
               </p>
               <p className="max-w-[300px] text-justify">
                 Hãy hoàn thành bằng cách điền vào biểu mẫu bên cạnh.
@@ -120,21 +120,33 @@ export function ProfileUpdate() {
         <Form {...form}>
           <Card className="drop-shadow-lg w-1/3">
             <CardHeader className="w-full">
-              <CardTitle className="text-3xl font-bold pb-5">Cập nhật thông tin cá nhân</CardTitle>
+              <CardTitle className="text-3xl font-bold pb-5">
+                Cập nhật thông tin cá nhân
+              </CardTitle>
               <CardDescription className="w-2/3">
-                Những thông tin cần thiết để chúng tôi và <br></br> nhà tuyển dụng biết bạn là ai
+                Những thông tin cần thiết để chúng tôi và <br></br> nhà tuyển
+                dụng biết bạn là ai
               </CardDescription>
             </CardHeader>
             <CardContent className="font-sans">
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+              <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="space-y-8"
+              >
                 <FormField
                   control={form.control}
                   name="phone"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel><b>Số điện thoại</b></FormLabel>
+                      <FormLabel>
+                        <b>Số điện thoại</b>
+                      </FormLabel>
                       <FormControl>
-                        <Input {...field} placeholder="0xxxxxxxxx" disabled={isPending} />
+                        <Input
+                          {...field}
+                          placeholder="0xxxxxxxxx"
+                          disabled={isPending}
+                        />
                       </FormControl>
                       <FormDescription>
                         Số điện thoại chính dùng để liên hệ
@@ -148,9 +160,15 @@ export function ProfileUpdate() {
                   name="address"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel><b>Địa chỉ</b></FormLabel>
+                      <FormLabel>
+                        <b>Địa chỉ</b>
+                      </FormLabel>
                       <FormControl>
-                        <Input {...field} placeholder="123 Đồng Khởi, Q.1, Tp.HCM" disabled={isPending} />
+                        <Input
+                          {...field}
+                          placeholder="123 Đồng Khởi, Q.1, Tp.HCM"
+                          disabled={isPending}
+                        />
                       </FormControl>
                       <FormDescription>
                         Địa chỉ thường trú hoặc nơi ở hiện tại
@@ -164,9 +182,19 @@ export function ProfileUpdate() {
                   name="age"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel><b>Tuổi</b></FormLabel>
+                      <FormLabel>
+                        <b>Tuổi</b>
+                      </FormLabel>
                       <FormControl>
-                        <Input {...field} type="number" name="quantity" min="18" max="150" placeholder="18" disabled={isPending} />
+                        <Input
+                          {...field}
+                          type="number"
+                          name="quantity"
+                          min="18"
+                          max="150"
+                          placeholder="18"
+                          disabled={isPending}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -177,8 +205,13 @@ export function ProfileUpdate() {
                   name="gender"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel><b>Giới tính</b></FormLabel>
-                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <FormLabel>
+                        <b>Giới tính</b>
+                      </FormLabel>
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
                         <FormControl>
                           <SelectTrigger>
                             <SelectValue placeholder="Chọn" />
@@ -194,7 +227,13 @@ export function ProfileUpdate() {
                     </FormItem>
                   )}
                 />
-                <Button type="submit" disabled={isPending} className="bg-blue-800">Cập nhật</Button>
+                <Button
+                  type="submit"
+                  disabled={isPending}
+                  className="bg-blue-800"
+                >
+                  Cập nhật
+                </Button>
               </form>
             </CardContent>
           </Card>
@@ -210,12 +249,14 @@ async function FirstUpdateProfile(values: z.infer<typeof ProfileUpdateSchema>) {
     phone: values.phone,
     address: values.address,
     gender: values.gender,
-    age: values.age
+    age: values.age,
   };
 
   console.log(JSON.stringify(data));
 
-  const apiUrl = `http://localhost:8000/api/v1/employees/${localStorage.getItem("userId")}`;
+  const apiUrl = `http://localhost:8000/api/v1/employees/${localStorage.getItem(
+    "userId"
+  )}`;
 
   return await fetch(apiUrl, {
     method: "PATCH",

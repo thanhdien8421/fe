@@ -35,6 +35,7 @@ export async function Login(values: z.infer<typeof LoginSchema>) {
     if (result?.response?.error) {
       throw new Error(result?.response?.error);
     }
+
     return {
       message: "Đăng nhập thành công",
       success: true,
@@ -43,7 +44,7 @@ export async function Login(values: z.infer<typeof LoginSchema>) {
   } catch (error) {
     return {
       message: "Tài khoản hoặc mât khẩu không chính xác",
-      success: true,
+      success: false,
       user: null,
     };
   }
