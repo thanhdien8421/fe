@@ -58,12 +58,11 @@ export function SignupForm() {
   function onSubmit(values: z.infer<typeof SignupSchema>) {
     startTransition(async () => {
       const result = await SignUp(values);
-      if (result.success) {
+      if (result.success == true) {
         localStorage.setItem("userEmail", result.data.email);
         localStorage.setItem("userId", result.data.id);
         localStorage.setItem("userName", result.data.name);
         localStorage.setItem("type", result.data.type);
-
         toast.success(result.message);
         router.push("/profile?role=1");
       } else toast.error("Đã xảy ra lỗi");

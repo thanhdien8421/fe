@@ -166,7 +166,7 @@ export default function Record() {
     const result = await CreateRecord(values);
     console.log(result);
     const update = await UpdateEduExpCer(result.data.id);
-    if (result.success) router.push("/profile");
+    if (result.success == true) router.push("/profile");
   }
 
   const [loading, setLoading] = React.useState(true);

@@ -54,7 +54,9 @@ export function LoginForm() {
   function onSubmit(values: z.infer<typeof LoginSchema>) {
     startTransition(async () => {
       const result = await Login(values);
-      if (result.success) {
+      console.log(result);
+      if (result.success == true) {
+        console.log(result);
         toast.success(result.message);
         console.log(result.user);
         localStorage.setItem("userEmail", result.user?.email);
@@ -64,6 +66,7 @@ export function LoginForm() {
         if (result.user?.type === "Employee") {
           localStorage.setItem("phone", result.user?.phone);
         }
+
         router.push("/profile");
       } else toast.error(result.message);
     });
