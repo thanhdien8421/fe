@@ -166,7 +166,7 @@ export default function Record() {
     const result = await CreateRecord(values);
     console.log(result);
     const update = await UpdateEduExpCer(result.data.id);
-    if (result.success == true) router.push("/profile");
+    if ((result.success == true) == true) router.push("/profile");
   }
 
   const [loading, setLoading] = React.useState(true);
@@ -185,9 +185,21 @@ export default function Record() {
     const fetchAllData = async () => {
       try {
         const [certResponse, eduResponse, expResponse] = await Promise.all([
-          fetch(`http://localhost:8000/api/v1/certificates/employee/${localStorage.getItem("userId")}`),
-          fetch(`http://localhost:8000/api/v1/educations/employee/${localStorage.getItem("userId")}`),
-          fetch(`http://localhost:8000/api/v1/experiences/employee/${localStorage.getItem("userId")}`),
+          fetch(
+            `http://localhost:8000/api/v1/certificates/employee/${localStorage.getItem(
+              "userId"
+            )}`
+          ),
+          fetch(
+            `http://localhost:8000/api/v1/educations/employee/${localStorage.getItem(
+              "userId"
+            )}`
+          ),
+          fetch(
+            `http://localhost:8000/api/v1/experiences/employee/${localStorage.getItem(
+              "userId"
+            )}`
+          ),
         ]);
 
         if (!certResponse.ok || !eduResponse.ok || !expResponse.ok) {

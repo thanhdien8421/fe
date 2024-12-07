@@ -54,16 +54,16 @@ export function SignupForm() {
   function onSubmit(values: z.infer<typeof SignupSchema>) {
     startTransition(async () => {
       const result = await SignUp(values);
-      if (result.success) {
+      if (result.success == true) {
         localStorage.setItem("userEmail", result.data.email);
         localStorage.setItem("userId", result.data.id);
         localStorage.setItem("userName", result.data.name);
         toast.success("Đăng ký tài khoản thành công");
         router.push("/signup/info-update");
-      } else if (result.data.type == "Email đã tồn tại") 
+      } else if (result.data.type == "Email đã tồn tại")
         toast.error("Email đã tồn tại. Vui lòng sử dụng email khác.");
-        else toast.error("Đã xảy ra lỗi. Vui lòng thử lại.");
-        console.log(result)
+      else toast.error("Đã xảy ra lỗi. Vui lòng thử lại.");
+      console.log(result);
     });
   }
   return (
@@ -155,7 +155,7 @@ export function SignupForm() {
           </form>
         </CardContent>
         <CardFooter>
-          <pre>                                             </pre>
+          <pre> </pre>
         </CardFooter>
       </Card>
     </Form>

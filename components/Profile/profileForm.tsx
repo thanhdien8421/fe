@@ -63,7 +63,7 @@ export default function Profile({ data }: { data: UserData }) {
   function onSubmit(values: z.infer<typeof ProfileUpdateSchema>) {
     startTransition(async () => {
       // const result = await FirstUpdateProfile(values);
-      // if (result.success) {
+      // if (result.success==true) {
       //     toast.success(result.message);
       //     router.push("/login");
       // } else toast.error("Đã xảy ra lỗi");

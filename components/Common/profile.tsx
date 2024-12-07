@@ -64,7 +64,7 @@ export function ProfileUpdate() {
   function onSubmit(values: z.infer<typeof ProfileUpdateSchema>) {
     startTransition(async () => {
       const result = await FirstUpdateProfile(values);
-      if (result.success == true) {
+      if ((result.success == true) == true) {
         toast.success("Cập nhật thành công. Quay về trang đăng nhập.");
         router.push("/login");
       } else toast.error("Đã xảy ra lỗi");

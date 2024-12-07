@@ -82,7 +82,7 @@ export const UploadCVForm = ({ id, title }: UploadCVFormProps) => {
     // ✅ This will be type-safe and validated.
     startTransition(async () => {
       const result = await UploadCV(values);
-      if (result.success) {
+      if (result.success == true) {
         toast.success(result.message);
       } else toast.error("Đã xảy ra lỗi");
     });
@@ -295,7 +295,7 @@ export const UploadCVForm = ({ id, title }: UploadCVFormProps) => {
   );
 };
 
-export function UploadYourCV({id} : {id : string}) {
+export function UploadYourCV({ id }: { id: string }) {
   const [isPending, startTransition] = useTransition();
   const [hidden, setHidden] = useState<boolean>(true);
   const [fileName, setFileName] = useState<string>("");
@@ -317,26 +317,26 @@ export function UploadYourCV({id} : {id : string}) {
     // ✅ This will be type-safe and validated.
     startTransition(async () => {
       const result = await UploadCV(values);
-      if (result.success) {
+      if (result.success == true) {
         toast.success(result.message);
       } else toast.error("Đã xảy ra lỗi");
     });
   }
   return (
     <div>
-    <Toaster />
-    <button
-      className="bg-[#00b14f] rounded-[7px] p-[7px] font-semibold text-white hover:bg-green-600"
-      onClick={() => setHidden(false)}
-      disabled={isPending}
-    >
-      Ứng tuyển ngay
-    </button>
-    {!hidden && (
-      <div className="bg-gray-500 fixed w-screen h-screen bg-opacity-25 top-0 left-0 flex justify-center items-center">
-        <RecordList/>
-      </div>
-    )}
-  </div>
-  )
+      <Toaster />
+      <button
+        className="bg-[#00b14f] rounded-[7px] p-[7px] font-semibold text-white hover:bg-green-600"
+        onClick={() => setHidden(false)}
+        disabled={isPending}
+      >
+        Ứng tuyển ngay
+      </button>
+      {!hidden && (
+        <div className="bg-gray-500 fixed w-screen h-screen bg-opacity-25 top-0 left-0 flex justify-center items-center">
+          <RecordList />
+        </div>
+      )}
+    </div>
+  );
 }
