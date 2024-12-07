@@ -1,4 +1,3 @@
-"use client"
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
@@ -6,7 +5,6 @@ import NavBar from "@/components/NavigationBar/NavBar";
 import { ProgressBarLayout } from "@/components/Common/process-bar";
 import Footer from "@/components/Footer/Footer";
 import ReduxProvider from "@/hooks/redux-provider";
-import { useEffect, useState } from "react";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -18,14 +16,12 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const setState = (state: boolean) => {setIsLoggedIn(state)}
   return (
     <html lang="en">
       <title>JobCenter</title>
       <body>
         <div className="relative z-50">
-          <NavBar state={isLoggedIn} setState={setState}/>
+          <NavBar/>
         </div>
         <ReduxProvider>
           <ProgressBarLayout>

@@ -8,7 +8,8 @@ import { HoverCard } from '@radix-ui/react-hover-card'
 import { HoverCardContent, HoverCardTrigger } from '../ui/hover-card'
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
-const NavBar = ({state, setState} : {state: boolean, setState: (state: boolean) => void}) => {
+const NavBar = () => {
+  
   const navLink = [
     {
       id: "list1",
@@ -124,6 +125,8 @@ const NavBar = ({state, setState} : {state: boolean, setState: (state: boolean) 
     },
   ];
 
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  useEffect(() => {if (localStorage.getItem("type") !== null) setIsLoggedIn(true)}, [typeof window !== "undefined" ? window.localStorage.getItem('type') : null])
   return (
     <div className="bg-white drop-shadow-xl">
       <nav className="flex flex-row items-center justify-between ml-[20px] h-[100px] rounded-[10px] ">
@@ -144,7 +147,7 @@ const NavBar = ({state, setState} : {state: boolean, setState: (state: boolean) 
             <PartOfNavbar links={navLink} />
           </div>
         </div>
-        { (!state) ?
+        { (!isLoggedIn) ?
         <div className="flex space-x-4 m-7 text-[1rem]">
           <Link href={"/login"}>
           <button className="border border-sky-600 text-sky-600 px-4 py-2 rounded hover:bg-sky-600 hover:text-white transition duration-200">
@@ -178,7 +181,7 @@ const NavBar = ({state, setState} : {state: boolean, setState: (state: boolean) 
           <HoverCard>
           <HoverCardTrigger asChild>
           <Link href={"/"} passHref>
-          <MdLogout className="text-4xl text-gray-700" onClick={() => {localStorage.removeItem("type");localStorage.removeItem("userId");localStorage.removeItem("userName");localStorage.removeItem("userEmail"); localStorage.removeItem("phone");setState(false)}}/>
+          <MdLogout className="text-4xl text-gray-700" onClick={() => {localStorage.removeItem("type");localStorage.removeItem("userId");localStorage.removeItem("userName");localStorage.removeItem("userEmail"); localStorage.removeItem("phone");setIsLoggedIn(false)}}/>
           </Link>
           </HoverCardTrigger>
           <HoverCardContent className="rounded w-30 text-xs" side="left">
