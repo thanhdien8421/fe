@@ -13,7 +13,7 @@ export async function SignUp(values: z.infer<typeof SignupSchema>) {
     email: values.email,
     password: values.password,
     name: values.name,
-    avatar: "https://github.com/shadcn.png"
+    avatar: "https://github.com/shadcn.png",
   };
   const apiUrl = "http://localhost:8000/api/v1/employees";
 
@@ -28,7 +28,6 @@ export async function SignUp(values: z.infer<typeof SignupSchema>) {
       return response.json(); // Chuyển đổi phản hồi thành JSON
     })
     .then((data) => {
-      console.log("Data received:", data); // Xử lý dữ liệu nhận được
       if (data.error) {
         throw new Error("Error: " + data.error);
       } else {

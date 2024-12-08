@@ -15,7 +15,7 @@ import { FaRegEdit } from "react-icons/fa";
 import { MdDeleteSweep } from "react-icons/md";
 import { IoMdAdd } from "react-icons/io";
 import Link from "next/link";
-import { JobPostAndDescription } from "@/lib/interface";
+import { JobPostAndDescription, RecruitmentPost } from "@/lib/interface";
 import { useRouter } from "next/navigation";
 import { CiLock } from "react-icons/ci";
 
@@ -29,7 +29,7 @@ function formatDate(isoDate: string) {
 
 const RecruitmentedList = () => {
   const router = useRouter();
-  const [jobData, setJobData] = React.useState<JobPostAndDescription[]>([]);
+  const [jobData, setJobData] = React.useState<RecruitmentPost[]>([]);
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState<string>("");
   const [currentPage, setCurrentPage] = React.useState<number>(1);

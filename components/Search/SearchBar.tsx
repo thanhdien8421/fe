@@ -1,36 +1,153 @@
-'use client'
-import React from 'react'
-import Select2 from './Select2';
-import SearchTag from './SearchTag';
-import SearchInput from '../SearchInput/SearchInput';
+"use client";
+import React, { useState } from "react";
 
-interface SearchBarProps {
-    changeKeyword: React.Dispatch<React.SetStateAction<string>>
+// Định nghĩa kiểu dữ liệu cho form
+interface FormData {
+  industry: string;
+  minRating: number;
+  startDate: string;
+  endDate: string;
+  levelType: string;
 }
 
-const SearchBar: React.FC<SearchBarProps> = ({ changeKeyword }) => {
-    return (
-        <div className='flex flex-row text-center justify-between mt-3 mr-3 border-2 mb-3 rounded-lg bg-white box-border content-between z-10'>
-            <div className='m-3 px-4 py-2'>
-                <SearchTag />
-            </div>
-            <p className='m-3 px-4 py-5'>Bộ lọc kết quả:</p>
-            <Select2 />
-            <input
-                type="text"
-                placeholder="Từ khóa"
-                className="w-[300px] h-10 mt-6 rounded-md border focus-visible:ring-1 focus-visible:ring-slate-950 focus-visible:ring-offset-1 border-slate-200 bg-white px-3 py-2 text-sm ring-offset-white file:border-0 file:bg-transparent 
-                file:text-sm file:font-medium file:text-slate-950 placeholder:text-slate-500 focus-visible:outline-none  disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-800 dark:bg-slate-950 dark:ring-offset-slate-950 
-                dark:file:text-slate-50 dark:placeholder:text-slate-400 dark:focus-visible:ring-slate-300"
-                onChange={(e) => changeKeyword(e.target.value.toLowerCase())}
-            />
-            <div>
-                <button className="flex-1 bg-sky-600 text-white text-[1rem] rounded-md m-6 mr-5 px-4 py-2 hover:bg-green-700">
-                    Tìm kiếm
-                </button>
-            </div>
-        </div>
-    )
+interface SearchFormProps {
+  onSearch: (formData: FormData) => void; // Gửi dữ liệu tìm kiếm khi submit
 }
 
-export default SearchBar
+const SearchForm: React.FC<SearchFormProps> = ({ onSearch }) => {
+  const now = new Date(); // Lấy thời gian hiện tại
+
+  // Ngày đầu năm nay
+  const startOfYear = new Date(now.getFullYear(), 0, 1)
+    .toISOString()
+    .split("T")[0]; // 1/1 của năm nay
+
+  // Ngày cuối năm sau
+  const endOfNextYear = new Date(now.getFullYear() + 1, 11, 31)
+    .toISOString()
+    .split("T")[0]; // 31/12 của năm sau
+
+  // Khởi tạo state formData
+  const [formData, setFormData] = useState<FormData>({
+    industry: "",
+    minRating: 1,
+    startDate: startOfYear,
+    endDate: endOfNextYear,
+    levelType: "",
+  });
+
+  // Hàm xử lý sự kiện khi người dùng thay đổi giá trị input
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  // Hàm xử lý khi submit form
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    onSearch(formData); // Gọi onSearch và truyền dữ liệu form
+  };
+
+  return (
+    <form
+      onSubmit={handleSubmit}
+      className="flex  p-4 border-2 rounded-lg bg-white justify-around "
+    >
+      {/* Industry */}
+      <div className="flex flex-col">
+        <label htmlFor="industry" className="text-base font-semibold">
+          Industry:
+        </label>
+        <input
+          type="text"
+          id="industry"
+          name="industry"
+          className="p-2 border border-gray-300 rounded-md"
+          value={formData.industry}
+          onChange={handleChange}
+          placeholder="Enter industry"
+        />
+      </div>
+
+      {/* Min Rating */}
+      <div className="flex flex-col">
+        <label htmlFor="minRating" className="text-base font-semibold">
+          Min Rating:
+        </label>
+        <input
+          type="number"
+          id="minRating"
+          name="minRating"
+          className="p-2 border border-gray-300 rounded-md"
+          value={formData.minRating}
+          onChange={handleChange}
+          placeholder="Rating"
+        />
+      </div>
+
+      {/* Start Date */}
+      <div className="flex flex-col ">
+        <label htmlFor="startDate" className="text-base font-semibold">
+          Start Date:
+        </label>
+        <input
+          type="date"
+          id="startDate"
+          name="startDate"
+          className="p-2 border border-gray-300 rounded-md"
+          value={formData.startDate}
+          onChange={handleChange}
+        />
+      </div>
+
+      {/* End Date */}
+      <div className="flex flex-col">
+        <label htmlFor="endDate" className="text-base font-semibold">
+          End Date:
+        </label>
+        <input
+          type="date"
+          id="endDate"
+          name="endDate"
+          className="p-2 border border-gray-300 rounded-md"
+          value={formData.endDate}
+          onChange={handleChange}
+        />
+      </div>
+
+      {/* Level Type */}
+      <div className="flex flex-col">
+        <label htmlFor="levelType" className="text-base font-semibold">
+          Level Type:
+        </label>
+        <select
+          id="levelType"
+          name="levelType"
+          className="p-2 border border-gray-300 rounded-md"
+          value={formData.levelType}
+          onChange={handleChange}
+        >
+          <option value="Competition">Competition</option>
+          <option value="Attractiveness">Attractiveness</option>
+        </select>
+      </div>
+
+      {/* Submit Button */}
+      <div className="flex flex-col justify-center items-center mt-2">
+        <button
+          type="submit"
+          className="bg-sky-600 text-white text-lg rounded-md px-6 py-2 hover:bg-sky-700"
+        >
+          Tìm kiếm
+        </button>
+      </div>
+    </form>
+  );
+};
+
+export default SearchForm;

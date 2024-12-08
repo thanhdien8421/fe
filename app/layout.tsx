@@ -21,12 +21,10 @@ export default function RootLayout({
       <title>JobCenter</title>
       <body>
         <div className="relative z-50">
-          <NavBar/>
+          <NavBar />
         </div>
         <ReduxProvider>
-          <ProgressBarLayout>
-            {children}
-          </ProgressBarLayout>
+          <ProgressBarLayout>{children}</ProgressBarLayout>
         </ReduxProvider>
         <Footer />
       </body>

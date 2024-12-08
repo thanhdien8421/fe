@@ -1,57 +1,41 @@
-"use client"
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+"use client";
 import React from "react";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "../ui/button";
 import EditButton from "../ui/edit";
 import TrashButton from "../ui/trash";
 import { IoMdAdd } from "react-icons/io";
 import Link from "next/link";
 
-export default function RecordList({ data}: { data: Data[] }) {
-  const ed = [
-    {
-      id: 1,
-      title: "Nộp Vinamilk",
-      description: "ssccs",
-      CV: "file link",
-      experience: "[link kinh nghiệm]",
-      education: "[link education]",
-      certificate: "[link chứng chỉ]"
-    },
-    {
-      id: 2,
-      title: "Nộp Vinamilk",
-      description: "ssccs",
-      CV: "file link",
-      experience: "[link kinh nghiệm]",
-      education: "[link education]",
-      certificate: "[link chứng chỉ]"
-    },
-    {
-      id: 3,
-      title: "Nộp Vinamilk",
-      description: "ssccs",
-      CV: "file link",
-      experience: "[link kinh nghiệm]",
-      education: "[link education]",
-      certificate: "[link chứng chỉ]"
-    },
-  ];
+// Số lượng bản ghi trên mỗi trang
+const ITEMS_PER_PAGE = 5;
 
-  // const [data, setData] = React.useState<Data[]>([]);
-  const [loading, setLoading] = React.useState(true);
-  const [error, setError] = React.useState<string>("");
+export default function RecordList({ data }: { data: Data[] }) {
   const [currentPage, setCurrentPage] = React.useState<number>(1);
-  
+
+  // Tính toán tổng số trang
+  const totalPages = Math.ceil(data.length / ITEMS_PER_PAGE);
+
+  // Lấy dữ liệu của trang hiện tại
+  const currentData = data.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE
+  );
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const handlePrevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
   return (
-    <Card className="drop-shadow-sm h-[300px] pb-2  bg-gray-50 relative z-0">
+    <Card className="drop-shadow-sm h-[300px] pb-2 bg-gray-50 relative z-0">
       <CardHeader className="flex flex-row border-b-2 rounded-t-lg bg-green-200 justify-between">
         <div className="text-xl font-semibold text-gray-80 align-text-top">
           Danh sách hồ sơ
@@ -65,39 +49,53 @@ export default function RecordList({ data}: { data: Data[] }) {
         </Link>
       </CardHeader>
       <CardContent className="py-5 gap-1 h-3/4">
-        {(data.length == 0) ?
+        {data.length === 0 ? (
           <h1 className="w-full h-full text-center p-20 text-gray-500">
             Chưa có dữ liệu
           </h1>
-          :
+        ) : (
           <div className="flex flex-col overflow-y-auto gap-4 h-full">
-            {data.map((obj) => {
+            {currentData.map((obj) => {
               return (
-                <div className="flex flex-row justify-between w-full bg-gradient-to-b p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
-                  key={obj.id}>
-                  <div>
-                    <h2 className="text-xl font-semibold">{obj.title}</h2>
-                    <p>Nội dung: {obj.description}</p>
+                <div
+                  className="flex flex-row justify-between w-full bg-gradient-to-b p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
+                  key={obj.recordId}
+                >
+                  <div className="flex flex-col">
+                    <h2 className="text-xl font-semibold">{obj.recordTitle}</h2>
+
+                    <p>
+                      <strong>Số hồ sơ thành công:</strong>{" "}
+                      {obj.successfulApplications}
+                    </p>
+                    <p>
+                      <strong>Tỷ lệ thành công:</strong> {obj.successRate}%
+                    </p>
+                    <p>
+                      <strong>Hiệu suất:</strong> {obj.performance}
+                    </p>
                   </div>
                   <div className="flex flex-row gap-2">
-                    <EditButton val={'/record'} />
-                    <TrashButton val={`records/${obj.id}`} />
+                    <EditButton val={`/record/${obj.recordId}`} />
+                    <TrashButton val={`records/${obj.recordId}`} />
                   </div>
                 </div>
-              )
-            }
-            )}
+              );
+            })}
           </div>
-        }
+        )}
       </CardContent>
     </Card>
   );
 }
 
 interface Data {
-  id: number;
-  title: string;
-  description: string;
-  ownerId: number;
-  fileCvId: number
+  employeeId: number; // ID của nhân viên
+  employeeName: string; // Tên của nhân viên
+  recordId: number; // ID của hồ sơ công việc
+  recordTitle: string; // Tiêu đề của hồ sơ công việc
+  processedApplications: number; // Số lượng hồ sơ ứng tuyển đã được xử lý
+  successfulApplications: number; // Số lượng hồ sơ ứng tuyển thành công
+  successRate: number; // Tỷ lệ thành công
+  performance: string; // Đánh giá hiệu suất công việc
 }
