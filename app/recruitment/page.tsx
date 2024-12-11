@@ -110,7 +110,7 @@ export default function JobPage() {
       <div className=" mx-[10%]  pt-[60px] z-50 relative">
         <SearchForm onSearch={handleSearch} />
       </div>
-      <div className="text-center mt-[50px] mx-[12%] gap-[50px]  grid grid-cols-3 z-0 relative">
+      <div className="text-center mt-[50px] mx-[250px] gap-[50px]  grid grid-cols-4 z-0 relative">
         {jobData.map((job: JobPostAndDescription) => (
           <JobCard job={job} key={job.postId} />
         ))}

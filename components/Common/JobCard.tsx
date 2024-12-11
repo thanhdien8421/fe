@@ -11,10 +11,8 @@ export default function JobCard({ job }: { job: JobPostAndDescription }) {
       >
         <div className="relative group bg-gray-100 rounded-lg overflow-hidden shadow-lg">
           <img
-            className="w-full h-48 object-cover"
-            src={
-              "https://scontent.fsgn5-15.fna.fbcdn.net/v/t39.30808-6/467955374_1123651849761550_4970167985120770057_n.jpg?stp=dst-jpg_p526x296&_nc_cat=101&ccb=1-7&_nc_sid=833d8c&_nc_ohc=89zVEErWbuIQ7kNvgGiiU8a&_nc_zt=23&_nc_ht=scontent.fsgn5-15.fna&_nc_gid=A4P5vsgjR_fFl_Nt8118Fqn&oh=00_AYD8f3PgPzo5aCn3N7nP-g6y7APW-JSaOFQefRfHnvGUTA&oe=67451EBC"
-            }
+            className="w-full h-48 object-fit"
+            src={"/images/0f2d9460-23d7-4870-bc2b-133ca46f5d29.webp"}
             alt="Job Post Image"
           />
         </div>
