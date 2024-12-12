@@ -31,6 +31,7 @@ interface FormData {
 const RecruitmentedList = ({ params }: { params: { id: string } }) => {
   const router = useRouter();
   const [jobData, setJobData] = useState<RecordApply[]>([]);
+  const [isAscending, setIsAscending] = useState(true);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string>("");
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -123,6 +124,28 @@ const RecruitmentedList = ({ params }: { params: { id: string } }) => {
     setCurrentPage(1); // Reset to page 1 when a new search is done
     fetchJobDatafilter(formData);
   };
+
+  const handleDelete = async (value: any) => {
+    try {
+      const response = await fetch(
+        `http://localhost:8000/api/v1/records-post/record/${value}/post/${params.id}`,
+        {
+          method: "DELETE", // Phương thức DELETE
+          headers: {
+            "Content-Type": "application/json", // Đặt kiểu nội dung nếu cần
+            // Bạn có thể thêm các header khác nếu cần, như Authorization
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`Lỗi: ${response.status}`); // Kiểm tra lỗi
+      }
+      fetchJobData();
+    } catch (error) {
+      console.error("L��i xóa:", error);
+    }
+  };
   const formatDate = (dateString: string): string => {
     const date = new Date(dateString);
     const options = {
@@ -153,6 +176,13 @@ const RecruitmentedList = ({ params }: { params: { id: string } }) => {
   }
 
   const totalPages = Math.ceil(totalPosts / pageSize); // Tính tổng số trang
+  const sortItems = () => {
+    // const sortedItems = [...items].sort((a, b) => {
+    //     return isAscending ? a.status.localeCompare(b.status) : b.status.localeCompare(a.status);
+    // });
+    // setItems(sortedItems);
+    // setIsAscending(!isAscending);
+  };
 
   return (
     <div className="flex flex-col justify-center m-7">
@@ -254,7 +284,18 @@ const RecruitmentedList = ({ params }: { params: { id: string } }) => {
                 <TableHead className="w-[15%]">Email</TableHead>
                 <TableHead className="w-[20%]">Thời gian nộp</TableHead>
                 <TableHead className="w-[15%]">Xem chi tiết</TableHead>
-                <TableHead className="w-[15%]">Trạng thái</TableHead>
+                <TableCell
+                  className="w-[15%] cursor-pointer text-center flex items-center justify-center"
+                  onClick={sortItems}
+                >
+                  <span className="mr-2">Trạng thái</span>
+                  {isAscending ? (
+                    <ChevronUpIcon className="w-5 h-5 text-blue-500" />
+                  ) : (
+                    <ChevronDownIcon className="w-5 h-5 text-blue-500" />
+                  )}
+                </TableCell>
+                <TableHead className="w-[15%] text-center">Xóa</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -275,12 +316,29 @@ const RecruitmentedList = ({ params }: { params: { id: string } }) => {
                   </TableCell>
 
                   <TableCell className="text-start">
-                    <Button className="bg-sky-500 text-white rounded-md px-4 py-2 hover:bg-sky-600 transition duration-200">
-                      <Link href={`/record/${item.recordId}`}>Xem</Link>
+                    <Button
+                      onClick={() => {
+                        localStorage.setItem("postId", params.id);
+                        router.push(`/record/${item.recordId}`);
+                      }}
+                      className="bg-sky-500 text-white rounded-md px-4 py-2 hover:bg-sky-600 transition duration-200"
+                    >
+                      Xem
                     </Button>
                   </TableCell>
                   <TableCell className="text-start">
                     {item.applicationStatus}
+                  </TableCell>
+                  <TableCell>
+                    <Button
+                      className="bg-amber-500 hover:bg-amber-600"
+                      onClick={() => {
+                        handleDelete(item.recordId);
+                      }}
+                    >
+                      {/* <CiLock /> */}
+                      Xóa
+                    </Button>
                   </TableCell>
                 </TableRow>
               ))}

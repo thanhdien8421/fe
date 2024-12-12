@@ -28,13 +28,9 @@ import { UserData } from "@/components/Profile/profileForm";
 import Image from "next/image";
 import Link from "next/link";
 
-export default function RecordView({
-  recordId,
-  postId,
-}: {
-  recordId: number;
-  postId: number;
-}) {
+export default function RecordView({ params }: { params: { id: string } }) {
+  let recordId = params.id;
+  let postId = localStorage.getItem("postId");
   const [clicked, setClicked] = useState<Boolean>(false);
   const router = useRouter();
   const [content, setContent] = React.useState<RecordType>({
@@ -55,14 +51,13 @@ export default function RecordView({
     email: "",
     name: "",
     gender: "",
-    age: 18,
+    birthday: "",
     avatar: "",
   });
 
   const onCheck = (data: RecordType) => {};
 
   async function onSubmit(values: z.infer<typeof RecordSchema>) {
-    console.log(content);
     // if (result.success==true) router.push('');
   }
 
@@ -98,8 +93,6 @@ export default function RecordView({
           title: recordData.data.title,
           description: recordData.data.description,
         });
-        console.log("++++");
-        console.log(recordData);
 
         const [userResponse, cerResponse, eduResponse, expResponse] =
           await Promise.all([
@@ -138,7 +131,6 @@ export default function RecordView({
           expCheck: expData.data.map(() => true),
         });
         setUserData(userInfo.data);
-        console.log(cerData);
       } catch (error) {
         setError("An error occurred while fetching data.");
         console.error(error);
@@ -151,13 +143,26 @@ export default function RecordView({
   }, [currentPage]);
 
   const AcceptCV = async () => {
-    const data = {
-      recordId: recordId,
-      status: "APPROVED",
-      recruitmentPostId: postId,
-    };
+    let recruitmentPostId = 1;
+    if (postId !== null) {
+      // Chuyển đổi postId thành số nguyên
+      recruitmentPostId = parseInt(postId, 10);
 
-    const apiUrl = `http://localhost:8000/api/v1/record-post`;
+      // Kiểm tra nếu recruitmentPostId là một số hợp lệ
+      if (!isNaN(recruitmentPostId)) {
+        console.log("Recruitment Post ID:", recruitmentPostId);
+      } else {
+        console.error("Invalid postId, could not convert to integer.");
+      }
+    } else {
+      console.error("No postId found in localStorage.");
+    }
+    const data = {
+      recordId: parseInt(recordId, 10),
+      status: "Đã chấp nhận",
+      recruitmentPostId: recruitmentPostId,
+    };
+    const apiUrl = `http://localhost:8000/api/v1/records-post`;
 
     return await fetch(apiUrl, {
       method: "PATCH",
@@ -170,15 +175,10 @@ export default function RecordView({
         return response.json();
       })
       .then((data) => {
-        console.log("Data received:", data);
         if (data.error) {
           throw new Error("Error: " + data.error);
         } else {
-          return {
-            message: data.message,
-            success: true,
-            data: data.data,
-          };
+          router.push(`/recruitment/manage/recordApply/${postId}`);
         }
       })
       .catch((error) => {
@@ -189,15 +189,28 @@ export default function RecordView({
         };
       });
   };
-
   const DenyCV = async () => {
-    const data = {
-      recordId: recordId,
-      status: "REJECTED",
-      recruitmentPostId: postId,
-    };
+    let recruitmentPostId = 1;
+    if (postId !== null) {
+      // Chuyển đổi postId thành số nguyên
+      recruitmentPostId = parseInt(postId, 10);
 
-    const apiUrl = `http://localhost:8000/api/v1/record-post`;
+      // Kiểm tra nếu recruitmentPostId là một số hợp lệ
+      if (!isNaN(recruitmentPostId)) {
+        console.log("Recruitment Post ID:", recruitmentPostId);
+      } else {
+        console.error("Invalid postId, could not convert to integer.");
+      }
+    } else {
+      console.error("No postId found in localStorage.");
+    }
+
+    const data = {
+      recordId: parseInt(recordId, 10),
+      status: "Đã từ chối",
+      recruitmentPostId: recruitmentPostId,
+    };
+    const apiUrl = `http://localhost:8000/api/v1/records-post`;
 
     return await fetch(apiUrl, {
       method: "PATCH",
@@ -210,15 +223,10 @@ export default function RecordView({
         return response.json();
       })
       .then((data) => {
-        console.log("Data received:", data);
         if (data.error) {
           throw new Error("Error: " + data.error);
         } else {
-          return {
-            message: data.message,
-            success: true,
-            data: data.data,
-          };
+          router.push(`/recruitment/manage/recordApply/${postId}`);
         }
       })
       .catch((error) => {
@@ -263,7 +271,7 @@ export default function RecordView({
               </div>
               <div className="grid grid-cols-3 justify-between">
                 <p>Tuổi:</p>
-                <p>{userData.age}</p>
+                <p>{userData.birthday}</p>
               </div>
               <div className="grid grid-cols-3 justify-between">
                 <p>Giới tính:</p>
@@ -332,17 +340,20 @@ export default function RecordView({
           <Button type="submit" className="bg-red-700 w-20" onClick={DenyCV}>
             Từ chối
           </Button>
-          <Link href="/recruitment/manage">
-            <Button type="submit" className="bg-gray-600 w-20">
-              Thoát
-            </Button>
-          </Link>
+          <Button
+            type="submit"
+            className="bg-gray-600 w-20"
+            onClick={() => {
+              router.push(`/recruitment/manage/recordApply/${postId}`);
+            }}
+          >
+            Thoát
+          </Button>
         </div>
       </div>
     );
   };
 
-  console.log(content.eduCheck);
   return (
     <div className="w-full flex flex-row">
       <div className="w-1/4"></div>

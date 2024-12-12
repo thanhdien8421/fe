@@ -7,6 +7,7 @@ import { GiTakeMyMoney } from "react-icons/gi";
 import { RiMapPin2Line } from "react-icons/ri";
 import { TfiTime } from "react-icons/tfi";
 import { MdGroup } from "react-icons/md";
+import { boolean } from "zod";
 interface ItemdescriptionProp {
   title: string;
   des: string[];
@@ -75,10 +76,32 @@ export default function DescriptionJobPage({ job }: { job: any }) {
     );
   };
   const [rating, setRating] = useState(null);
+  const [save, setSave] = useState(boolean);
 
-  const submitRating = (value: any) => {
+  const submitRating = async (value: any) => {
     setRating(value);
-    alert(`Bạn đã đánh giá: ${value}`);
+
+    const body = {
+      rating: value,
+      saved: true,
+      employeeId: localStorage.getItem("userId"),
+      recruitmentPostId: job.id,
+    };
+    try {
+      console.log(body);
+      const response = await fetch(`http://localhost:8000/api/v1/evaluations`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body),
+      });
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+    } catch (error) {
+      console.error("Error submitting application:", error);
+    }
   };
   let Body = () => {
     return (
@@ -116,7 +139,14 @@ export default function DescriptionJobPage({ job }: { job: any }) {
           </div> */}
           <div className="flex gap-3 w-[950px] mt-10">
             <UploadCVForm recruitmentPostId={`${job.id}`} title={job.title} />
-            <Button variant={"secondary"}>Lưu tin</Button>
+            <Button
+              variant={"secondary"}
+              onClick={() => {
+                // setSave(true);
+              }}
+            >
+              Lưu tin
+            </Button>
           </div>
           <div className="text-center my-5">
             <h2 className="text-2xl font-semibold mb-4">Đánh giá của bạn:</h2>
@@ -131,11 +161,6 @@ export default function DescriptionJobPage({ job }: { job: any }) {
                 </button>
               ))}
             </div>
-            {rating !== null && (
-              <p className="mt-4 text-lg text-gray-700">
-                Bạn đã đánh giá: {rating}
-              </p>
-            )}
           </div>
         </div>
       </div>
