@@ -25,6 +25,7 @@ export function Itemdescription({ title, des }: ItemdescriptionProp) {
 }
 
 export default function DescriptionJobPage({ job }: { job: any }) {
+  console.log(job);
   const [rating, setRating] = useState<number>(0);
   const [save, setSave] = useState(false);
   let type = localStorage.getItem("type") ?? "Employee";
@@ -43,6 +44,7 @@ export default function DescriptionJobPage({ job }: { job: any }) {
       }
 
       const data = await response.json();
+
       setRating(data.data.rating || 0); // Đặt mặc định là 0 nếu không có rating
       setSave(data.data.saved || false);
     } catch (error) {
@@ -97,7 +99,7 @@ export default function DescriptionJobPage({ job }: { job: any }) {
             {
               icon: <GiTakeMyMoney size={30} color="white" />,
               label: "Mức lương",
-              value: job.salary || "Thỏa thuận",
+              value: "Up to " + job.salary + " USD" || "Thỏa thuận $",
             },
             {
               icon: <RiMapPin2Line size={30} color="white" />,
@@ -129,6 +131,14 @@ export default function DescriptionJobPage({ job }: { job: any }) {
       </div>
     </div>
   );
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString("vi-VN", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+  };
   const Body = () => (
     <div className="flex justify-center w-full mt-10">
       <div className="w-[950px] bg-white rounded-[15px] p-[30px]">
@@ -146,7 +156,17 @@ export default function DescriptionJobPage({ job }: { job: any }) {
           title="Thời gian làm việc"
           des={[job.employmentType]}
         />
+
         <Itemdescription title="Địa điểm làm việc" des={[job.location]} />
+
+        <Itemdescription
+          title="Ngày đăng:"
+          des={[formatDate(job.datePosted)]}
+        />
+        <Itemdescription
+          title="Hạn nộp hồ sơ:"
+          des={[formatDate(job.deadline)]}
+        />
         <Itemdescription
           title="Cách thức ứng tuyển"
           des={[
