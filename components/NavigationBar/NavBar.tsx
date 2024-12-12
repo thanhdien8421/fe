@@ -21,15 +21,11 @@ const NavBar = () => {
       title: "Hồ sơ & CV",
       url: "/record",
     },
-    {
-      id: "list3",
-      title: "Thông tin",
-      url: "/info",
-    },
+
     {
       id: "list4",
-      title: "Hướng dẫn",
-      url: "/manual",
+      title: "Company",
+      url: "/company",
     },
   ];
 
@@ -51,8 +47,8 @@ const NavBar = () => {
     },
     {
       id: "list4",
-      title: "Hướng dẫn",
-      url: "/manual",
+      title: "Company",
+      url: "/company",
     },
   ];
 

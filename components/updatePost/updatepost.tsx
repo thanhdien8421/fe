@@ -27,39 +27,48 @@ const UpdatePost: React.FC<UpdateFormProps> = ({ initJob }) => {
       quantity: Number(job.quantity),
       employmentType: job.employmentType,
       gender: job.gender || "Not required", // Mặc định là 'Not required'
-      recruitmentPostId: id,
+      recruitmentPostId: job.id,
     };
-    console.log(recruitmentPost);
-    try {
-      const response = await fetch(
-        `http://localhost:8000/api/v1/job-description/${id}`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(recruitmentPost),
-        }
-      );
+    console.log(`http://localhost:8000/api/v1/job-description/${job.id}`);
 
-      if (!response.ok) {
-        throw new Error("Failed to create recruitment post");
-      }
+    // try {
+    //   const response = await fetch(
+    //     `http://localhost:8000/api/v1/job-description/${job.id}`, // Cập nhật URL với ID thích hợp nếu cần
+    //     {
+    //       method: "PATCH",
+    //       headers: {
+    //         "Content-Type": "application/json",
+    //       },
+    //       body: JSON.stringify(recruitmentPost), // Chuyển đối tượng body thành chuỗi JSON
+    //     }
+    //   );
 
-      const result = await response.json();
-      if (result.error) {
-        alert(result.error);
-        return; // Nếu có l��i, thông báo và trả về.
-      }
-      router.push("/recruitment");
-      console.log("Recruitment post created:", result);
-    } catch (error) {
-      console.error("Error creating recruitment post:", error);
-    }
+    //   if (!response.ok) {
+    //     throw new Error("Failed to create recruitment post");
+    //   }
+
+    //   const result = await response.json();
+    //   if (result.error) {
+    //     alert(result.error);
+    //     return; // Nếu có l��i, thông báo và trả về.
+    //   }
+    //   router.push("/recruitment/manage");
+    //   console.log("Recruitment post created:", result);
+    // } catch (error) {
+    //   console.error("Error creating recruitment post:", error);
+    // }
   };
 
   const submitJobPost = async (job: RecruitmentPost) => {
-    let userId = localStorage.getItem("userId");
+    let userId: any = localStorage.getItem("userId"); // Có thể trả về 'string' hoặc 'null'
+
+    if (userId !== null) {
+      userId = parseInt(userId, 10); // Chuyển chuỗi thành số nguyên
+    } else {
+      console.error("UserId không tồn tại trong localStorage");
+      userId = null; // Hoặc gán giá trị mặc định nếu cần
+    }
+
     const jobPost = {
       title: job.title,
       description: job.description,
@@ -67,35 +76,32 @@ const UpdatePost: React.FC<UpdateFormProps> = ({ initJob }) => {
       deadline: job.deadline,
       employerId: userId,
     };
-    console.log(JSON.stringify(jobPost));
-    // try {
-    //   const response = await fetch(
-    //     "http://localhost:8000/api/v1/recruitment-post",
-    //     {
-    //       method: "PATCH",
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //       },
-    //       body: JSON.stringify(jobPost),
-    //     }
-    //   );
+    try {
+      const response = await fetch(
+        "http://localhost:8000/api/v1/recruitment-post",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(jobPost),
+        }
+      );
 
-    //   if (!response.ok) {
-    //     throw new Error("Failed to create job post");
-    //   }
+      if (!response.ok) {
+        throw new Error("Failed to create job post");
+      }
 
-    //   const result = await response.json();
-    //   if (result.error) {
-    //     alert(result.error);
-    //     return; // Nếu có lỗi, thông báo và trả về.
-    //   } else {
-
-    //     // await submitRecruitmentPost(result.data.id, job);
-    //   }
-    //   console.log("Job post created:", result);
-    // } catch (error) {
-    //   console.error("Error creating job post:", error);
-    // }
+      const result = await response.json();
+      if (result.error) {
+        alert(result.error);
+        return; // Nếu có lỗi, thông báo và trả về.
+      } else {
+        await submitRecruitmentPost(result.data.id, job);
+      }
+    } catch (error) {
+      console.error("Error creating job post:", error);
+    }
   };
 
   // Ví dụ cách gọi submitJobPost từ handleSubmit
@@ -284,8 +290,9 @@ const UpdatePost: React.FC<UpdateFormProps> = ({ initJob }) => {
           "Lead",
         ])}
         {renderSelect("experience", "Kinh nghiệm", experienceOptions)}
-        {renderInput("text", "salary", "Mức lương")}
+
         {renderInput("number", "quantity", "Số lượng")}
+        {renderInput("text", "salary", "Mức lương")}
         {renderSelect("employmentType", "Loại hình việc làm", [
           "Full-time",
           "Part-time",
