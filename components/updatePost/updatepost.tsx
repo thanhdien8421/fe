@@ -41,7 +41,7 @@ const UpdatePost: React.FC<UpdateFormProps> = ({ initJob }) => {
 
     try {
       const response = await fetch(
-        `http://localhost:8000/api/v1/job-description/${job.id}`, // Cập nhật URL với ID thích hợp nếu cần
+        `http://localhost:8000/api/v1/job-description/${id}`, // Cập nhật URL với ID thích hợp nếu cần
         {
           method: "PATCH",
           headers: {
@@ -105,9 +105,7 @@ const UpdatePost: React.FC<UpdateFormProps> = ({ initJob }) => {
         alert(result.error);
         return; // Nếu có lỗi, thông báo và trả về.
       } else {
-        console.log(result.data);
-
-        // await submitRecruitmentPost(result.data.id, job);
+        await submitRecruitmentPost(result.data[0].id, job);
       }
     } catch (error) {
       console.error("Error updating job post:", error);
