@@ -70,36 +70,37 @@ const NavBar = () => {
   });
 
   return (
-    <div className="bg-white drop-shadow-xl">
-      <nav className="flex flex-row items-center justify-between ml-[20px] h-[100px] rounded-[10px] gap-0 ">
-        <Link
-          href="/"
-          className=" justify-self-center col-start-1 mr-[5px] object-fit"
-        >
-          <Image
-            src="/images/logo.png"
-            alt="Logo"
-            width={150}
-            height={50}
-            className="w-1/2 h-auto justify-self-center"
-          />
-        </Link>
-        {role === "" ? (
-          <div className="flex space-x-4 m-7 text-[1rem]">
-            <Link href={"/login"}>
-              <button className="border border-sky-600 text-sky-600 px-4 py-2 rounded hover:bg-sky-600 hover:text-white transition duration-200">
-                Đăng nhập
-              </button>
-            </Link>
-            <Link href={"/signup"}>
-              <button className="bg-sky-600 text-white px-4 py-2 rounded hover:bg-sky-700 transition duration-200">
-                Đăng ký
-              </button>
-            </Link>
-          </div>
-        ) : (
-          <div className="w-full flex flex-row items-center justify-between ">
-            <div>
+    <div className="sticky top-0 z-50 w-full bg-white/80 backdrop-blur-md border-b shadow-sm">
+      <nav className="container mx-auto px-4 h-16">
+        <div className="flex items-center justify-between h-full">
+          {/* Logo */}
+          <Link href="/" className="flex items-center">
+            <Image
+              src="/images/logo.png"
+              alt="Logo"
+              width={120}
+              height={40}
+              className="h-8 w-auto"
+            />
+          </Link>
+  
+          {role === "" ? (
+            // Guest Navigation
+            <div className="flex items-center gap-4">
+              <Link href="/login">
+                <button className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-sky-600 text-sky-600 h-9 px-4 py-2 hover:bg-sky-600 hover:text-white">
+                  Đăng nhập
+                </button>
+              </Link>
+              <Link href="/signup">
+                <button className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-sky-600 text-white h-9 px-4 py-2 hover:bg-sky-700">
+                  Đăng ký
+                </button>
+              </Link>
+            </div>
+          ) : (
+            // Authenticated Navigation
+            <div className="flex items-center justify-between flex-1 ml-8">
               <UserNavBar
                 links={
                   role === "Admin"
@@ -109,56 +110,49 @@ const NavBar = () => {
                     : employerNavLink
                 }
               />
-            </div>
-            <div className="flex space-x-4 m-7 text-[1rem]">
-              <div>
+              
+              <div className="flex items-center gap-4">
+                {/* Profile */}
                 <HoverCard>
                   <HoverCardTrigger asChild>
-                    <Link href={"/profile"} passHref>
-                      <Avatar className="w-10 h-10">
+                    <Link href="/profile" className="relative">
+                      <Avatar className="h-8 w-8 transition-transform hover:scale-105">
                         <AvatarImage src="https://github.com/shadcn.png" />
                         <AvatarFallback>Us</AvatarFallback>
                       </Avatar>
                     </Link>
                   </HoverCardTrigger>
-                  <HoverCardContent
-                    className="rounded w-30 text-xs"
-                    side="left"
-                  >
-                    Profile
+                  <HoverCardContent className="w-fit p-2" side="bottom">
+                    <span className="text-sm font-medium">Profile</span>
                   </HoverCardContent>
                 </HoverCard>
-              </div>
-              <div>
+  
+                {/* Logout */}
                 <HoverCard>
                   <HoverCardTrigger asChild>
-                    <Link href={"/"} passHref>
-                      <MdLogout
-                        className="text-4xl text-gray-700"
-                        onClick={() => {
-                          localStorage.removeItem("type");
-                          localStorage.removeItem("userId");
-                          localStorage.removeItem("userName");
-                          localStorage.removeItem("userEmail");
-                          localStorage.removeItem("phone");
-                          //userRole = "";
-                          router.push("/");
-                          setRole("");
-                        }}
-                      />
-                    </Link>
+                    <button
+                      onClick={() => {
+                        localStorage.removeItem("type");
+                        localStorage.removeItem("userId");
+                        localStorage.removeItem("userName");
+                        localStorage.removeItem("userEmail");
+                        localStorage.removeItem("phone");
+                        router.push("/");
+                        setRole("");
+                      }}
+                      className="inline-flex items-center justify-center rounded-full w-8 h-8 transition-colors hover:bg-gray-100"
+                    >
+                      <MdLogout className="h-5 w-5 text-gray-600" />
+                    </button>
                   </HoverCardTrigger>
-                  <HoverCardContent
-                    className="rounded w-30 text-xs"
-                    side="left"
-                  >
-                    Đăng xuất
+                  <HoverCardContent className="w-fit p-2" side="bottom">
+                    <span className="text-sm font-medium">Đăng xuất</span>
                   </HoverCardContent>
                 </HoverCard>
               </div>
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </nav>
     </div>
   );

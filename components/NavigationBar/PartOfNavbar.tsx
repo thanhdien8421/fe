@@ -43,41 +43,19 @@ interface PartOfNavbarProps {
 }
 export const UserNavBar: React.FC<PartOfNavbarProps> = ({ links }) => {
   return (
-    <ul className="col-start-1 text-[1rem] flex items-center gap-6 md:text-[1rem]">
-      {links.map((link: MenuItemType) => {
-        return (
-          <div className="z-auto relative" key={link.id}>
-            <Link
-              href={link.url}
-              className="m-[10px] ml-5 mr-5 bg-white w-auto h-[100%] text-center rounded-[5px]  hover:text-sky-700 font-normal text-bold text-xl"
-            >
-              {link.title}
-            </Link>
-            {/* <HoverCard>
-                            <HoverCardTrigger className='m-[10px] ml-5 mr-5 bg-white w-auto h-[100%]
-                                                                    text-center rounded-[5px]  hover:text-sky-700 font-normal text-bold text-xl' asChild>
-                                <Link href={link.url} passHref>
-                                {link.title}
-                                </Link>
-                            </HoverCardTrigger>
-                            <HoverCardContent className='w-auto top-5 left-6 relative z-auto'>
-                                {link?.extention.map((a: any) => {
-                                    return (
-                                        <Link href={"/"} className="flex items-center mt-3  border border-gray-300 rounded-md bg-gray-100 p-2 "
-                                            key={a.urlIcon}>
-                                            {iconMap[a.urlIcon]}
-                                            <p className="text-gray-800 ml-8 mr-8 w-[330px] h-auto  hover:text-sky-500">
-                                                {a.titleIcon}
-                                            </p>
-                                        </Link>
-                                    )
-                                })}
-
-                            </HoverCardContent>
-                        </HoverCard> */}
-          </div>
-        );
-      })}
-    </ul>
+    <div className="flex items-center space-x-1">
+      {links.map((link: MenuItemType) => (
+        <Link
+          key={link.id}
+          href={link.url}
+          className="relative group px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-100 transition-colors duration-200"
+        >
+          <span className="relative">
+            {link.title}
+            <span className="absolute bottom-0 left-0 w-full h-0.5 bg-sky-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-200" />
+          </span>
+        </Link>
+      ))}
+    </div>
   );
 };

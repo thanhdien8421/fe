@@ -4,7 +4,6 @@ import React, { useState, useEffect } from "react";
 import {
   Table,
   TableBody,
-  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
@@ -38,6 +37,27 @@ interface FormData {
   minApplications: string;
   industry: string;
 }
+
+// Loading Skeleton Component
+const LoadingSkeleton = () => (
+  <div className="max-w-7xl mx-auto mt-8 px-4 animate-pulse">
+    <div className="bg-white rounded-xl shadow-lg p-6">
+      <div className="h-8 bg-gray-200 rounded w-1/4 mb-8"></div>
+      <div className="space-y-4">
+        {[...Array(5)].map((_, i) => (
+          <div key={i} className="grid grid-cols-7 gap-4">
+            <div className="h-6 bg-gray-200 rounded col-span-1"></div>
+            <div className="h-6 bg-gray-200 rounded col-span-2"></div>
+            <div className="h-6 bg-gray-200 rounded col-span-1"></div>
+            <div className="h-6 bg-gray-200 rounded col-span-1"></div>
+            <div className="h-6 bg-gray-200 rounded col-span-1"></div>
+            <div className="h-6 bg-gray-200 rounded col-span-1"></div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+);
 
 const RecruitmentedList = ({ params }: { params: { id: string } }) => {
   const router = useRouter();
@@ -73,6 +93,7 @@ const RecruitmentedList = ({ params }: { params: { id: string } }) => {
   useEffect(() => {
     fetchJobData();
   }, []);
+
   // Fetch filtered job data
   const fetchJobDatafilter = async () => {
     try {
@@ -112,81 +133,76 @@ const RecruitmentedList = ({ params }: { params: { id: string } }) => {
   };
 
   if (loading) {
+    return <LoadingSkeleton />;
+  }
+
+  if (error) {
     return (
-      <div className="loader h-screen flex flex-col items-center justify-center">
-        <div className="spinner w-16 h-16 border-4 border-t-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
-        <p className="mt-4 text-lg">Đang tải...</p>
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="bg-red-50 text-red-800 rounded-lg p-4">
+          {error}
+        </div>
       </div>
     );
   }
 
-  if (error) {
-    return <div>{error}</div>;
-  }
-
   return (
-    <div className="flex flex-col justify-center m-2 ">
-      <h1 className="m-8 text-[1.5rem] text-center mb-[40px]">
-        Danh sách công ty <br />
-      </h1>
+    <div className="min-h-screen bg-gray-50 pb-12">
+      {/* Hero Section */}
+      <div className="relative bg-gradient-to-br from-blue-50 to-white py-16 ">
+        <div className="container mx-auto px-4">
+          <h1 className="text-4xl md:text-5xl font-bold text-center text-gray-800 mb-4 animate-fade-in">
+            Khám phá Công ty
+          </h1>
+          <p className="text-xl text-center text-gray-600 max-w-2xl mx-auto">
+            Tìm kiếm và khám phá các công ty hàng đầu cùng đánh giá chi tiết
+          </p>
+        </div>
+      </div>
 
-      <div className="min-h-[650px]">
-        <div className="bg-white shadow-lg rounded-lg pt-2 pb-[20px] border border-gray-200">
-          <form
-            onSubmit={handleSubmit}
-            className="flex flex-row justify-around"
-          >
-            {/* Min Rating */}
-            <div className="flex flex-col w-full sm:w-1/4">
-              <label
-                htmlFor="minRating"
-                className="text-base font-medium text-gray-600 mb-1"
-              >
-                Min Rating:
+      {/* Search Form */}
+      <div className="max-w-6xl mx-auto -mt-2 px-4 ">
+        <div className="bg-white rounded-xl shadow-lg p-6 transition-all hover:shadow-xl">
+          <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {/* Min Rating Input */}
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-gray-700">
+                Đánh giá tối thiểu
               </label>
               <input
                 type="text"
-                id="minRating"
                 name="minRating"
-                className="p-2 border border-gray-300 rounded-md shadow-sm text-base focus:ring-2 focus:ring-blue-500"
+                className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                 value={formData.minRating}
                 onChange={handleChange}
                 placeholder="Nhập đánh giá tối thiểu"
               />
             </div>
 
-            {/* Min Applications */}
-            <div className="flex flex-col w-full sm:w-1/4">
-              <label
-                htmlFor="minApplications"
-                className="text-base font-medium text-gray-600 mb-1"
-              >
-                Min Applications:
+            {/* Min Applications Input */}
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-gray-700">
+                Số lượng ứng tuyển tối thiểu
               </label>
               <input
                 type="text"
-                id="minApplications"
                 name="minApplications"
-                className="p-2 border border-gray-300 rounded-md shadow-sm text-base focus:ring-2 focus:ring-blue-500"
+                className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                 value={formData.minApplications}
                 onChange={handleChange}
-                placeholder="Nhập số ứng tuyển vào tối thiểu"
+                placeholder="Nhập số ứng tuyển tối thiểu"
               />
             </div>
 
-            {/* Industry */}
-            <div className="flex flex-col w-full sm:w-1/4">
-              <label
-                htmlFor="industry"
-                className="text-base font-medium text-gray-600 mb-1"
-              >
-                Industry:
+            {/* Industry Input */}
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-gray-700">
+                Ngành nghề
               </label>
               <input
                 type="text"
-                id="industry"
                 name="industry"
-                className="p-2 border border-gray-300 rounded-md shadow-sm text-base focus:ring-2 focus:ring-blue-500"
+                className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                 value={formData.industry}
                 onChange={handleChange}
                 placeholder="Nhập ngành nghề"
@@ -194,62 +210,54 @@ const RecruitmentedList = ({ params }: { params: { id: string } }) => {
             </div>
 
             {/* Submit Button */}
-            <div className="flex justify-center items-center ">
+            <div className="md:col-span-3 flex justify-center">
               <button
                 type="submit"
-                className="mt-[20px] bg-blue-600 text-white text-base rounded-md px-6 py-2 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200"
+                className="px-8 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transform hover:scale-105 transition-all duration-200 font-medium"
               >
-                Lọc
+                Tìm kiếm
               </button>
             </div>
           </form>
         </div>
-        <div className="bg-white shadow-xl rounded-lg p-6 border border-gray-200">
+      </div>
+
+      {/* Results Table */}
+      <div className="max-w-7xl mx-auto mt-8 px-4">
+        <div className="bg-white rounded-xl shadow-lg overflow-hidden">
           <Table>
             <TableHeader>
-              <TableRow className="text-center text-base text-gray-600">
-                <TableHead className="w-[5%]">STT</TableHead>
-                <TableHead className="w-[15%]">Tên công ty</TableHead>
-                <TableHead className="w-[15%]">Ngành nghề</TableHead>
-
-                <TableHead className="w-[10%] text-center">
-                  Số ứng tuyển vào
-                </TableHead>
-                <TableHead className="w-[10%] text-center">
-                  Đánh giá trung bình
-                </TableHead>
-                <TableHead className="w-[10%] text-center">
-                  Tổng bài đăng
-                </TableHead>
-                <TableHead className="w-[15%] text-center">
-                  Xem các bài đăng
-                </TableHead>
+              <TableRow className="bg-gray-50 border-b">
+                <TableHead className="py-4 px-6 text-sm font-medium text-gray-600">STT</TableHead>
+                <TableHead className="py-4 px-6 text-sm font-medium text-gray-600">Tên công ty</TableHead>
+                <TableHead className="py-4 px-6 text-sm font-medium text-gray-600">Ngành nghề</TableHead>
+                <TableHead className="py-4 px-6 text-sm font-medium text-gray-600 text-center">Số ứng tuyển</TableHead>
+                <TableHead className="py-4 px-6 text-sm font-medium text-gray-600 text-center">Đánh giá TB</TableHead>
+                <TableHead className="py-4 px-6 text-sm font-medium text-gray-600 text-center">Tổng bài đăng</TableHead>
+                <TableHead className="py-4 px-6 text-sm font-medium text-gray-600 text-center">Thao tác</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {jobData.map((item, index) => (
                 <TableRow
                   key={index}
-                  className="text-center text-base text-gray-700"
+                  className="border-b hover:bg-gray-50 transition-colors"
                 >
-                  <TableCell>{index + 1}</TableCell>
-                  <TableCell className="text-start">
-                    {item.companyName}
+                  <TableCell className="py-4 px-6">{index + 1}</TableCell>
+                  <TableCell className="py-4 px-6 font-medium">{item.companyName}</TableCell>
+                  <TableCell className="py-4 px-6">{item.industry}</TableCell>
+                  <TableCell className="py-4 px-6 text-center">{item.totalApplications}</TableCell>
+                  <TableCell className="py-4 px-6 text-center">
+                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-sm font-medium bg-green-100 text-green-800">
+                      {item.averageRating}
+                    </span>
                   </TableCell>
-                  <TableCell className="text-start">{item.industry}</TableCell>
-                  <TableCell className="text-center">
-                    {item.totalApplications}
-                  </TableCell>
-                  <TableCell className="text-center">
-                    {item.averageRating}
-                  </TableCell>
-                  <TableCell className="text-center">
-                    {item.totalPosts}
-                  </TableCell>
-
-                  <TableCell className="text-center">
-                    <Button className="bg-sky-500 text-white rounded-md px-4 py-2 hover:bg-sky-600 transition duration-200">
-                      <Link href={`/company/${item.companyName}`}>Xem</Link>
+                  <TableCell className="py-4 px-6 text-center">{item.totalPosts}</TableCell>
+                  <TableCell className="py-4 px-6 text-center">
+                    <Button className="bg-blue-600 hover:bg-blue-700 transition-colors">
+                      <Link href={`/company/${item.companyName}`} className="text-white">
+                        Xem chi tiết
+                      </Link>
                     </Button>
                   </TableCell>
                 </TableRow>

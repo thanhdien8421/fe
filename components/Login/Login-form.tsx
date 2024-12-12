@@ -55,6 +55,10 @@ export function LoginForm() {
     startTransition(async () => {
       const result = await Login(values);
       if (result.success == true) {
+        if (result.user?.isBanned) {
+          toast.error("Tài khoản của bạn đã bị khóa. Vui lòng liên hệ admin để biết thêm chi tiết.");
+          return;
+        }
         toast.success(result.message);
         console.log(result.user);
         localStorage.setItem("userEmail", result.user?.email);

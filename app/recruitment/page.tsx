@@ -107,13 +107,17 @@ export default function JobPage() {
 
   return (
     <div className="pb-10">
-      <div className=" mx-[10%]  pt-[60px] z-50 relative">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-[60px] relative">
         <SearchForm onSearch={handleSearch} />
       </div>
-      <div className="text-center mt-[50px] mx-[250px] gap-[50px]  grid grid-cols-4 z-0 relative">
-        {jobData.map((job: JobPostAndDescription) => (
-          <JobCard job={job} key={job.postId} />
-        ))}
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          {jobData.map((job: JobPostAndDescription) => (
+            <div key={job.postId} className="flex justify-center">
+              <JobCard job={job} />
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

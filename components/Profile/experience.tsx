@@ -50,28 +50,29 @@ export default function Experience({
   data: RecordType;
   onCheck: (data: RecordType) => void;
 }) {
-  // const [data, setData] = React.useState<ExperienceAttr[]>([]);
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState<string>("");
   const [currentPage, setCurrentPage] = React.useState<number>(1);
 
   return (
-    <Card className="drop-shadow-sm h-[300px] pb-2 bg-gray-50">
-      <CardHeader className="flex flex-row border-b-2 rounded-t-lg bg-[#7AB2D3]">
-        <p className="text-xl font-semibold text-gray-800">
+    <Card className="drop-shadow-lg h-[300px] pb-2 bg-white rounded-xl border border-gray-200">
+      <CardHeader className="flex flex-row border-b rounded-t-xl bg-gradient-to-r from-blue-500 to-green-600 py-4">
+        <p className="text-xl font-semibold text-white">
           Kinh nghiệm làm việc
         </p>
-        <Button className="ml-auto pr-[15px] border-2 border-yellow-400 hover:bg-yellow-400 bg-transparent flex flex-col item-start w-8 h-8">
+        <Button className="ml-auto hover:scale-105 transition-transform duration-200 bg-white/20 hover:bg-white/30 backdrop-blur-sm border-0 w-8 h-8">
           <AddExperience data={data} onCheck={onCheck} />
         </Button>
       </CardHeader>
       <CardContent className="py-5 gap-1 h-3/4">
         {data.experience.length == 0 ? (
-          <h1 className="w-full h-full text-center p-20 text-gray-500">
-            Chưa có dữ liệu
-          </h1>
+          <div className="flex items-center justify-center h-full">
+            <h1 className="text-gray-400 font-medium">
+              Chưa có dữ liệu
+            </h1>
+          </div>
         ) : (
-          <div className="flex flex-col overflow-y-auto gap-4 h-full">
+          <div className="flex flex-col overflow-y-auto gap-4 h-full pr-2">
             {data.experience.map((obj) => {
               return (
                 <ExperienceCard
@@ -108,7 +109,7 @@ export const ExperienceCard: React.FC<ExperienceProps> = ({
   return (
     <div
       className={clsx(
-        "flex flex-row w-full gap-10 p-3 bg-white border border-gray-200 rounded-lg shadow-md transition duration-300 hover:shadow-xl hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700",
+        "flex flex-row w-full gap-4 p-4 bg-white border border-gray-100 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md hover:border-blue-200 group",
         {
           hidden:
             index != -1 && data.expCheck[index] === false && type === "preview",
@@ -117,30 +118,32 @@ export const ExperienceCard: React.FC<ExperienceProps> = ({
         }
       )}
     >
-      <div className="flex flex-row justify-between">
-        <div className="grid grid-cols-5 gap-3 justify-between">
-          <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100">
+      <div className="flex flex-row justify-between w-full">
+        <div className="grid grid-cols-5 gap-4 w-full">
+          <h2 className="text-lg font-semibold text-gray-800 group-hover:text-blue-600 transition-colors">
             {obj.company}
           </h2>
-          <h3 className="text-lg font-medium text-gray-700 dark:text-gray-300">
+          <h3 className="text-md font-medium text-gray-600">
             {obj.position}
           </h3>
-          <p className="text-gray-600 dark:text-gray-400">{obj.description}</p>
-          <div className="flex flex-row gap-10 text-sm text-gray-500 dark:text-gray-400 text-start">
-            <p>
-              Bắt đầu:{" "}
+          <p className="text-gray-500 text-sm">
+            {obj.description}
+          </p>
+          <div className="text-sm text-gray-500">
+            <p className="flex items-center gap-2">
+              <span className="text-gray-400">Bắt đầu:</span>
               <span className="font-medium">{formatDate(obj.startDate)}</span>
             </p>
           </div>
-          <div className="flex flex-row gap-10 text-sm text-gray-500 dark:text-gray-400 text-start">
-            <p>
-              Kết thúc:{" "}
+          <div className="text-sm text-gray-500">
+            <p className="flex items-center gap-2">
+              <span className="text-gray-400">Kết thúc:</span>
               <span className="font-medium">{formatDate(obj.endDate)}</span>
             </p>
           </div>
         </div>
         {type == "profile" ? (
-          <div className="flex flex-row gap-2">
+          <div className="flex flex-row gap-2 ml-4">
             <EditButton val={"/record"} />
             <TrashButton val={`records/${obj.id}`} />
           </div>
@@ -148,6 +151,7 @@ export const ExperienceCard: React.FC<ExperienceProps> = ({
           <></>
         ) : (
           <Checkbox
+            className="ml-4"
             onCheckedChange={() => {
               let newdata = JSON.parse(JSON.stringify(data));
               if (index !== -1) {
@@ -224,7 +228,6 @@ export function AddExperience({
           throw new Error("Error: " + data.error);
         } else {
           setOpen(false);
-
           return {
             message: data.message,
             success: true,
@@ -239,6 +242,7 @@ export function AddExperience({
           data: null,
         };
       });
+
     if (result.success == true) {
       const newdata = JSON.parse(JSON.stringify(data));
       const newinfo: ExperienceAttr = {
@@ -254,83 +258,97 @@ export function AddExperience({
       onCheck(newdata);
     }
   }
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <div className="flex items-center justify-center w-5 h-5 rounded-full transition duration-200 ease-in-out cursor-pointer">
-          <IoMdAdd className="text-4xl text-yellow-400 hover:text-white hover:bg-white font-bold" />
+          <IoMdAdd className="text-4xl text-white hover:scale-110 transition-transform font-bold" />
         </div>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
-          <DialogTitle>Thêm education</DialogTitle>
-          <DialogDescription>
-            Nhập thông tin mà bạn muốn thêm vào
+      <DialogContent className="sm:max-w-[500px] rounded-xl">
+        <DialogHeader className="space-y-2">
+          <DialogTitle className="text-2xl font-semibold">
+            Thêm kinh nghiệm làm việc
+          </DialogTitle>
+          <DialogDescription className="text-gray-500">
+            Vui lòng điền đầy đủ thông tin bên dưới
           </DialogDescription>
         </DialogHeader>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-          <div className="grid gap-4 py-4">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <div className="grid gap-5 py-4">
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="company" className="text-right">
+              <Label htmlFor="company" className="text-right font-medium">
                 Công ty
               </Label>
               <Input
                 {...form.register("company")}
                 id="company"
-                placeholder="JobCenter..."
-                className="col-span-3"
+                placeholder="Nhập tên công ty..."
+                className="col-span-3 focus-visible:ring-blue-500"
               />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="position" className="text-right">
+              <Label htmlFor="position" className="text-right font-medium">
                 Vị trí
               </Label>
               <Input
                 {...form.register("position")}
                 id="position"
-                placeholder="Dev..."
-                className="col-span-3"
+                placeholder="Nhập vị trí công việc..."
+                className="col-span-3 focus-visible:ring-blue-500"
               />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="description" className="text-right">
+              <Label htmlFor="description" className="text-right font-medium">
                 Mô tả
               </Label>
               <Input
                 {...form.register("description")}
                 id="description"
-                placeholder="..."
-                className="col-span-3"
+                placeholder="Mô tả công việc..."
+                className="col-span-3 focus-visible:ring-blue-500"
               />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="start" className="text-right">
+              <Label htmlFor="start" className="text-right font-medium">
                 Ngày bắt đầu
               </Label>
               <Input
                 {...form.register("startDate")}
                 id="start"
                 type="date"
-                placeholder="dd/mm/yyyy"
-                className="col-span-3"
+                className="col-span-3 focus-visible:ring-blue-500"
               />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="end" className="text-right">
+              <Label htmlFor="end" className="text-right font-medium">
                 Ngày kết thúc
               </Label>
               <Input
                 {...form.register("endDate")}
                 id="end"
                 type="date"
-                placeholder="dd/mm/yyyy"
-                className="col-span-3"
+                className="col-span-3 focus-visible:ring-blue-500"
               />
             </div>
           </div>
-          <Button type="submit" className="bg-blue-800">
-            Thêm
-          </Button>
+          <div className="flex justify-end gap-3">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => setOpen(false)}
+              className="font-medium"
+            >
+              Hủy
+            </Button>
+            <Button
+              type="submit"
+              className="bg-blue-600 hover:bg-blue-700 font-medium"
+            >
+              Thêm mới
+            </Button>
+          </div>
         </form>
       </DialogContent>
     </Dialog>

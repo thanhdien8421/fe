@@ -232,77 +232,143 @@ export default function Record() {
 
   const RecordPreview: React.FC<RecordProps> = ({ data }) => {
     return (
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <div className="block w-full p-6 bg-gray-100 border border-gray-300 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
-          <Textarea
-            {...form.register("title")}
-            placeholder="Tiêu đề"
-            className="min-h-10 border-b-1 rounded-b-none border-black border-l-0 border-t-0 border-r-0 bg-gray-100 hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700"
-          />
-          <Textarea
-            {...form.register("description")}
-            placeholder="Ghi chú"
-            className="mt-8 min-h-40 h-fit bg-gray-100 border border-gray-300 hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
-          />
-          <div className="flex flex-col gap-2">
-            <p className="font-semibold text-gray-900 p-5 text-2xl">
-              Thông tin cá nhân
-            </p>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+        <div className="bg-white rounded-xl shadow-lg overflow-hidden">
+          {/* Header Section */}
+          <div className="p-6 border-b border-gray-100">
+            <Textarea
+              {...form.register("title")}
+              placeholder="Tiêu đề hồ sơ"
+              className="text-2xl font-semibold w-full border-none focus:ring-0 resize-none bg-transparent placeholder:text-gray-400"
+            />
+            <Textarea
+              {...form.register("description")}
+              placeholder="Mô tả ngắn về bản thân và mục tiêu nghề nghiệp của bạn"
+              className="mt-4 w-full min-h-[100px] border-none focus:ring-0 resize-none bg-transparent placeholder:text-gray-400"
+            />
           </div>
-          <div className="flex flex-col gap-2">
-            <p className="font-semibold text-gray-900 p-5 text-2xl">
-              Trình độ học vấn
-            </p>{" "}
-            {data.education.map((mem: EducationAttr) => (
-              <EducationCard
-                obj={mem}
-                type="preview"
-                data={content}
-                key={mem.id}
-                onCheck={onCheck}
-              />
-            ))}
-          </div>
-          <div className="flex flex-col gap-2">
-            <p className="font-semibold text-gray-900 p-5 text-2xl">
-              Kinh nghiệm làm việc
-            </p>{" "}
-            {data.experience.map((mem: ExperienceAttr) => (
-              <ExperienceCard
-                obj={mem}
-                type="preview"
-                data={content}
-                key={mem.id}
-                onCheck={onCheck}
-              />
-            ))}
-          </div>
-          <div className="flex flex-col gap-2">
-            <p className="font-semibold text-gray-900 p-5 text-2xl">
-              Bằng cấp, chứng chỉ
-            </p>{" "}
-            {data.certificate.map((mem: CertificateAttr) => (
-              <CertificateCard
-                obj={mem}
-                type="preview"
-                data={content}
-                key={mem.id}
-                onCheck={onCheck}
-              />
-            ))}
-          </div>
-          <div className="grid w-full max-w-sm items-center gap-1.5 pt-5">
-            <Label htmlFor="CV của bạn">
-              <p className="font-semibold text-gray-900 p-5 text-2xl">
+  
+          {/* Main Content */}
+          <div className="p-6 space-y-8">
+            {/* Personal Info Section */}
+            <section>
+              <h2 className="flex items-center text-xl font-semibold text-gray-800 mb-4">
+                <svg className="w-6 h-6 mr-2 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+                Thông tin cá nhân
+              </h2>
+              <div className="bg-gray-50 rounded-lg p-4">
+                {/* Add personal info fields here */}
+              </div>
+            </section>
+  
+            {/* Education Section */}
+            <section>
+              <h2 className="flex items-center text-xl font-semibold text-gray-800 mb-4">
+                <svg className="w-6 h-6 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 14l9-5-9-5-9 5 9 5z M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
+                </svg>
+                Trình độ học vấn
+              </h2>
+              <div className="space-y-4">
+                {data.education.map((mem: EducationAttr) => (
+                  <div key={mem.id} className="bg-gray-50 rounded-lg p-4 hover:bg-gray-100 transition duration-200">
+                    <EducationCard
+                      obj={mem}
+                      type="preview"
+                      data={content}
+                      onCheck={onCheck}
+                    />
+                  </div>
+                ))}
+              </div>
+            </section>
+  
+            {/* Experience Section */}
+            <section>
+              <h2 className="flex items-center text-xl font-semibold text-gray-800 mb-4">
+                <svg className="w-6 h-6 mr-2 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+                Kinh nghiệm làm việc
+              </h2>
+              <div className="space-y-4">
+                {data.experience.map((mem: ExperienceAttr) => (
+                  <div key={mem.id} className="bg-gray-50 rounded-lg p-4 hover:bg-gray-100 transition duration-200">
+                    <ExperienceCard
+                      obj={mem}
+                      type="preview"
+                      data={content}
+                      onCheck={onCheck}
+                    />
+                  </div>
+                ))}
+              </div>
+            </section>
+  
+            {/* Certificates Section */}
+            <section>
+              <h2 className="flex items-center text-xl font-semibold text-gray-800 mb-4">
+                <svg className="w-6 h-6 mr-2 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+                </svg>
+                Bằng cấp, chứng chỉ
+              </h2>
+              <div className="space-y-4">
+                {data.certificate.map((mem: CertificateAttr) => (
+                  <div key={mem.id} className="bg-gray-50 rounded-lg p-4 hover:bg-gray-100 transition duration-200">
+                    <CertificateCard
+                      obj={mem}
+                      type="preview"
+                      data={content}
+                      onCheck={onCheck}
+                    />
+                  </div>
+                ))}
+              </div>
+            </section>
+  
+            {/* CV Upload Section */}
+            <section>
+              <h2 className="flex items-center text-xl font-semibold text-gray-800 mb-4">
+                <svg className="w-6 h-6 mr-2 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
                 CV của bạn
-              </p>
-            </Label>
-            <Input id="file" type="file" onChange={handleFileUpload} />
+              </h2>
+              <div className="bg-gray-50 rounded-lg p-6 border-2 border-dashed border-gray-300">
+                <Input
+                  id="file"
+                  type="file"
+                  onChange={handleFileUpload}
+                  className="hidden"
+                />
+                <label
+                  htmlFor="file"
+                  className="flex flex-col items-center justify-center cursor-pointer"
+                >
+                  <svg className="w-12 h-12 text-gray-400 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                  </svg>
+                  <span className="text-sm text-gray-600">Kéo thả file hoặc click để tải lên</span>
+                  <span className="text-xs text-gray-500 mt-1">PDF, DOC, DOCX (Max. 10MB)</span>
+                </label>
+              </div>
+            </section>
           </div>
         </div>
-        <div className="flex justify-center">
-          <Button type="submit" className="bg-blue-700 w-20">
-            Lưu
+  
+        {/* Submit Button */}
+        <div className="flex justify-end">
+          <Button
+            type="submit"
+            className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-2 rounded-lg transition duration-200 flex items-center gap-2"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+            </svg>
+            Lưu hồ sơ
           </Button>
         </div>
       </form>
