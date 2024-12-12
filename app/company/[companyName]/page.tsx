@@ -69,7 +69,7 @@ export default function JobPage({
       <h1 className="mt-12 text-[1.5rem] text-center mb-[60px]">
         Danh sách các bài tuyển dụng <br />
         <span className="text-blue-500 font-semibold">
-          Công Ty {params.companyName}
+          Công Ty {decodeURIComponent(params.companyName)}
         </span>
       </h1>
       <div className="text-center mt-[30px] mx-[12%] gap-[50px]  grid grid-cols-3 z-0 relative">

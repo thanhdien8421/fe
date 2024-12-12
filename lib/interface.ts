@@ -37,7 +37,6 @@ export interface JobPostAndDescription {
   levelStatus: string;
   location: string;
   quantity: number;
-  id: string;
 }
 
 export interface RecruitmentPost {

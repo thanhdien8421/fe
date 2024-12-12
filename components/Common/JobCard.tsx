@@ -3,9 +3,8 @@ import Link from "next/link";
 import React from "react";
 
 export default function JobCard({ job }: { job: JobPostAndDescription }) {
-  // console.log("alo", job);
   return (
-    <Link href={`/recruitment/${job.id}`}>
+    <Link href={`/recruitment/${job.postId}`}>
       <div
         key={job.postId}
         className="max-w-sm w-[300px] mx-auto bg-white border rounded-lg shadow-md overflow-hidden cursor-pointer z-0"
