@@ -10,53 +10,61 @@ interface UpdateFormProps {
 const UpdatePost: React.FC<UpdateFormProps> = ({ initJob }) => {
   const router = useRouter();
   const [job, setJob] = useState<RecruitmentPost>(initJob);
+
+  // Hàm xử lý thay đổi khi người dùng nhập dữ liệu
   const handleChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
     >
   ) => {
     const { name, value } = e.target;
-    setJob((prevJob) => ({ ...prevJob, [name]: value }));
+    setJob((prevJob) => ({
+      ...prevJob,
+      [name]:
+        name === "quantity" || name === "salary"
+          ? value.replace(/\D/g, "")
+          : value, // Chỉ cho phép số cho "quantity" và "salary"
+    }));
   };
+
   const submitRecruitmentPost = async (id: any, job: RecruitmentPost) => {
     const recruitmentPost = {
       location: job.location,
       level: job.level || "staff", // Mặc định là 'staff'
       experience: job.experience,
-      salary: job.salary,
-      quantity: Number(job.quantity),
-      employmentType: job.employmentType,
-      gender: job.gender || "Not required", // Mặc định là 'Not required'
+      salary: job.salary || "0", // Đảm bảo có giá trị cho salary
+      quantity: Number(job.quantity), // Chuyển quantity thành số
+      employmentType: job.employmentType || "Not specified", // Giá trị mặc định nếu null
+      gender: job.gender || "Not required", // Giá trị mặc định nếu null
       recruitmentPostId: job.id,
     };
-    console.log(`http://localhost:8000/api/v1/job-description/${job.id}`);
 
-    // try {
-    //   const response = await fetch(
-    //     `http://localhost:8000/api/v1/job-description/${job.id}`, // Cập nhật URL với ID thích hợp nếu cần
-    //     {
-    //       method: "PATCH",
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //       },
-    //       body: JSON.stringify(recruitmentPost), // Chuyển đối tượng body thành chuỗi JSON
-    //     }
-    //   );
+    try {
+      const response = await fetch(
+        `http://localhost:8000/api/v1/job-description/${job.id}`, // Cập nhật URL với ID thích hợp nếu cần
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(recruitmentPost), // Chuyển đối tượng body thành chuỗi JSON
+        }
+      );
 
-    //   if (!response.ok) {
-    //     throw new Error("Failed to create recruitment post");
-    //   }
+      if (!response.ok) {
+        throw new Error("Failed to update recruitment post");
+      }
 
-    //   const result = await response.json();
-    //   if (result.error) {
-    //     alert(result.error);
-    //     return; // Nếu có l��i, thông báo và trả về.
-    //   }
-    //   router.push("/recruitment/manage");
-    //   console.log("Recruitment post created:", result);
-    // } catch (error) {
-    //   console.error("Error creating recruitment post:", error);
-    // }
+      const result = await response.json();
+      if (result.error) {
+        alert(result.error);
+        return; // Nếu có lỗi, thông báo và trả về.
+      }
+      router.push("/recruitment/manage");
+      console.log("Recruitment post updated:", result);
+    } catch (error) {
+      console.error("Error updating recruitment post:", error);
+    }
   };
 
   const submitJobPost = async (job: RecruitmentPost) => {
@@ -78,9 +86,9 @@ const UpdatePost: React.FC<UpdateFormProps> = ({ initJob }) => {
     };
     try {
       const response = await fetch(
-        "http://localhost:8000/api/v1/recruitment-post",
+        `http://localhost:8000/api/v1/recruitment-post/${job.id}`,
         {
-          method: "POST",
+          method: "PATCH",
           headers: {
             "Content-Type": "application/json",
           },
@@ -89,7 +97,7 @@ const UpdatePost: React.FC<UpdateFormProps> = ({ initJob }) => {
       );
 
       if (!response.ok) {
-        throw new Error("Failed to create job post");
+        throw new Error("Failed to update job post");
       }
 
       const result = await response.json();
@@ -97,16 +105,25 @@ const UpdatePost: React.FC<UpdateFormProps> = ({ initJob }) => {
         alert(result.error);
         return; // Nếu có lỗi, thông báo và trả về.
       } else {
-        await submitRecruitmentPost(result.data.id, job);
+        console.log(result.data);
+
+        // await submitRecruitmentPost(result.data.id, job);
       }
     } catch (error) {
-      console.error("Error creating job post:", error);
+      console.error("Error updating job post:", error);
     }
   };
 
-  // Ví dụ cách gọi submitJobPost từ handleSubmit
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (job.quantity && isNaN(Number(job.quantity))) {
+      alert("Số lượng phải là một số hợp lệ.");
+      return;
+    }
+    if (job.salary && isNaN(Number(job.salary))) {
+      alert("Mức lương phải là một số hợp lệ.");
+      return;
+    }
     await submitJobPost(job); // Gọi hàm gửi bài đăng việc làm với dữ liệu job
   };
 
@@ -196,7 +213,7 @@ const UpdatePost: React.FC<UpdateFormProps> = ({ initJob }) => {
       <input
         type={type}
         name={name}
-        value={job[name] || job["datePosted"]}
+        value={job[name] || ""} // Đảm bảo value được gán đúng
         onChange={handleChange}
         required={required}
         className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500"
@@ -254,7 +271,6 @@ const UpdatePost: React.FC<UpdateFormProps> = ({ initJob }) => {
             className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500"
           />
         </div>
-
         <div className="mb-4">
           <label className="block text-sm font-medium text-gray-700">
             Ngày đăng:
@@ -264,20 +280,20 @@ const UpdatePost: React.FC<UpdateFormProps> = ({ initJob }) => {
             name="datePosted"
             value={job["datePosted"].split("T")[0]}
             onChange={handleChange}
-            required={true}
+            required
             className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500"
           />
         </div>
         <div className="mb-4">
           <label className="block text-sm font-medium text-gray-700">
-            Hạn chót :
+            Hạn chót:
           </label>
           <input
             type="date"
             name="deadline"
-            value={job["deadline"].split("T")[0]}
+            value={job["deadline"]}
             onChange={handleChange}
-            required={true}
+            required
             className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500"
           />
         </div>
@@ -290,7 +306,6 @@ const UpdatePost: React.FC<UpdateFormProps> = ({ initJob }) => {
           "Lead",
         ])}
         {renderSelect("experience", "Kinh nghiệm", experienceOptions)}
-
         {renderInput("number", "quantity", "Số lượng")}
         {renderInput("text", "salary", "Mức lương")}
         {renderSelect("employmentType", "Loại hình việc làm", [
