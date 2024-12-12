@@ -2,7 +2,7 @@
 import DescriptionJobPage from "@/components/DescriptionJob/Description";
 
 import { InfoJob } from "@/lib/data";
-import { JobPostAndDescription } from "@/lib/interface";
+import { JobPostAndDescription, RecruitmentPost } from "@/lib/interface";
 import React from "react";
 import UpdatePost from "@/components/updatePost/updatepost";
 export default function UpdateResuiment({
@@ -10,9 +10,7 @@ export default function UpdateResuiment({
 }: {
   params: { id: string };
 }) {
-  const [jobData, setJobData] = React.useState<JobPostAndDescription | null>(
-    null
-  );
+  const [jobData, setJobData] = React.useState<RecruitmentPost | null>(null);
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState("");
 

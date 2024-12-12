@@ -247,7 +247,7 @@ const RecruitmentedList = ({ params }: { params: { id: string } }) => {
                     {item.totalPosts}
                   </TableCell>
 
-                  <TableCell className="text-start">
+                  <TableCell className="text-center">
                     <Button className="bg-sky-500 text-white rounded-md px-4 py-2 hover:bg-sky-600 transition duration-200">
                       <Link href={`/company/${item.companyName}`}>Xem</Link>
                     </Button>

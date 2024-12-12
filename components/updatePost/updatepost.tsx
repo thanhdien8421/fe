@@ -1,15 +1,15 @@
 "use client";
 import React, { useState } from "react";
-import { JobPostAndDescription } from "@/lib/interface";
+import { JobPostAndDescription, RecruitmentPost } from "@/lib/interface";
 import { useRouter } from "next/navigation";
 
 interface UpdateFormProps {
-  initJob: JobPostAndDescription;
+  initJob: RecruitmentPost;
 }
 
 const UpdatePost: React.FC<UpdateFormProps> = ({ initJob }) => {
   const router = useRouter();
-  const [job, setJob] = useState<JobPostAndDescription>(initJob);
+  const [job, setJob] = useState<RecruitmentPost>(initJob);
   const handleChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
@@ -18,7 +18,7 @@ const UpdatePost: React.FC<UpdateFormProps> = ({ initJob }) => {
     const { name, value } = e.target;
     setJob((prevJob) => ({ ...prevJob, [name]: value }));
   };
-  const submitRecruitmentPost = async (id: any, job: JobPostAndDescription) => {
+  const submitRecruitmentPost = async (id: any, job: RecruitmentPost) => {
     const recruitmentPost = {
       location: job.location,
       level: job.level || "staff", // Mặc định là 'staff'
@@ -29,10 +29,10 @@ const UpdatePost: React.FC<UpdateFormProps> = ({ initJob }) => {
       gender: job.gender || "Not required", // Mặc định là 'Not required'
       recruitmentPostId: id,
     };
-
+    console.log(recruitmentPost);
     try {
       const response = await fetch(
-        "http://localhost:8000/api/v1/job-description",
+        `http://localhost:8000/api/v1/job-description/${id}`,
         {
           method: "PATCH",
           headers: {
@@ -58,42 +58,44 @@ const UpdatePost: React.FC<UpdateFormProps> = ({ initJob }) => {
     }
   };
 
-  const submitJobPost = async (job: JobPostAndDescription) => {
+  const submitJobPost = async (job: RecruitmentPost) => {
+    let userId = localStorage.getItem("userId");
     const jobPost = {
       title: job.title,
       description: job.description,
       datePosted: job.datePosted,
       deadline: job.deadline,
-      employerId: 1,
+      employerId: userId,
     };
+    console.log(JSON.stringify(jobPost));
+    // try {
+    //   const response = await fetch(
+    //     "http://localhost:8000/api/v1/recruitment-post",
+    //     {
+    //       method: "PATCH",
+    //       headers: {
+    //         "Content-Type": "application/json",
+    //       },
+    //       body: JSON.stringify(jobPost),
+    //     }
+    //   );
 
-    try {
-      const response = await fetch(
-        "http://localhost:8000/api/v1/recruitment-post",
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(jobPost),
-        }
-      );
+    //   if (!response.ok) {
+    //     throw new Error("Failed to create job post");
+    //   }
 
-      if (!response.ok) {
-        throw new Error("Failed to create job post");
-      }
+    //   const result = await response.json();
+    //   if (result.error) {
+    //     alert(result.error);
+    //     return; // Nếu có lỗi, thông báo và trả về.
+    //   } else {
 
-      const result = await response.json();
-      if (result.error) {
-        alert(result.error);
-        return; // Nếu có lỗi, thông báo và trả về.
-      } else {
-        await submitRecruitmentPost(result.data.id, job);
-      }
-      console.log("Job post created:", result);
-    } catch (error) {
-      console.error("Error creating job post:", error);
-    }
+    //     // await submitRecruitmentPost(result.data.id, job);
+    //   }
+    //   console.log("Job post created:", result);
+    // } catch (error) {
+    //   console.error("Error creating job post:", error);
+    // }
   };
 
   // Ví dụ cách gọi submitJobPost từ handleSubmit
@@ -177,7 +179,7 @@ const UpdatePost: React.FC<UpdateFormProps> = ({ initJob }) => {
 
   const renderInput = (
     type: string,
-    name: keyof JobPostAndDescription,
+    name: keyof RecruitmentPost,
     label: string,
     required = true
   ) => (
@@ -197,7 +199,7 @@ const UpdatePost: React.FC<UpdateFormProps> = ({ initJob }) => {
   );
 
   const renderSelect = (
-    name: keyof JobPostAndDescription,
+    name: keyof RecruitmentPost,
     label: string,
     options: string[]
   ) => (
