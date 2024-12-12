@@ -27,7 +27,7 @@ export function Itemdescription({ title, des }: ItemdescriptionProp) {
 export default function DescriptionJobPage({ job }: { job: any }) {
   const [rating, setRating] = useState<number>(0);
   const [save, setSave] = useState(false);
-
+  let type = localStorage.getItem("type") ?? "Employee";
   // Lấy rating từ server
   const fetchRating = async () => {
     try {
@@ -129,7 +129,6 @@ export default function DescriptionJobPage({ job }: { job: any }) {
       </div>
     </div>
   );
-
   const Body = () => (
     <div className="flex justify-center w-full mt-10">
       <div className="w-[950px] bg-white rounded-[15px] p-[30px]">
@@ -154,33 +153,37 @@ export default function DescriptionJobPage({ job }: { job: any }) {
             "Ứng viên nộp hồ sơ trực tuyến bằng cách bấm Ứng tuyển ngay dưới đây.",
           ]}
         />
-        <div className="flex gap-3 mt-10">
-          <UploadCVForm recruitmentPostId={`${job.id}`} title={job.title} />
-          <Button
-            variant="secondary"
-            onClick={() => submitRating(!save, rating)}
-          >
-            {save ? "Đã lưu tin" : "Đăng ký nhận tin"}
-          </Button>
-        </div>
-        <div className="text-center my-5">
-          <h2 className="text-2xl font-semibold mb-4">Đánh giá của bạn:</h2>
-          <div className="flex justify-center gap-4">
-            {[0, 1, 2, 3, 4, 5].map((value) => (
-              <button
-                key={value}
-                onClick={() => submitRating(save, value)}
-                className={`w-12 h-12 text-xl text-white rounded-md transition duration-300 transform hover:scale-110 ${
-                  rating === value
-                    ? "bg-blue-500"
-                    : "bg-green-500 hover:bg-green-600"
-                }`}
+        {type == "Employee" && (
+          <>
+            <div className="flex gap-3 mt-10">
+              <UploadCVForm recruitmentPostId={`${job.id}`} title={job.title} />
+              <Button
+                variant="secondary"
+                onClick={() => submitRating(!save, rating)}
               >
-                {value}
-              </button>
-            ))}
-          </div>
-        </div>
+                {save ? "Đã lưu tin" : "Hủy lưu tin"}
+              </Button>
+            </div>
+            <div className="text-center my-5">
+              <h2 className="text-2xl font-semibold mb-4">Đánh giá của bạn:</h2>
+              <div className="flex justify-center gap-4">
+                {[0, 1, 2, 3, 4, 5].map((value) => (
+                  <button
+                    key={value}
+                    onClick={() => submitRating(save, value)}
+                    className={`w-12 h-12 text-xl text-white rounded-md transition duration-300 transform hover:scale-110 ${
+                      rating === value
+                        ? "bg-blue-500"
+                        : "bg-green-500 hover:bg-green-600"
+                    }`}
+                  >
+                    {value}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );
