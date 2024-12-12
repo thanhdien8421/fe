@@ -42,9 +42,9 @@ export default function RecordList({ data }: { data: Data[] }) {
       setCurrentPage(currentPage - 1);
     }
   };
-
+  console.log(data);
   return (
-    <Card className="drop-shadow-sm h-[500px] pb-2 bg-gray-50 relative z-0">
+    <Card className="drop-shadow-sm h-[700px] pb-2 bg-gray-50 relative z-0">
       <CardHeader className="flex flex-row border-b-2 rounded-t-lg bg-green-200 justify-between">
         <div className="text-xl font-semibold text-gray-80 align-text-top">
           Danh sách hồ sơ
@@ -74,18 +74,24 @@ export default function RecordList({ data }: { data: Data[] }) {
                     <h2 className="text-xl font-semibold">{obj.recordTitle}</h2>
 
                     <p>
-                      <strong>Số hồ sơ thành công:</strong>{" "}
-                      {obj.successfulApplications
+                      <strong className="mr-2">Số hồ sơ thành công:</strong>{" "}
+                      {obj.processedApplications > 0
                         ? obj.successfulApplications
-                        : "Chưa nộp"}
+                        : " Chưa nộp"}
                     </p>
+
                     <p>
-                      <strong>Tỷ lệ thành công:</strong>
-                      {obj.successRate ? `${obj.successRate} %` : "   Chưa nộp"}
+                      <strong className="mr-2">Tỷ lệ thành công:</strong>
+                      {obj.processedApplications > 0
+                        ? `${obj.successRate} %`
+                        : "   Chưa nộp"}
                     </p>
+
                     <p>
-                      <strong>Hiệu suất:</strong>
-                      {obj.performance ? `${obj.performance} %` : "   Chưa nộp"}
+                      <strong className="mr-2">Hiệu suất:</strong>
+                      {obj.processedApplications > 0
+                        ? `${obj.performance} `
+                        : "   Chưa nộp"}
                     </p>
                   </div>
                   <div className="flex flex-row gap-2">

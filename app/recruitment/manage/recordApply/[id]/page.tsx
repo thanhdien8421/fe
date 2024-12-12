@@ -15,7 +15,7 @@ import { IoMdAdd } from "react-icons/io";
 import Link from "next/link";
 import { RecordApply } from "@/lib/interface";
 import { useRouter } from "next/navigation";
-
+import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/24/outline";
 function formatDate(isoDate: string) {
   const date = new Date(isoDate);
   const day = String(date.getDate()).padStart(2, "0");
@@ -38,13 +38,32 @@ const RecruitmentedList = ({ params }: { params: { id: string } }) => {
   const [pageSize] = useState<number>(10);
   const [totalPosts, setTotalPosts] = useState<number>(0);
   const [title, setTitle] = useState<string>("");
-
+  const [sortBy, setSortBy] = useState<string>("submissionDate");
   const [formData, setFormData] = useState<FormData>({
     certificateName: "",
     schoolName: "",
     companyName: "",
   });
-
+  const sortApplications = (applications: RecordApply[], sortBy: string) => {
+    return [...applications].sort((a, b) => {
+      if (sortBy === "status") {
+        const statusOrder: { [key: string]: number } = {
+          "Đang chờ": 1,
+          "Đã chấp nhận": 2,
+          "Đã từ chối": 3,
+        };
+        return (
+          (statusOrder[a.applicationStatus] || 0) -
+          (statusOrder[b.applicationStatus] || 0)
+        );
+      } else if (sortBy === "submissionDate") {
+        return (
+          new Date(b.appliedDate).getTime() - new Date(a.appliedDate).getTime()
+        );
+      }
+      return 0;
+    });
+  };
   const fetchJobData = async () => {
     try {
       const queryParams = new URLSearchParams({
@@ -65,7 +84,8 @@ const RecruitmentedList = ({ params }: { params: { id: string } }) => {
 
       const data = await response.json();
       setTitle(data.data.title);
-      setJobData(data.data.result);
+      setJobData(sortApplications(data.data.result, "submissionDate"));
+
       setTotalPosts(data.data.totalPosts);
     } catch (error) {
       setError("Lỗi: Không tìm thấy dữ liệu");
@@ -77,16 +97,24 @@ const RecruitmentedList = ({ params }: { params: { id: string } }) => {
   useEffect(() => {
     fetchJobData(); // Fetch data using the form filters
   }, [currentPage, pageSize]);
-
+  console.log(jobData);
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
+
       [name]: value,
     }));
   };
+  const handleShortBy = (e: any) => {
+    // fetchJobData();
+    if (e.target.value1 != sortBy) {
+      setSortBy(e.target.value);
+    }
+  };
+
   const fetchJobDatafilter = async (formData: FormData) => {
     try {
       let queryParams = "";
@@ -102,17 +130,17 @@ const RecruitmentedList = ({ params }: { params: { id: string } }) => {
       }
 
       const response = await fetch(
-        `http://localhost:8000/api/v1/recruitment-post/1/filter-records?${queryParams.toString()}`
+        `http://localhost:8000/api/v1/recruitment-post/${
+          params.id
+        }/filter-records?${queryParams.toString()}`
       );
-      console.log([
-        `http://localhost:8000/api/v1/recruitment-post/1/filter-records?${queryParams.toString()}`,
-      ]);
+
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
 
       const data = await response.json();
-      setJobData(data.data);
+      setJobData(sortApplications(data.data, sortBy));
     } catch (error) {
       setError("Lỗi: Không tìm thấy dữ liệu");
     } finally {
@@ -262,6 +290,24 @@ const RecruitmentedList = ({ params }: { params: { id: string } }) => {
               />
             </div>
 
+            {/* Sort Options */}
+            <div className="flex flex-col w-full sm:w-1/4">
+              <label
+                htmlFor="sortBy"
+                className="text-base font-semibold text-gray-700 "
+              >
+                Sort By:
+              </label>
+              <select
+                id="sortBy"
+                name="sortBy"
+                className="p-3 border border-gray-300 rounded-md shadow-sm text-lg focus:ring-2 focus:ring-blue-500"
+                onChange={handleShortBy}
+              >
+                <option value="submissionDate">Ngày nộp</option>
+                <option value="status">Trạng thái</option>
+              </select>
+            </div>
             {/* Submit Button */}
             <div className="flex justify-center items-center mt-[40px] sm:mt-0 sm:w-auto w-full ">
               <button
@@ -285,15 +331,12 @@ const RecruitmentedList = ({ params }: { params: { id: string } }) => {
                 <TableHead className="w-[20%]">Thời gian nộp</TableHead>
                 <TableHead className="w-[15%]">Xem chi tiết</TableHead>
                 <TableCell
-                  className="w-[15%] cursor-pointer text-center flex items-center justify-center"
+                  className="w-[20%] text-start cursor-pointer"
                   onClick={sortItems}
                 >
-                  <span className="mr-2">Trạng thái</span>
-                  {isAscending ? (
-                    <ChevronUpIcon className="w-5 h-5 text-blue-500" />
-                  ) : (
-                    <ChevronDownIcon className="w-5 h-5 text-blue-500" />
-                  )}
+                  <span className="mr-2 flex items-center font-semibold text-gray-800">
+                    Trạng thái
+                  </span>
                 </TableCell>
                 <TableHead className="w-[15%] text-center">Xóa</TableHead>
               </TableRow>

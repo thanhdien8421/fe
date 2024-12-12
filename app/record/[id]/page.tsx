@@ -237,7 +237,54 @@ export default function RecordView({ params }: { params: { id: string } }) {
         };
       });
   };
+  const PendingCv = async () => {
+    let recruitmentPostId = 1;
+    if (postId !== null) {
+      // Chuyển đổi postId thành số nguyên
+      recruitmentPostId = parseInt(postId, 10);
 
+      // Kiểm tra nếu recruitmentPostId là một số hợp lệ
+      if (!isNaN(recruitmentPostId)) {
+        console.log("Recruitment Post ID:", recruitmentPostId);
+      } else {
+        console.error("Invalid postId, could not convert to integer.");
+      }
+    } else {
+      console.error("No postId found in localStorage.");
+    }
+
+    const data = {
+      recordId: parseInt(recordId, 10),
+      status: "Đang chờ xét duyệt",
+      recruitmentPostId: recruitmentPostId,
+    };
+    const apiUrl = `http://localhost:8000/api/v1/records-post`;
+
+    return await fetch(apiUrl, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        if (data.error) {
+          throw new Error("Error: " + data.error);
+        } else {
+          router.push(`/recruitment/manage/recordApply/${postId}`);
+        }
+      })
+      .catch((error) => {
+        return {
+          message: error,
+          success: false,
+          data: null,
+        };
+      });
+  };
   const RecordForm: React.FC<RecordProps> = ({ data }) => {
     return (
       <div className="flex flex-col items-center w-1/2 p-5 gap-5">
@@ -339,6 +386,13 @@ export default function RecordView({ params }: { params: { id: string } }) {
           </Button>
           <Button type="submit" className="bg-red-700 w-20" onClick={DenyCV}>
             Từ chối
+          </Button>
+          <Button
+            type="submit"
+            className="bg-yellow-700 w-28"
+            onClick={PendingCv}
+          >
+            Chờ xét duyệt
           </Button>
           <Button
             type="submit"
