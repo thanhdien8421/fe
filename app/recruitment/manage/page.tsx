@@ -46,7 +46,6 @@ const RecruitmentedList = () => {
       }
       const data = await response.json();
       setJobData(data.data.recruitmentPosts);
-      console.log(data.data.totalPosts);
       setTotalPosts(data.data.totalPosts); // Giả sử API trả về tổng số bài đăng
     } catch (error) {
       setError("Lỗi: Không tìm thấy dữ liệu");
@@ -63,9 +62,9 @@ const RecruitmentedList = () => {
   }, [status]); // Chạy
   if (loading) {
     return (
-      <div className="loader h-screen flex flex-col items-center justify-center">
-        <div className="spinner w-16 h-16 border-4 border-t-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
-        <p className="mt-4 text-lg">Đang tải...</p>
+      <div className="flex flex-col items-center justify-center h-screen">
+        <div className="w-16 h-16 border-4 border-t-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+        <p className="mt-4 text-lg font-medium text-gray-600">Đang tải...</p>
       </div>
     );
   }
@@ -89,18 +88,18 @@ const RecruitmentedList = () => {
     }
   };
   if (error) {
-    return <div>{error}</div>;
+    return <div className="text-center text-red-500">{error}</div>;
   }
 
   const totalPages = Math.ceil(totalPosts / pageSize); // Tính tổng số trang
   const AddPostButton: React.FC = () => {
     return (
-      <div className="flex items-center justify-center ">
+      <div className="flex items-center justify-center">
         <Button
           onClick={() => {
             router.push(`/recruitment/manage/create`);
           }}
-          className="bg-green-500 hover:bg-green-600 transition ease-in-out duration-300 "
+          className="px-4 py-2 text-white bg-green-500 rounded-lg shadow hover:bg-green-600 transition ease-in-out duration-300"
         >
           Tạo Bài đăng mới
         </Button>
@@ -108,17 +107,17 @@ const RecruitmentedList = () => {
     );
   };
   return (
-    <div className="flex flex-col justify-center m-7">
-      <h1 className="m-6 text-[1.5rem] text-center">
+    <div className="flex flex-col justify-center px-6 py-4 bg-gray-50 rounded-lg shadow-md">
+      <h1 className="mb-6 text-2xl font-semibold text-center text-gray-800">
         Danh sách bài đăng của bạn
       </h1>
 
       <div className="flex space-x-4 mb-4">
         <Button
-          className={`px-4 py-2 rounded-md font-bold ${
+          className={`px-4 py-2 text-sm font-semibold rounded-lg shadow-md transition ease-in-out duration-300 ${
             status === "still"
-              ? "bg-green-500 cursor-default hover:bg-green-500  "
-              : "bg-gray-200 hover:bg-green-600 transition ease-in-out duration-300 text-black"
+              ? "bg-green-500 text-white cursor-default"
+              : "bg-gray-200 hover:bg-green-500 text-gray-700"
           }`}
           onClick={() => {
             if (status !== "still") {
@@ -130,15 +129,14 @@ const RecruitmentedList = () => {
           Đang mở
         </Button>
         <Button
-          className={`px-4 py-2 rounded-md font-bold ${
+          className={`px-4 py-2 text-sm font-semibold rounded-lg shadow-md transition ease-in-out duration-300 ${
             status !== "still"
-              ? "bg-amber-500 text-white cursor-default hover:bg-amber-500 "
-              : " bg-gray-200 hover:bg-amber-600 transition ease-in-out duration-300 text-black"
+              ? "bg-amber-500 text-white cursor-default"
+              : "bg-gray-200 hover:bg-amber-500 text-gray-700"
           }`}
           onClick={() => {
             if (status !== "nostill") {
               setCurrentPage(1);
-
               setStatus("nostill");
             }
           }}
@@ -146,13 +144,13 @@ const RecruitmentedList = () => {
           Đã đóng
         </Button>
       </div>
-      <div className="flex flex-col gap-5 min-h-[500px]">
-        <div className="ml-auto pr-[15px]">
+      <div className="flex flex-col gap-5">
+        <div className="ml-auto pr-4">
           <AddPostButton />
         </div>
-        <Table className="border border-green-200 rounded-xl select-none ">
+        <Table className="w-full border border-gray-300 rounded-lg shadow-sm bg-white">
           <TableHeader>
-            <TableRow className="text-center">
+            <TableRow className="text-center bg-gray-100">
               <TableHead className="w-[5%] text-center">STT</TableHead>
               <TableHead className="w-[20%] text-center">Tên</TableHead>
               <TableHead className="w-[20%] text-center">Mô tả</TableHead>
@@ -173,54 +171,45 @@ const RecruitmentedList = () => {
           </TableHeader>
           <TableBody>
             {jobData.map((post, index) => (
-              <TableRow key={post.id} className="text-center">
-                <TableCell>
-                  {(currentPage - 1) * pageSize + index + 1}
-                </TableCell>{" "}
-                {/* Hiển thị số thứ tự */}
-                <TableCell className="font-medium">{post.title}</TableCell>
-                <TableCell className="font-medium">
-                  {post.description}
-                </TableCell>
-                <TableCell>{post.location}</TableCell>
+              <TableRow key={post.id} className="text-center hover:bg-gray-50">
+                <TableCell className="py-2">{(currentPage - 1) * pageSize + index + 1}</TableCell>
+                <TableCell className="py-2 font-medium text-gray-800">{post.title}</TableCell>
+                <TableCell className="py-2 text-gray-600">{post.description}</TableCell>
+                <TableCell className="py-2 text-gray-600">{post.location}</TableCell>
                 {status === "still" && (
                   <>
-                    <TableCell>{formatDate(post.datePosted)}</TableCell>
-                    <TableCell>{formatDate(post.deadline)}</TableCell>
+                    <TableCell className="py-2 text-gray-500">{formatDate(post.datePosted)}</TableCell>
+                    <TableCell className="py-2 text-gray-500">{formatDate(post.deadline)}</TableCell>
                   </>
                 )}
-                <TableCell>
-                  <Button className="bg-sky-500">
+                <TableCell className="py-2">
+                  <Button className="px-3 py-1 text-white bg-sky-500 rounded hover:bg-sky-600">
                     <Link href={`/recruitment/${post.id}`}>Xem</Link>
                   </Button>
                 </TableCell>
-                <TableCell>
+                <TableCell className="py-2">
                   <Button
-                    className="bg-gray-500 hover:bg-green-400"
+                    className="px-3 py-1 text-white bg-gray-500 rounded hover:bg-green-400"
                     onClick={() => {
                       router.push(`/recruitment/manage/update/${post.id}`);
                     }}
                   >
-                    <FaRegEdit className="text-center h-full" />
-                    Chỉnh sửa
+                    <FaRegEdit className="inline-block mr-1" /> Chỉnh sửa
                   </Button>
                 </TableCell>
-                <TableCell>
-                  <Button className="bg-blue-500">
-                    <Link href={`/recruitment/manage/recordApply/${post.id}`}>
-                      Xem
-                    </Link>
+                <TableCell className="py-2">
+                  <Button className="px-3 py-1 text-white bg-blue-500 rounded hover:bg-blue-600">
+                    <Link href={`/recruitment/manage/recordApply/${post.id}`}>Xem</Link>
                   </Button>
                 </TableCell>
-                <TableCell>
+                <TableCell className="py-2">
                   <Button
-                    className="bg-amber-500 hover:bg-amber-600"
+                    className="px-3 py-1 text-white bg-amber-500 rounded hover:bg-amber-600"
                     onClick={() => {
                       handleDelete(post.id);
                     }}
                   >
-                    <CiLock />
-                    Đóng
+                    <CiLock className="inline-block mr-1" /> Đóng
                   </Button>
                 </TableCell>
               </TableRow>
@@ -229,8 +218,8 @@ const RecruitmentedList = () => {
           {totalPages > 1 && (
             <TableFooter>
               <TableRow>
-                <TableCell colSpan={9} className="text-center">
-                  <div className="flex justify-center items-center space-x-4 mt-4">
+                <TableCell colSpan={9} className="py-4 text-center">
+                  <div className="flex justify-center items-center space-x-4">
                     <Button
                       onClick={() =>
                         setCurrentPage((prev) => Math.max(prev - 1, 1))

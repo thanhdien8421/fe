@@ -11,7 +11,6 @@ const UpdatePost: React.FC<UpdateFormProps> = ({ initJob }) => {
   const router = useRouter();
   const [job, setJob] = useState<RecruitmentPost>(initJob);
 
-  // Hàm xử lý thay đổi khi người dùng nhập dữ liệu
   const handleChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
@@ -23,31 +22,31 @@ const UpdatePost: React.FC<UpdateFormProps> = ({ initJob }) => {
       [name]:
         name === "quantity" || name === "salary"
           ? value.replace(/\D/g, "")
-          : value, // Chỉ cho phép số cho "quantity" và "salary"
+          : value,
     }));
   };
 
   const submitRecruitmentPost = async (id: any, job: RecruitmentPost) => {
     const recruitmentPost = {
       location: job.location,
-      level: job.level || "staff", // Mặc định là 'staff'
+      level: job.level || "staff",
       experience: job.experience,
-      salary: job.salary || "0", // Đảm bảo có giá trị cho salary
-      quantity: Number(job.quantity), // Chuyển quantity thành số
-      employmentType: job.employmentType || "Not specified", // Giá trị mặc định nếu null
-      gender: job.gender || "Not required", // Giá trị mặc định nếu null
+      salary: job.salary || "0",
+      quantity: Number(job.quantity),
+      employmentType: job.employmentType || "Not specified",
+      gender: job.gender || "Not required",
       recruitmentPostId: job.id,
     };
 
     try {
       const response = await fetch(
-        `http://localhost:8000/api/v1/job-description/${id}`, // Cập nhật URL với ID thích hợp nếu cần
+        `http://localhost:8000/api/v1/job-description/${id}`,
         {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(recruitmentPost), // Chuyển đối tượng body thành chuỗi JSON
+          body: JSON.stringify(recruitmentPost),
         }
       );
 
@@ -58,7 +57,7 @@ const UpdatePost: React.FC<UpdateFormProps> = ({ initJob }) => {
       const result = await response.json();
       if (result.error) {
         alert(result.error);
-        return; // Nếu có lỗi, thông báo và trả về.
+        return;
       }
       router.push("/recruitment/manage");
       console.log("Recruitment post updated:", result);
@@ -68,13 +67,13 @@ const UpdatePost: React.FC<UpdateFormProps> = ({ initJob }) => {
   };
 
   const submitJobPost = async (job: RecruitmentPost) => {
-    let userId: any = localStorage.getItem("userId"); // Có thể trả về 'string' hoặc 'null'
+    let userId: any = localStorage.getItem("userId");
 
     if (userId !== null) {
-      userId = parseInt(userId, 10); // Chuyển chuỗi thành số nguyên
+      userId = parseInt(userId, 10);
     } else {
       console.error("UserId không tồn tại trong localStorage");
-      userId = null; // Hoặc gán giá trị mặc định nếu cần
+      userId = null;
     }
 
     const jobPost = {
@@ -103,7 +102,7 @@ const UpdatePost: React.FC<UpdateFormProps> = ({ initJob }) => {
       const result = await response.json();
       if (result.error) {
         alert(result.error);
-        return; // Nếu có lỗi, thông báo và trả về.
+        return;
       } else {
         await submitRecruitmentPost(result.data[0].id, job);
       }
@@ -122,7 +121,7 @@ const UpdatePost: React.FC<UpdateFormProps> = ({ initJob }) => {
       alert("Mức lương phải là một số hợp lệ.");
       return;
     }
-    await submitJobPost(job); // Gọi hàm gửi bài đăng việc làm với dữ liệu job
+    await submitJobPost(job);
   };
 
   const provincesAndCities = [
@@ -205,16 +204,16 @@ const UpdatePost: React.FC<UpdateFormProps> = ({ initJob }) => {
     required = true
   ) => (
     <div className="mb-4">
-      <label className="block text-sm font-medium text-gray-700">
+      <label className="block text-sm font-medium text-gray-800 dark:text-gray-200">
         {label}:
       </label>
       <input
         type={type}
         name={name}
-        value={job[name] || ""} // Đảm bảo value được gán đúng
+        value={job[name] || ""}
         onChange={handleChange}
         required={required}
-        className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500"
+        className="mt-1 block w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-4 focus:ring-blue-500 dark:border-gray-700 dark:bg-gray-800 dark:focus:ring-blue-400"
       />
     </div>
   );
@@ -225,7 +224,7 @@ const UpdatePost: React.FC<UpdateFormProps> = ({ initJob }) => {
     options: string[]
   ) => (
     <div className="mb-4">
-      <label className="block text-sm font-medium text-gray-700">
+      <label className="block text-sm font-medium text-gray-800 dark:text-gray-200">
         {label}:
       </label>
       <select
@@ -233,7 +232,7 @@ const UpdatePost: React.FC<UpdateFormProps> = ({ initJob }) => {
         value={job[name] || ""}
         onChange={handleChange}
         required
-        className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500"
+        className="mt-1 block w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-4 focus:ring-blue-500 dark:border-gray-700 dark:bg-gray-800 dark:focus:ring-blue-400"
       >
         <option value="" disabled>
           Chọn {label.toLowerCase()}
@@ -248,17 +247,17 @@ const UpdatePost: React.FC<UpdateFormProps> = ({ initJob }) => {
   );
 
   return (
-    <div className="bg-gray-100 p-6">
-      <h2 className="text-2xl font-bold text-center mb-4">
+    <div className="bg-gray-50 dark:bg-gray-900 p-8">
+      <h2 className="text-3xl font-bold text-center mb-6 text-gray-800 dark:text-gray-200">
         Cập Nhật Thông Tin Bài Đăng
       </h2>
       <form
         onSubmit={handleSubmit}
-        className="w-1/2 mx-auto bg-white p-6 rounded-md shadow-md"
+        className="w-full max-w-4xl mx-auto bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg grid grid-cols-1 md:grid-cols-2 gap-6"
       >
         {renderInput("text", "title", "Tiêu đề")}
-        <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700">
+        <div className="md:col-span-2">
+          <label className="block text-sm font-medium text-gray-800 dark:text-gray-200">
             Mô tả:
           </label>
           <textarea
@@ -266,11 +265,11 @@ const UpdatePost: React.FC<UpdateFormProps> = ({ initJob }) => {
             value={job.description || ""}
             onChange={handleChange}
             required
-            className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500"
+            className="mt-1 block w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-4 focus:ring-blue-500 dark:border-gray-700 dark:bg-gray-800 dark:focus:ring-blue-400"
           />
         </div>
-        <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700">
+        <div>
+          <label className="block text-sm font-medium text-gray-800 dark:text-gray-200">
             Ngày đăng:
           </label>
           <input
@@ -279,11 +278,11 @@ const UpdatePost: React.FC<UpdateFormProps> = ({ initJob }) => {
             value={job["datePosted"].split("T")[0]}
             onChange={handleChange}
             required
-            className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500"
+            className="mt-1 block w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-4 focus:ring-blue-500 dark:border-gray-700 dark:bg-gray-800 dark:focus:ring-blue-400"
           />
         </div>
-        <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700">
+        <div>
+          <label className="block text-sm font-medium text-gray-800 dark:text-gray-200">
             Hạn chót:
           </label>
           <input
@@ -292,7 +291,7 @@ const UpdatePost: React.FC<UpdateFormProps> = ({ initJob }) => {
             value={job["deadline"]}
             onChange={handleChange}
             required
-            className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500"
+            className="mt-1 block w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-4 focus:ring-blue-500 dark:border-gray-700 dark:bg-gray-800 dark:focus:ring-blue-400"
           />
         </div>
         {renderSelect("location", "Địa điểm", provincesAndCities)}
@@ -317,12 +316,14 @@ const UpdatePost: React.FC<UpdateFormProps> = ({ initJob }) => {
           "Male",
           "Female",
         ])}
-        <button
-          type="submit"
-          className="w-full bg-green-600 text-white py-2 rounded-md hover:bg-green-700 transition duration-200"
-        >
-          Cập Nhật
-        </button>
+        <div className="md:col-span-2">
+          <button
+            type="submit"
+            className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition duration-200 focus:ring-4 focus:ring-blue-500 dark:focus:ring-blue-400"
+          >
+            Cập Nhật
+          </button>
+        </div>
       </form>
     </div>
   );
