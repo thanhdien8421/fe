@@ -32,46 +32,27 @@ const NavBar = () => {
   const employerNavLink = [
     {
       id: "list1",
-      title: "Tuyển dụng",
-      url: "/recruitment",
+      title: "Quản lý bài đăng",
+      url: "/recruitment/manage",
     },
     {
       id: "list2",
-      title: "Hồ sơ & CV",
-      url: "/record",
-    },
-    {
-      id: "list3",
-      title: "Thông tin",
-      url: "/info",
-    },
-    {
-      id: "list4",
-      title: "Company",
-      url: "/company",
+      title: "Tạo bài đăng mới",
+      url: "/recruitment/manage/create",
     },
   ];
 
   const AdminNavLink = [
     {
       id: "list1",
-      title: "Công ty",
-      url: "/company",
+      title: "Ứng viên",
+      url: "/admin",
     },
+
     {
       id: "list2",
-      title: "Danh sách bài đăng",
-      url: "/recruitment",
-    },
-    {
-      id: "list3",
-      title: "Danh sách profile",
-      url: "/profile",
-    },
-    {
-      id: "list4",
-      title: "Danh sách CV",
-      url: "/record",
+      title: "AuditLog",
+      url: "/admin/auditLog",
     },
   ];
   const router = useRouter();

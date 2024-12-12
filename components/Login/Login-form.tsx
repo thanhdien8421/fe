@@ -67,8 +67,13 @@ export function LoginForm() {
           router.push("/profile");
           router.refresh();
         } else {
-          router.push("/recruitment/manage");
-          router.refresh();
+          if (result.user?.type === "Employer") {
+            router.push("/recruitment/manage");
+            router.refresh();
+          } else {
+            router.push("/admin");
+            router.refresh();
+          }
         }
       } else toast.error(result.message);
     });
