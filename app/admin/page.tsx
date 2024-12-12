@@ -211,16 +211,16 @@ const RecruitmentedList = ({ params }: { params: { id: string } }) => {
       </p>
       <div className="flex justify-center">
         <Dialog>
-          <DialogTrigger asChild>
+          {/* <DialogTrigger asChild>
             <Button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-200">
               <Plus />
               Thêm người dùng
             </Button>
-          </DialogTrigger>
+          </DialogTrigger> */}
           <DialogContent>
-            <DialogHeader>
+            {/* <DialogHeader>
               <DialogTitle>Thêm người dùng</DialogTitle>
-            </DialogHeader>
+            </DialogHeader> */}
             <Form {...form}>
               <form onSubmit={form.handleSubmit((values) => handleAdd(values))}>
                 <FormField
