@@ -59,7 +59,7 @@ export default function Account() {
     email: "",
     name: "",
     gender: "",
-    age: 18,
+    birthday: "",
     avatar: "",
   });
   // const form = useForm<z.infer<typeof RecordSchema>>({
@@ -96,6 +96,7 @@ export default function Account() {
           eduResponse,
           expResponse,
           recordResponse,
+          recordFull,
         ] = await Promise.all([
           fetch(
             `http://localhost:8000/api/v1/employees/${localStorage.getItem(
@@ -122,17 +123,34 @@ export default function Account() {
               "userId"
             )}/application-stats`
           ),
+          fetch(
+            `http://localhost:8000/api/v1/records/getRecordByOwn/${localStorage.getItem(
+              "userId"
+            )}`
+          ),
         ]);
 
         if (!userResponse.ok) {
           throw new Error("Failed to load user info");
         }
 
-        const userInfo = await userResponse.json();
-        const certData = await certResponse.json();
-        const eduData = await eduResponse.json();
-        const expData = await expResponse.json();
-        const recordData = await recordResponse.json();
+        let userInfo = await userResponse.json();
+        let certData = await certResponse.json();
+        let eduData = await eduResponse.json();
+        let expData = await expResponse.json();
+        let recordData = await recordResponse.json();
+        let recordFullData = await recordFull.json();
+
+        for (let i = 0; i < recordFullData.data.length; i++) {
+          for (let j = 0; j < recordData.data.length; j++) {
+            if (
+              recordFullData.data[i].recordId == recordData.data[j].recordId
+            ) {
+              recordFullData.data[i] = recordData.data[j];
+              break;
+            }
+          }
+        }
         setContent({
           ...content,
           certificate: certData.data,
@@ -143,7 +161,7 @@ export default function Account() {
           expCheck: expData.data.map(() => false),
         });
         setUserData(userInfo.data);
-        setRecord(recordData.data);
+        setRecord(recordFullData.data);
       } catch (error) {
         setError("An error occurred while fetching data.");
         console.error(error);

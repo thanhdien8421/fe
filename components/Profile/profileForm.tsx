@@ -56,7 +56,7 @@ export default function Profile({ data }: { data: UserData }) {
       address: "",
       name: "",
       gender: "",
-      age: 18,
+      birthday: "",
     },
   });
 
@@ -110,19 +110,23 @@ export default function Profile({ data }: { data: UserData }) {
             />
             <FormField
               control={form.control}
-              name="age"
+              name="birthday"
               render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Tuổi</FormLabel>
+                <FormItem className="mb-4">
+                  <FormLabel className="text-lg font-semibold">
+                    Ngày sinh
+                  </FormLabel>
                   <FormControl>
                     <Input
                       {...field}
-                      type="number"
-                      placeholder={Number(data.age).toString()}
+                      type="date" // Thay đổi loại thành "date" để chọn ngày
+                      className="mt-2 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
                     />
                   </FormControl>
-                  <FormDescription>Tuổi của bạn</FormDescription>
-                  <FormMessage />
+                  <FormDescription className="text-gray-500 mt-1">
+                    Chọn ngày sinh của bạn
+                  </FormDescription>
+                  <FormMessage className="text-red-500 mt-1" />
                 </FormItem>
               )}
             />
@@ -151,7 +155,14 @@ export default function Profile({ data }: { data: UserData }) {
                 </FormItem>
               )}
             />
-            <Button type="submit" disabled={isPending} className="bg-blue-800">
+            <Button
+              type="submit"
+              disabled={isPending}
+              className="bg-blue-800"
+              onClick={() => {
+                console.log();
+              }}
+            >
               Cập nhật
             </Button>
           </form>
@@ -168,6 +179,6 @@ export interface UserData {
   email: string;
   name: string;
   gender: string;
-  age: number;
+  birthday: any;
   avatar: string;
 }

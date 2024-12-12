@@ -71,7 +71,7 @@ export function SignupForm() {
       <div>
         <Toaster />
       </div>
-      <Card className=" drop-shadow-xl">
+      <Card className=" drop-shadow-xl w-">
         <CardHeader className="space-y-1">
           <CardTitle className="text-3xl font-bold">Sign Up</CardTitle>
           <CardDescription>Đăng ký tài khoản mới</CardDescription>
@@ -149,7 +149,11 @@ export function SignupForm() {
                 </FormItem>
               )}
             />
-            <Button type="submit" disabled={isPending} className="bg-blue-800">
+            <Button
+              type="submit"
+              disabled={isPending}
+              className="bg-blue-800 ml-[20px]"
+            >
               Đăng ký
             </Button>
           </form>

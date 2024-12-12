@@ -65,7 +65,11 @@ export function LoginForm() {
         if (result.user?.type == "Employee") {
           localStorage.setItem("phone", result.user?.phone);
           router.push("/profile");
-        } else router.push("/recruitment/manage");
+          router.refresh();
+        } else {
+          router.push("/recruitment/manage");
+          router.refresh();
+        }
       } else toast.error(result.message);
     });
   }

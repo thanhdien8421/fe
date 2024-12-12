@@ -2,7 +2,7 @@
 import { Button } from "../ui/button";
 import { UploadCVForm } from "../Form/UploadCVForm";
 import { JobPost, JobPostAndDescription } from "@/lib/interface";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { GiTakeMyMoney } from "react-icons/gi";
 import { RiMapPin2Line } from "react-icons/ri";
 import { TfiTime } from "react-icons/tfi";
@@ -24,11 +24,7 @@ export function Itemdescription({ title, des }: ItemdescriptionProp) {
   );
 }
 
-export default function DescriptionJobPage({
-  job,
-}: {
-  job: JobPostAndDescription;
-}) {
+export default function DescriptionJobPage({ job }: { job: any }) {
   let Title = () => {
     return (
       <div className=" flex  justify-center  w-full h-[200px] ">
@@ -78,7 +74,12 @@ export default function DescriptionJobPage({
       </div>
     );
   };
+  const [rating, setRating] = useState(null);
 
+  const submitRating = (value: any) => {
+    setRating(value);
+    alert(`Bạn đã đánh giá: ${value}`);
+  };
   let Body = () => {
     return (
       <div className=" flex  justify-center  w-full mt-10 ">
@@ -114,8 +115,27 @@ export default function DescriptionJobPage({
             <DialogDemo />
           </div> */}
           <div className="flex gap-3 w-[950px] mt-10">
-            <UploadCVForm title={job.title} id={`${job.id}`} />
+            <UploadCVForm recruitmentPostId={`${job.id}`} title={job.title} />
             <Button variant={"secondary"}>Lưu tin</Button>
+          </div>
+          <div className="text-center my-5">
+            <h2 className="text-2xl font-semibold mb-4">Đánh giá của bạn:</h2>
+            <div className="flex justify-center gap-4">
+              {[0, 1, 2, 3, 4, 5].map((value) => (
+                <button
+                  key={value}
+                  onClick={() => submitRating(value)}
+                  className="w-12 h-12 text-xl text-white bg-green-500 rounded-md transition duration-300 hover:bg-green-600 transform hover:scale-110"
+                >
+                  {value}
+                </button>
+              ))}
+            </div>
+            {rating !== null && (
+              <p className="mt-4 text-lg text-gray-700">
+                Bạn đã đánh giá: {rating}
+              </p>
+            )}
           </div>
         </div>
       </div>

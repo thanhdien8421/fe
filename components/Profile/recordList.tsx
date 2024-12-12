@@ -14,13 +14,22 @@ export default function RecordList({ data }: { data: Data[] }) {
   const [currentPage, setCurrentPage] = React.useState<number>(1);
 
   // Tính toán tổng số trang
-  const totalPages = Math.ceil(data.length / ITEMS_PER_PAGE);
-
+  let totalPages;
+  if (data?.length) {
+    totalPages = Math.ceil(data.length / ITEMS_PER_PAGE);
+  } else totalPages = 0;
   // Lấy dữ liệu của trang hiện tại
-  const currentData = data.slice(
-    (currentPage - 1) * ITEMS_PER_PAGE,
-    currentPage * ITEMS_PER_PAGE
-  );
+  let currentData;
+  if (data?.slice) {
+    currentData = data.slice(
+      (currentPage - 1) * ITEMS_PER_PAGE,
+      currentPage * ITEMS_PER_PAGE
+    );
+  } else
+    currentData = data.slice(
+      (currentPage - 1) * ITEMS_PER_PAGE,
+      currentPage * ITEMS_PER_PAGE
+    );
 
   const handleNextPage = () => {
     if (currentPage < totalPages) {
@@ -35,7 +44,7 @@ export default function RecordList({ data }: { data: Data[] }) {
   };
 
   return (
-    <Card className="drop-shadow-sm h-[300px] pb-2 bg-gray-50 relative z-0">
+    <Card className="drop-shadow-sm h-[500px] pb-2 bg-gray-50 relative z-0">
       <CardHeader className="flex flex-row border-b-2 rounded-t-lg bg-green-200 justify-between">
         <div className="text-xl font-semibold text-gray-80 align-text-top">
           Danh sách hồ sơ
@@ -66,13 +75,17 @@ export default function RecordList({ data }: { data: Data[] }) {
 
                     <p>
                       <strong>Số hồ sơ thành công:</strong>{" "}
-                      {obj.successfulApplications}
+                      {obj.successfulApplications
+                        ? obj.successfulApplications
+                        : "Chưa nộp"}
                     </p>
                     <p>
-                      <strong>Tỷ lệ thành công:</strong> {obj.successRate}%
+                      <strong>Tỷ lệ thành công:</strong>
+                      {obj.successRate ? `${obj.successRate} %` : "   Chưa nộp"}
                     </p>
                     <p>
-                      <strong>Hiệu suất:</strong> {obj.performance}
+                      <strong>Hiệu suất:</strong>
+                      {obj.performance ? `${obj.performance} %` : "   Chưa nộp"}
                     </p>
                   </div>
                   <div className="flex flex-row gap-2">
