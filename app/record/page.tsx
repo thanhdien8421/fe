@@ -19,13 +19,15 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
 import { RecordSchema } from "@/schema/RecordSchema";
-import { z } from "zod";
+import { set, z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
-import { Interface } from "readline";
+import { formatFileSize, iconFiles } from "@/utils/constant";
 
 export default function Record() {
   const [clicked, setClicked] = useState<Boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [file, setFile] = useState<File | null>(null);
   const router = useRouter();
   const [content, setContent] = React.useState<RecordType>({
     title: "",
@@ -51,12 +53,12 @@ export default function Record() {
     setContent(data);
   };
 
-  const CreateRecord = async (values: z.infer<typeof RecordSchema>) => {
+  const CreateRecord = async (values: z.infer<typeof RecordSchema>, fileCvId?: number) => {
     const dto = {
       title: values.title,
       description: values.description,
       ownerId: Number(localStorage.getItem("userId")),
-      fileCvId: 1,
+      fileCvId: fileCvId ? fileCvId : null,
     };
     const apiUrl = `http://localhost:8000/api/v1/records`;
 
@@ -83,6 +85,7 @@ export default function Record() {
         }
       })
       .catch((error) => {
+        setIsLoading(false);
         return {
           message: error,
           success: false,
@@ -91,6 +94,20 @@ export default function Record() {
       });
   };
 
+  const CreateFileCv = async (file: File) => {
+    const formData = new FormData();
+    formData.append("file", file);
+    console.log(formData);
+    const rs = await fetch(
+      `http://localhost:8000/api/v1/files/upload`,
+      {
+        method: "POST",
+        body: formData,
+      }
+    );
+    console.log(rs);
+    return rs.json();
+  }
   const UpdateEduExpCer = async (recordId: number) => {
     try {
       const eduRes = await Promise.all(
@@ -163,10 +180,17 @@ export default function Record() {
 
   async function onSubmit(values: z.infer<typeof RecordSchema>) {
     console.log(content);
-    const result = await CreateRecord(values);
-    console.log(result);
-    const update = await UpdateEduExpCer(result.data.id);
-    if ((result.success == true) == true) router.push("/profile");
+    if (file === null) alert("Vui lòng tải lên CV của bạn");
+    else {
+      setIsLoading(true);
+      let addedCv = null;
+      if (file) addedCv = await CreateFileCv(file);
+      const result = await CreateRecord(values, addedCv ? addedCv?.data.id: null);
+      console.log(result);
+      const update = await UpdateEduExpCer(result.data.id);
+      setIsLoading(false);
+      if ((result.success == true) == true) router.push("/profile");        
+    }
   }
 
   const [loading, setLoading] = React.useState(true);
@@ -176,7 +200,7 @@ export default function Record() {
   function handleFileUpload(event: React.ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.[0];
     if (file) {
-      form.setValue("fileCV", file.name); // Store the file name or other necessary metadata
+      setFile(file) // Store the file name or other necessary metadata
       // Upload logic here if required
     }
   }
@@ -333,6 +357,24 @@ export default function Record() {
                 CV của bạn
               </h2>
               <div className="bg-gray-50 rounded-xl p-8 border-2 border-dashed border-gray-300 hover:border-blue-400 transition-colors duration-300">
+                {file ? 
+                <div className="flex items-center gap-4">
+                  {
+                    iconFiles.map((icon) => {
+                      if (icon.type === file.type) {
+                        const Icon = icon.icon;
+                        return <Icon className={`w-8 h-8 ${icon.color}`} />;
+                      }
+                    })
+                  }
+                  <div className="flex flex-col gap-3">
+                  <span className="text-md font-bold">
+                    {file.name}
+                  </span>
+                  <span className="text-gray-500">{formatFileSize(file.size)}</span>
+                  </div>
+                </div>
+                  : <div>
                 <Input
                   id="file"
                   type="file"
@@ -353,6 +395,7 @@ export default function Record() {
                     PDF, DOC, DOCX (Max. 10MB)
                   </span>
                 </label>
+                </div>}
               </div>
             </section>
           </div>
@@ -361,6 +404,7 @@ export default function Record() {
         {/* Submit Button */}
         <div className="flex justify-end">
           <Button
+            disabled={isLoading}
             type="submit"
             className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-8 py-3 rounded-xl transition duration-300 transform hover:scale-105 hover:shadow-lg flex items-center gap-2 font-medium"
           >

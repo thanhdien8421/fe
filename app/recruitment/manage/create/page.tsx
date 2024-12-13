@@ -45,7 +45,7 @@ function JobPostForm() {
             <textarea
               ref={titleRef}
               required
-              className="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm"
+              className="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm h-12 px-4 py-2"
             />
           </div>
 
@@ -56,7 +56,7 @@ function JobPostForm() {
             <textarea
               ref={descriptionRef}
               required
-              className="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm"
+              className="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm h-12 px-4 py-2"
             />
           </div>
 
@@ -69,7 +69,7 @@ function JobPostForm() {
                 type="datetime-local"
                 ref={datePostedRef}
                 required
-                className="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm"
+                className="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm h-12 px-4"
               />
             </div>
             <div>
@@ -80,7 +80,7 @@ function JobPostForm() {
                 type="datetime-local"
                 ref={deadlineRef}
                 required
-                className="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm"
+                className="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm h-12 px-4"
               />
             </div>
           </div>
@@ -92,7 +92,7 @@ function JobPostForm() {
             <select
               ref={locationRef}
               required
-              className="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm"
+              className="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm h-12 px-4"
             >
               <option value="">Chọn địa điểm</option>
               {provincesAndCities.map((city) => (
@@ -111,7 +111,7 @@ function JobPostForm() {
               <select
                 ref={experienceRef}
                 required
-                className="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm"
+                className="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm h-12 px-4"
               >
                 <option value="">Chọn kinh nghiệm</option>
                 {experienceOptions.map((exp) => (
@@ -128,7 +128,7 @@ function JobPostForm() {
               <select
                 ref={levelRef}
                 required
-                className="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm"
+                className="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm h-12 px-4"
               >
                 <option value="">Chọn cấp độ</option>
                 <option value="Intern">Thực tập sinh</option>
@@ -149,7 +149,7 @@ function JobPostForm() {
                 type="text"
                 ref={salaryRef}
                 required
-                className="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm"
+                className="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm h-12 px-4"
               />
             </div>
             <div>
@@ -160,7 +160,7 @@ function JobPostForm() {
                 type="number"
                 ref={quantityRef}
                 required
-                className="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm"
+                className="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm h-12 px-4"
               />
             </div>
           </div>
@@ -173,7 +173,7 @@ function JobPostForm() {
               <select
                 ref={employmentTypeRef}
                 required
-                className="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm"
+                className="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm h-12 px-4"
               >
                 <option value="Full-time">Toàn thời gian</option>
                 <option value="Part-time">Bán thời gian</option>
@@ -188,7 +188,7 @@ function JobPostForm() {
               <select
                 ref={genderRef}
                 required
-                className="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm"
+                className="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm h-12 px-4"
               >
                 <option value="Not required">Không yêu cầu</option>
                 <option value="Male">Nam</option>

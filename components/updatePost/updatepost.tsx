@@ -253,7 +253,7 @@ const UpdatePost: React.FC<UpdateFormProps> = ({ initJob }) => {
       </h2>
       <form
         onSubmit={handleSubmit}
-        className="w-full max-w-4xl mx-auto bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg grid grid-cols-1 md:grid-cols-2 gap-6"
+        className="w-full max-w-4xl mx-auto  p-8 rounded-lg shadow-lg grid grid-cols-1 md:grid-cols-2 gap-6"
       >
         {renderInput("text", "title", "Tiêu đề")}
         <div className="md:col-span-2">

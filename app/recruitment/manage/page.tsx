@@ -106,158 +106,155 @@ const RecruitmentedList = () => {
       </div>
     );
   };
-  return (
-    <div className="flex flex-col justify-center px-6 py-4 bg-gray-50 rounded-lg shadow-md">
-      <h1 className="mb-6 text-2xl font-semibold text-center text-gray-800">
+  // Trong trang manage
+return (
+  <div className="min-h-screen bg-gray-50 pb-12">
+    <div className="max-w-7xl mx-auto px-4">
+      <h1 className="mb-6 mt-10 text-3xl font-bold text-center text-gray-800">
         Danh sách bài đăng của bạn
       </h1>
 
-      <div className="flex space-x-4 mb-4">
+      {/* Status and Add Post Buttons */}
+      <div className="flex justify-between items-center mb-8">
+        <div className="flex space-x-4">
+          <Button
+            className={`px-6 py-2.5 text-sm font-medium rounded-lg transition-all duration-200 ${
+              status === "still"
+                ? "bg-green-600 text-white shadow-lg shadow-green-200"
+                : "bg-gray-100 text-gray-700 hover:bg-green-600 hover:text-white hover:shadow-lg hover:shadow-green-200"
+            }`}
+            onClick={() => {
+              if (status !== "still") {
+                setCurrentPage(1);
+                setStatus("still");
+              }
+            }}
+          >
+            Đang mở
+          </Button>
+          <Button
+            className={`px-6 py-2.5 text-sm font-medium rounded-lg transition-all duration-200 ${
+              status !== "still"
+                ? "bg-amber-600 text-white shadow-lg shadow-amber-200"
+                : "bg-gray-100 text-gray-700 hover:bg-amber-600 hover:text-white hover:shadow-lg hover:shadow-amber-200"
+            }`}
+            onClick={() => {
+              if (status !== "nostill") {
+                setCurrentPage(1);
+                setStatus("nostill");
+              }
+            }}
+          >
+            Đã đóng
+          </Button>
+        </div>
+
         <Button
-          className={`px-4 py-2 text-sm font-semibold rounded-lg shadow-md transition ease-in-out duration-300 ${
-            status === "still"
-              ? "bg-green-500 text-white cursor-default"
-              : "bg-gray-200 hover:bg-green-500 text-gray-700"
-          }`}
-          onClick={() => {
-            if (status !== "still") {
-              setCurrentPage(1);
-              setStatus("still");
-            }
-          }}
+          onClick={() => router.push(`/recruitment/manage/create`)}
+          className="px-6 py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transform hover:scale-105 transition-all duration-200 font-medium shadow-lg shadow-blue-200"
         >
-          Đang mở
-        </Button>
-        <Button
-          className={`px-4 py-2 text-sm font-semibold rounded-lg shadow-md transition ease-in-out duration-300 ${
-            status !== "still"
-              ? "bg-amber-500 text-white cursor-default"
-              : "bg-gray-200 hover:bg-amber-500 text-gray-700"
-          }`}
-          onClick={() => {
-            if (status !== "nostill") {
-              setCurrentPage(1);
-              setStatus("nostill");
-            }
-          }}
-        >
-          Đã đóng
+          Tạo bài đăng mới
         </Button>
       </div>
-      <div className="flex flex-col gap-5">
-        <div className="ml-auto pr-4">
-          <AddPostButton />
-        </div>
-        <Table className="w-full border border-gray-300 rounded-lg shadow-sm bg-white">
-          <TableHeader>
-            <TableRow className="text-center bg-gray-100">
-              <TableHead className="w-[5%] text-center">STT</TableHead>
-              <TableHead className="w-[20%] text-center">Tên</TableHead>
-              <TableHead className="w-[20%] text-center">Mô tả</TableHead>
-              <TableHead className="text-center">Địa điểm</TableHead>
 
+      {/* Table */}
+      <div className="bg-white rounded-xl shadow-lg overflow-hidden">
+        <Table>
+          <TableHeader>
+            <TableRow className="bg-gray-50 border-b">
+              <TableHead className="py-4 px-6 text-sm font-medium text-gray-600">STT</TableHead>
+              <TableHead className="py-4 px-6 text-sm font-medium text-gray-600">Tên</TableHead>
+              <TableHead className="py-4 px-6 text-sm font-medium text-gray-600">Mô tả</TableHead>
+              <TableHead className="py-4 px-6 text-sm font-medium text-gray-600">Địa điểm</TableHead>
               {status === "still" && (
                 <>
-                  <TableHead className="text-center">Ngày tuyển dụng</TableHead>
-                  <TableHead className="text-center">Ngày kết thúc</TableHead>
+                  <TableHead className="py-4 px-6 text-sm font-medium text-gray-600">Ngày tuyển dụng</TableHead>
+                  <TableHead className="py-4 px-6 text-sm font-medium text-gray-600">Ngày kết thúc</TableHead>
                 </>
               )}
-              <TableHead className="text-center">Xem bài đăng</TableHead>
-
-              <TableHead className="text-center">Chỉnh sửa</TableHead>
-              <TableHead className="text-center">Xem record apply</TableHead>
-              <TableHead className="text-center">Đóng tuyển dụng</TableHead>
+              <TableHead className="py-4 px-6 text-sm font-medium text-gray-600 text-center">Thao tác</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {jobData.map((post, index) => (
-              <TableRow key={post.id} className="text-center hover:bg-gray-50">
-                <TableCell className="py-2">{(currentPage - 1) * pageSize + index + 1}</TableCell>
-                <TableCell className="py-2 font-medium text-gray-800">{post.title}</TableCell>
-                <TableCell className="py-2 text-gray-600">{post.description}</TableCell>
-                <TableCell className="py-2 text-gray-600">{post.location}</TableCell>
+              <TableRow key={post.id} className="border-b hover:bg-gray-50 transition-colors">
+                <TableCell className="py-4 px-6">{(currentPage - 1) * pageSize + index + 1}</TableCell>
+                <TableCell className="py-4 px-6 font-medium">{post.title}</TableCell>
+                <TableCell className="py-4 px-6">{post.description}</TableCell>
+                <TableCell className="py-4 px-6">{post.location}</TableCell>
                 {status === "still" && (
                   <>
-                    <TableCell className="py-2 text-gray-500">{formatDate(post.datePosted)}</TableCell>
-                    <TableCell className="py-2 text-gray-500">{formatDate(post.deadline)}</TableCell>
+                    <TableCell className="py-4 px-6">{formatDate(post.datePosted)}</TableCell>
+                    <TableCell className="py-4 px-6">{formatDate(post.deadline)}</TableCell>
                   </>
                 )}
-                <TableCell className="py-2">
-                  <Button className="px-3 py-1 text-white bg-sky-500 rounded hover:bg-sky-600">
-                    <Link href={`/recruitment/${post.id}`}>Xem</Link>
-                  </Button>
-                </TableCell>
-                <TableCell className="py-2">
-                  <Button
-                    className="px-3 py-1 text-white bg-gray-500 rounded hover:bg-green-400"
-                    onClick={() => {
-                      router.push(`/recruitment/manage/update/${post.id}`);
-                    }}
-                  >
-                    <FaRegEdit className="inline-block mr-1" /> Chỉnh sửa
-                  </Button>
-                </TableCell>
-                <TableCell className="py-2">
-                  <Button className="px-3 py-1 text-white bg-blue-500 rounded hover:bg-blue-600">
-                    <Link href={`/recruitment/manage/recordApply/${post.id}`}>Xem</Link>
-                  </Button>
-                </TableCell>
-                <TableCell className="py-2">
-                  <Button
-                    className="px-3 py-1 text-white bg-amber-500 rounded hover:bg-amber-600"
-                    onClick={() => {
-                      handleDelete(post.id);
-                    }}
-                  >
-                    <CiLock className="inline-block mr-1" /> Đóng
-                  </Button>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-          {totalPages > 1 && (
-            <TableFooter>
-              <TableRow>
-                <TableCell colSpan={9} className="py-4 text-center">
-                  <div className="flex justify-center items-center space-x-4">
-                    <Button
-                      onClick={() =>
-                        setCurrentPage((prev) => Math.max(prev - 1, 1))
-                      }
-                      disabled={currentPage === 1}
-                      className={`px-4 py-2 rounded-lg text-white transition duration-200 ${
-                        currentPage === 1
-                          ? "bg-gray-400 cursor-not-allowed"
-                          : "bg-blue-600 hover:bg-blue-700"
-                      }`}
+                <TableCell className="py-4 px-6">
+                  <div className="flex justify-center space-x-2">
+                    <Button 
+                      className="px-4 py-2 bg-sky-600 text-white rounded hover:bg-sky-700 transition-colors"
+                      onClick={() => router.push(`/recruitment/${post.id}`)}
                     >
-                      Trước
+                      Xem
                     </Button>
-                    <span className="text-lg font-semibold">
-                      Trang {currentPage} / {totalPages}
-                    </span>
                     <Button
-                      onClick={() =>
-                        setCurrentPage((prev) => Math.min(prev + 1, totalPages))
-                      }
-                      disabled={currentPage === totalPages}
-                      className={`px-4 py-2 rounded-lg text-white transition duration-200 ${
-                        currentPage === totalPages
-                          ? "bg-gray-400 cursor-not-allowed"
-                          : "bg-blue-600 hover:bg-blue-700"
-                      }`}
+                      className="px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700 transition-colors"
+                      onClick={() => router.push(`/recruitment/manage/update/${post.id}`)}
                     >
-                      Sau
+                      Chỉnh sửa
+                    </Button>
+                    <Button
+                      className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
+                      onClick={() => router.push(`/recruitment/manage/recordApply/${post.id}`)}
+                    >
+                      Xem hồ sơ
+                    </Button>
+                    <Button
+                      className="px-4 py-2 bg-amber-600 text-white rounded hover:bg-amber-700 transition-colors"
+                      onClick={() => handleDelete(post.id)}
+                    >
+                      Đóng
                     </Button>
                   </div>
                 </TableCell>
               </TableRow>
-            </TableFooter>
-          )}
+            ))}
+          </TableBody>
         </Table>
+
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <div className="flex justify-center items-center space-x-4 py-4 bg-gray-50 border-t">
+            <Button
+              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+              disabled={currentPage === 1}
+              className={`px-4 py-2 rounded-lg text-white transition duration-200 ${
+                currentPage === 1
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-blue-600 hover:bg-blue-700 shadow-lg shadow-blue-200"
+              }`}
+            >
+              Trước
+            </Button>
+            <span className="text-sm font-medium text-gray-700">
+              Trang {currentPage} / {totalPages}
+            </span>
+            <Button
+              onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+              disabled={currentPage === totalPages}
+              className={`px-4 py-2 rounded-lg text-white transition duration-200 ${
+                currentPage === totalPages
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-blue-600 hover:bg-blue-700 shadow-lg shadow-blue-200"
+              }`}
+            >
+              Sau
+            </Button>
+          </div>
+        )}
       </div>
     </div>
-  );
+  </div>
+);
 };
 
 export default RecruitmentedList;
