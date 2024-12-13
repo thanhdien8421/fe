@@ -101,7 +101,7 @@ export const ExperienceCard: React.FC<ExperienceProps> = ({
           <h3 className="text-md font-medium text-gray-600">
             {obj.position}
           </h3>
-          <p className="text-sm text-gray-500">
+          <p className="text-sm text-gray-500 pr-6 pt-2">
             {obj.description}
           </p>
           <div className="flex flex-col space-y-1">
