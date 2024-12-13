@@ -87,6 +87,22 @@ export default function Account() {
   //     }
   // }
 
+  const refetchUserData = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:8000/api/v1/employees/${localStorage.getItem("userId")}`
+      );
+      if (!response.ok) {
+        throw new Error("Failed to load user info");
+      }
+      let userInfo = await response.json();
+      setUserData(userInfo.data);
+    } catch (error) {
+      setError("An error occurred while fetching data.");
+      console.error(error);
+    }
+  }
+
   React.useEffect(() => {
     const fetchAllData = async () => {
       try {
@@ -214,7 +230,7 @@ export default function Account() {
             </Card>
   
             {/* Profile Form */}
-            <Profile data={userData} />
+            {userData && <Profile refetch={refetchUserData} data={userData} />}
           </div>
   
           {/* Right Column */}
