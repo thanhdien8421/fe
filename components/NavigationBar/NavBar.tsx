@@ -48,9 +48,13 @@ const NavBar = () => {
       title: "Ứng viên",
       url: "/admin",
     },
-
     {
       id: "list2",
+      title: "Nhà tuyển dụng",
+      url: "/admin/employers",
+    },
+    {
+      id: "list3",
       title: "AuditLog",
       url: "/admin/auditLog",
     },

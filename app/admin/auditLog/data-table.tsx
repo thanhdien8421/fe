@@ -61,8 +61,8 @@ export function DataTable<TData, TValue>({
   return (
     <>
       <div>
-        <h1 className="m-8 text-[1.5rem] text-center mb-[40px]">
-          Danh sách tài khoản Employee trong hệ thống
+        <h1 className="m-8 text-[1.5rem] text-center mb-[40px] font-bold">
+          Danh sách theo dõi hành vi người dùng
         </h1>
       </div>
       <div className="flex items-center py-4 ">

@@ -47,29 +47,24 @@ import { Plus } from "lucide-react";
 import toast from "react-hot-toast";
 import { Label } from "@/components/ui/label";
 
-// Helper function to format date
-function formatDate(dateString: string): string {
-  const date = new Date(dateString);
-  const options = {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-  };
-  return `${date.getHours()}:${date
-    .getMinutes()
-    .toString()
-    .padStart(2, "0")} ngày ${date.getDate()} tháng ${
-    date.getMonth() + 1
-  } năm ${date.getFullYear()}`;
-}
 
 // Interface for form data
 interface FormData {
   minRating: string;
   minApplications: string;
   industry: string;
+}
+export const formatDate = (date: string) => {
+  const newDate = new Date(date);
+  return newDate.toLocaleString('vi-VN', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: false
+  });
 }
 
 const RecruitmentedList = ({ params }: { params: { id: string } }) => {
@@ -104,7 +99,7 @@ const RecruitmentedList = ({ params }: { params: { id: string } }) => {
 
   const fetchJobData = async () => {
     try {
-      const response = await fetch(`http://localhost:8000/api/v1/employees`);
+      const response = await fetch(`http://localhost:8000/api/v1/employers`);
 
       if (!response.ok) {
         throw new Error("Network response was not ok");
@@ -126,7 +121,7 @@ const RecruitmentedList = ({ params }: { params: { id: string } }) => {
 
   const handleDelete = async (id: any) => {
     try {
-      await fetch(`http://localhost:8000/api/v1/employees/${id}`, {
+      await fetch(`http://localhost:8000/api/v1/employers/${id}`, {
         method: "DELETE",
       });
       await fetchJobData();
@@ -150,7 +145,7 @@ const RecruitmentedList = ({ params }: { params: { id: string } }) => {
   const handleAdd = async (values: z.infer<typeof formSchema>) => {
     console.log(values);
     try {
-      await fetch(`http://localhost:8000/api/v1/employees`, {
+      await fetch(`http://localhost:8000/api/v1/employers`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -169,7 +164,7 @@ const RecruitmentedList = ({ params }: { params: { id: string } }) => {
   const onSubmit = async (values: z.infer<typeof formSchema>, id: number) => {
     try {
       const response = await fetch(
-        `http://localhost:8000/api/v1/employees/${id}`,
+        `http://localhost:8000/api/v1/employers/${id}`,
         {
           method: "PATCH",
           headers: {
@@ -207,7 +202,7 @@ const RecruitmentedList = ({ params }: { params: { id: string } }) => {
   return (
     <div className="flex flex-col justify-center mx-5 mt-5">
       <p className="m-8 text-xl text-center mb-[40px] font-bold">
-        Danh sách tài khoản Ứng viên trong hệ thống
+        Danh sách tài khoản Nhà tuyển dụng trong hệ thống
       </p>
       <div className="min-h-[650px] mt-5 mb-5">
         <div className="bg-white shadow-xl rounded-lg p-6 border border-gray-200">
@@ -223,15 +218,21 @@ const RecruitmentedList = ({ params }: { params: { id: string } }) => {
                 <TableHead className="w-[15%] text-center font-bold">
                   Tên
                 </TableHead>
+                <TableHead className="w-[15%] text-center font-bold">
+                  Giới tính
+                </TableHead>
                 <TableHead className="w-[10%] text-center font-bold">
-                  Số điện thoại
+                  Vị trí
                 </TableHead>
                 <TableHead className="w-[15%] text-center font-bold">
-                  Địa chỉ
+                  Phòng ban
                 </TableHead>
-                <TableHead className="w-[10%] text-center font-bold">
+                <TableHead className="w-[15%] text-center font-bold">
+                  Ngày tuyển dụng
+                </TableHead>
+                {/* <TableHead className="w-[10%] text-center font-bold">
                   Hành động
-                </TableHead>
+                </TableHead> */}
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -243,9 +244,11 @@ const RecruitmentedList = ({ params }: { params: { id: string } }) => {
                   <TableCell>{index + 1}</TableCell>
                   <TableCell className="text-center">{item.email}</TableCell>
                   <TableCell className="text-center">{item.name}</TableCell>
-                  <TableCell className="text-center">{item.phone}</TableCell>
-                  <TableCell className="text-center">{item.address}</TableCell>
-                  <TableCell className="flex justify-center gap-3">
+                  <TableCell className="text-center">{item.gender}</TableCell>
+                  <TableCell className="text-center">{item.position}</TableCell>
+                  <TableCell className="text-center">{item.department}</TableCell>
+                  <TableCell className="text-center">{formatDate(item.hiringDate)}</TableCell>
+                  {/* <TableCell className="flex justify-center gap-3">
                     <button
                       onClick={() => handleDelete(item.id)}
                       className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition duration-200"
@@ -369,7 +372,7 @@ const RecruitmentedList = ({ params }: { params: { id: string } }) => {
                         </Form>
                       </DialogContent>
                     </Dialog>
-                  </TableCell>
+                  </TableCell> */}
                 </TableRow>
               ))}
             </TableBody>
