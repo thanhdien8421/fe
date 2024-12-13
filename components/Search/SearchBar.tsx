@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
+import { FaIndustry, FaStar, FaCalendarAlt, FaChartLine } from "react-icons/fa";
 
-// Định nghĩa kiểu dữ liệu cho form
 interface FormData {
   industry: string;
   minRating: number;
@@ -11,23 +11,14 @@ interface FormData {
 }
 
 interface SearchFormProps {
-  onSearch: (formData: FormData) => void; // Gửi dữ liệu tìm kiếm khi submit
+  onSearch: (formData: FormData) => void;
 }
 
 const SearchForm: React.FC<SearchFormProps> = ({ onSearch }) => {
-  const now = new Date(); // Lấy thời gian hiện tại
+  const now = new Date();
+  const startOfYear = new Date(now.getFullYear(), 0, 1).toISOString().split("T")[0];
+  const endOfNextYear = new Date(now.getFullYear() + 1, 11, 31).toISOString().split("T")[0];
 
-  // Ngày đầu năm nay
-  const startOfYear = new Date(now.getFullYear(), 0, 1)
-    .toISOString()
-    .split("T")[0]; // 1/1 của năm nay
-
-  // Ngày cuối năm sau
-  const endOfNextYear = new Date(now.getFullYear() + 1, 11, 31)
-    .toISOString()
-    .split("T")[0]; // 31/12 của năm sau
-
-  // Khởi tạo state formData
   const [formData, setFormData] = useState<FormData>({
     industry: "",
     minRating: 1,
@@ -36,10 +27,7 @@ const SearchForm: React.FC<SearchFormProps> = ({ onSearch }) => {
     levelType: "",
   });
 
-  // Hàm xử lý sự kiện khi người dùng thay đổi giá trị input
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
@@ -47,106 +35,123 @@ const SearchForm: React.FC<SearchFormProps> = ({ onSearch }) => {
     }));
   };
 
-  // Hàm xử lý khi submit form
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSearch(formData); // Gọi onSearch và truyền dữ liệu form
+    onSearch(formData);
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="flex  p-4 border-2 rounded-lg bg-white justify-around "
-    >
-      {/* Industry */}
-      <div className="flex flex-col">
-        <label htmlFor="industry" className="text-base font-semibold">
-          Industry:
-        </label>
-        <input
-          type="text"
-          id="industry"
-          name="industry"
-          className="p-2 border border-gray-300 rounded-md"
-          value={formData.industry}
-          onChange={handleChange}
-          placeholder="Enter industry"
-        />
-      </div>
+    <div className="w-full max-w-6xl mx-auto">
+      <form onSubmit={handleSubmit} className="bg-white rounded-2xl shadow-lg p-6 space-y-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+          {/* Industry */}
+          <div className="space-y-2">
+            <label className="flex items-center gap-2 text-sm font-medium text-gray-700">
+              <FaIndustry className="text-blue-500" />
+              Ngành nghề
+            </label>
+            <input
+              type="text"
+              name="industry"
+              value={formData.industry}
+              onChange={handleChange}
+              placeholder="Nhập ngành nghề..."
+              className="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+            />
+          </div>
 
-      {/* Min Rating */}
-      <div className="flex flex-col">
-        <label htmlFor="minRating" className="text-base font-semibold">
-          Min Rating:
-        </label>
-        <input
-          type="number"
-          id="minRating"
-          name="minRating"
-          className="p-2 border border-gray-300 rounded-md"
-          value={formData.minRating}
-          onChange={handleChange}
-          placeholder="Rating"
-        />
-      </div>
+          {/* Min Rating */}
+          <div className="space-y-2">
+            <label className="flex items-center gap-2 text-sm font-medium text-gray-700">
+              <FaStar className="text-yellow-500" />
+              Đánh giá tối thiểu
+            </label>
+            <input
+              type="number"
+              name="minRating"
+              min="1"
+              max="5"
+              value={formData.minRating}
+              onChange={handleChange}
+              className="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+            />
+          </div>
 
-      {/* Start Date */}
-      <div className="flex flex-col ">
-        <label htmlFor="startDate" className="text-base font-semibold">
-          Start Date:
-        </label>
-        <input
-          type="date"
-          id="startDate"
-          name="startDate"
-          className="p-2 border border-gray-300 rounded-md"
-          value={formData.startDate}
-          onChange={handleChange}
-        />
-      </div>
+          {/* Start Date */}
+          <div className="space-y-2">
+            <label className="flex items-center gap-2 text-sm font-medium text-gray-700">
+              <FaCalendarAlt className="text-blue-500" />
+              Ngày bắt đầu
+            </label>
+            <input
+              type="date"
+              name="startDate"
+              value={formData.startDate}
+              onChange={handleChange}
+              className="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+            />
+          </div>
 
-      {/* End Date */}
-      <div className="flex flex-col">
-        <label htmlFor="endDate" className="text-base font-semibold">
-          End Date:
-        </label>
-        <input
-          type="date"
-          id="endDate"
-          name="endDate"
-          className="p-2 border border-gray-300 rounded-md"
-          value={formData.endDate}
-          onChange={handleChange}
-        />
-      </div>
+          {/* End Date */}
+          <div className="space-y-2">
+            <label className="flex items-center gap-2 text-sm font-medium text-gray-700">
+              <FaCalendarAlt className="text-blue-500" />
+              Ngày kết thúc
+            </label>
+            <input
+              type="date"
+              name="endDate"
+              value={formData.endDate}
+              onChange={handleChange}
+              className="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+            />
+          </div>
 
-      {/* Level Type */}
-      <div className="flex flex-col">
-        <label htmlFor="levelType" className="text-base font-semibold">
-          Level Type:
-        </label>
-        <select
-          id="levelType"
-          name="levelType"
-          className="p-2 border border-gray-300 rounded-md"
-          value={formData.levelType}
-          onChange={handleChange}
-        >
-          <option value="Competition">Competition</option>
-          <option value="Attractiveness">Attractiveness</option>
-        </select>
-      </div>
+          {/* Level Type */}
+          <div className="space-y-2">
+            <label className="flex items-center gap-2 text-sm font-medium text-gray-700">
+              <FaChartLine className="text-blue-500" />
+              Loại cấp độ
+            </label>
+            <select
+              name="levelType"
+              value={formData.levelType}
+              onChange={handleChange}
+              className="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white"
+            >
+              <option value="">Chọn loại cấp độ</option>
+              <option value="Competition">Cạnh tranh</option>
+              <option value="Attractiveness">Hấp dẫn</option>
+            </select>
+          </div>
+        </div>
 
-      {/* Submit Button */}
-      <div className="flex flex-col justify-center items-center mt-2">
-        <button
-          type="submit"
-          className="bg-sky-600 text-white text-lg rounded-md px-6 py-2 hover:bg-sky-700"
-        >
-          Tìm kiếm
-        </button>
-      </div>
-    </form>
+        {/* Submit Button */}
+        <div className="flex justify-end pt-4">
+          <button
+            type="submit"
+            className="px-6 py-2.5 bg-blue-600 text-white font-medium rounded-lg 
+                     hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 
+                     transition-all duration-200 flex items-center gap-2"
+          >
+            <svg 
+              className="w-5 h-5" 
+              fill="none" 
+              stroke="currentColor" 
+              viewBox="0 0 24 24"
+            >
+              <path 
+                strokeLinecap="round" 
+                strokeLinejoin="round" 
+                strokeWidth="2" 
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+              />
+            </svg>
+            Tìm kiếm
+          </button>
+        </div>
+      </form>
+    </div>
   );
 };
 

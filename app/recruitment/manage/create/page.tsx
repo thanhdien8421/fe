@@ -35,7 +35,7 @@ function JobPostForm() {
     <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4 sm:px-6 lg:px-8">
       <div className="max-w-2xl w-full bg-white shadow-lg rounded-lg p-8">
         <h2 className="text-3xl font-extrabold text-gray-900 text-center mb-8">
-          Tạo Bài Đăng Tuyển Dụng
+          Create Job Post
         </h2>
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>

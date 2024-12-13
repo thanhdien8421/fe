@@ -1,9 +1,5 @@
 "use client";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { IoMdAdd } from "react-icons/io";
 import { useState } from "react";
 import {
@@ -25,8 +21,8 @@ import React from "react";
 import EditButton from "../ui/edit";
 import TrashButton from "../ui/trash";
 import { Checkbox } from "../ui/checkbox";
-import clsx from "clsx";
 import { RecordType } from "@/app/record/page";
+import clsx from "clsx";
 
 export default function Education({
   type,
@@ -39,7 +35,7 @@ export default function Education({
 }) {
   return (
     <Card className="drop-shadow-lg h-[300px] pb-2 bg-white rounded-xl border border-gray-200">
-      <CardHeader className="flex flex-row border-b rounded-t-xl bg-gradient-to-r from-orange-500 to-blue-600 py-4">
+      <CardHeader className="flex flex-row border-b rounded-t-xl bg-gradient-to-r from-orange-500 to-orange-600 py-4">
         <p className="text-xl font-semibold text-white">Trình độ học vấn</p>
         <Button className="ml-auto hover:scale-105 transition-transform duration-200 bg-white/20 hover:bg-white/30 backdrop-blur-sm border-0 w-8 h-8">
           <AddEducation data={data} onCheck={onCheck} />
@@ -86,29 +82,34 @@ export const EducationCard: React.FC<EducationProps> = ({
   return (
     <div
       className={clsx(
-        "flex flex-row w-full gap-4 p-4 bg-white border border-gray-100 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md hover:border-orange-200 group",
+        "flex flex-row w-full p-4 bg-white border border-gray-100 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md hover:border-orange-200 group",
         {
           hidden:
-            index !== -1 && data.eduCheck[index] === false && type === "preview",
+            index !== -1 &&
+            data.eduCheck[index] === false &&
+            type === "preview",
           "":
             index !== -1 && data.eduCheck[index] === true && type === "preview",
         }
       )}
     >
       <div className="flex flex-row justify-between w-full">
-        <div className="grid grid-cols-3 gap-4 w-full">
+        <div className="grid grid-cols-4 gap-4 w-full">
           <h2 className="text-lg font-semibold text-gray-800 group-hover:text-orange-600 transition-colors">
             {obj.school}
           </h2>
-          <h3 className="text-md font-medium text-gray-600">
-            {obj.major}
-          </h3>
-          <div className="text-sm text-gray-500">
-            <p className="flex items-center gap-2">
+          <h3 className="text-md font-medium text-gray-600">{obj.major}</h3>
+          <p className="text-sm text-gray-500">
+          <p className="text-sm text-gray-500">
+           
+          </p>
+          </p>
+          <div className="flex flex-col space-y-1">
+            <p className="flex items-center gap-2 text-sm">
               <span className="text-gray-400">Bắt đầu:</span>
               <span className="font-medium">{formatDate(obj.startDate)}</span>
             </p>
-            <p className="flex items-center gap-2">
+            <p className="flex items-center gap-2 text-sm">
               <span className="text-gray-400">Kết thúc:</span>
               <span className="font-medium">{formatDate(obj.endDate)}</span>
             </p>
@@ -165,10 +166,10 @@ export function AddEducation({
   const form = useForm<z.infer<typeof EducationSchema>>({
     resolver: zodResolver(EducationSchema),
     defaultValues: {
-      school: "HCMUT",
-      major: "KHMT",
-      startDate: "1/1/2000",
-      endDate: "1/1/2004",
+      school: "",
+      major: "",
+      startDate: "",
+      endDate: "",
       employeeId: 1,
     },
   });
@@ -228,7 +229,9 @@ export function AddEducation({
       </DialogTrigger>
       <DialogContent className="sm:max-w-[500px] rounded-xl">
         <DialogHeader className="space-y-2">
-          <DialogTitle className="text-2xl font-semibold">Thêm trình độ học vấn</DialogTitle>
+          <DialogTitle className="text-2xl font-semibold">
+            Thêm trình độ học vấn
+          </DialogTitle>
           <DialogDescription className="text-gray-500">
             Vui lòng điền đầy đủ thông tin bên dưới
           </DialogDescription>
@@ -242,8 +245,8 @@ export function AddEducation({
               <Input
                 {...form.register("school")}
                 id="school"
-                placeholder="HCMUT..."
-                className="col-span-3 focus-visible:ring-blue-500"
+                placeholder="Nhập tên trường..."
+                className="col-span-3 focus-visible:ring-orange-500"
               />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
@@ -254,7 +257,7 @@ export function AddEducation({
                 {...form.register("major")}
                 id="major"
                 placeholder="Nhập chuyên ngành..."
-                className="col-span-3 focus-visible:ring-blue-500"
+                className="col-span-3 focus-visible:ring-orange-500"
               />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
@@ -265,7 +268,7 @@ export function AddEducation({
                 {...form.register("startDate")}
                 id="startDate"
                 type="date"
-                className="col-span-3 focus-visible:ring-blue-500"
+                className="col-span-3 focus-visible:ring-orange-500"
               />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
@@ -276,7 +279,7 @@ export function AddEducation({
                 {...form.register("endDate")}
                 id="endDate"
                 type="date"
-                className="col-span-3 focus-visible:ring-blue-500"
+                className="col-span-3 focus-visible:ring-orange-500"
               />
             </div>
           </div>
@@ -291,7 +294,7 @@ export function AddEducation({
             </Button>
             <Button
               type="submit"
-              className="bg-blue-600 hover:bg-blue-700 font-medium"
+              className="bg-orange-600 hover:bg-orange-700 font-medium"
             >
               Thêm mới
             </Button>

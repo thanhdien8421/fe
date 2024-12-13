@@ -19,6 +19,7 @@ import { Label } from "@/components/ui/label";
 import { Button } from "../ui/button";
 import { useForm } from "react-hook-form";
 import { CertificateSchema } from "@/schema/ProfileSchema";
+import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import React from "react";
 import EditButton from "../ui/edit";
@@ -26,7 +27,6 @@ import TrashButton from "../ui/trash";
 import { Checkbox } from "../ui/checkbox";
 import { RecordType } from "@/app/record/page";
 import clsx from "clsx";
-import type { z } from "zod";
 
 export default function Certificate({
   type,
@@ -39,7 +39,7 @@ export default function Certificate({
 }) {
   return (
     <Card className="drop-shadow-lg h-[300px] pb-2 bg-white rounded-xl border border-gray-200">
-      <CardHeader className="flex flex-row border-b rounded-t-xl bg-gradient-to-r from-green-500 to-orange-600 py-4">
+      <CardHeader className="flex flex-row border-b rounded-t-xl bg-gradient-to-r from-green-500 to-green-600 py-4">
         <p className="text-xl font-semibold text-white">Bằng cấp, chứng chỉ</p>
         <Button className="ml-auto hover:scale-105 transition-transform duration-200 bg-white/20 hover:bg-white/30 backdrop-blur-sm border-0 w-8 h-8">
           <AddCertificate data={data} onCheck={onCheck} />
@@ -86,25 +86,25 @@ export const CertificateCard: React.FC<CertificateProps> = ({
   return (
     <div
       className={clsx(
-        "flex flex-row w-full gap-4 p-4 bg-white border border-gray-100 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md hover:border-green-200 group",
+        "flex flex-row w-full p-4 bg-white border border-gray-100 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md hover:border-green-200 group",
         {
-          hidden:
-            index !== -1 && data.cerCheck[index] === false && type === "preview",
-          "":
-            index !== -1 && data.cerCheck[index] === true && type === "preview",
+          hidden: index !== -1 && data.cerCheck[index] === false && type === "preview",
+          "": index !== -1 && data.cerCheck[index] === true && type === "preview",
         }
       )}
     >
       <div className="flex flex-row justify-between w-full">
-        <div className="grid grid-cols-3 gap-4 w-full">
+        <div className="grid grid-cols-4 gap-4 w-full">
           <h2 className="text-lg font-semibold text-gray-800 group-hover:text-green-600 transition-colors">
             {obj.name}
           </h2>
           <h3 className="text-md font-medium text-gray-600">
-            Tổ chức: {obj.organization}
+            {obj.organization}
           </h3>
-          <div className="text-sm text-gray-500">
-            <p className="flex items-center gap-2">
+          <p className="text-sm text-gray-500">
+          </p>
+          <div className="flex items-center">
+            <p className="flex items-center gap-2 text-sm">
               <span className="text-gray-400">Ngày cấp:</span>
               <span className="font-medium">{formatDate(obj.verifiedDate)}</span>
             </p>
@@ -160,12 +160,12 @@ export function AddCertificate({
   const form = useForm<z.infer<typeof CertificateSchema>>({
     resolver: zodResolver(CertificateSchema),
     defaultValues: {
-      name: "IELTS",
-      organization: "IDP",
-      verifiedDate: "1/1/2020",
+      name: "",
+      organization: "",
+      verifiedDate: "",
       employeeId: 1,
-      url: "abc.com",
-      image: "net.jpg",
+      url: "",
+      image: "",
     },
   });
 
@@ -225,7 +225,9 @@ export function AddCertificate({
       </DialogTrigger>
       <DialogContent className="sm:max-w-[500px] rounded-xl">
         <DialogHeader className="space-y-2">
-          <DialogTitle className="text-2xl font-semibold">Thêm bằng cấp</DialogTitle>
+          <DialogTitle className="text-2xl font-semibold">
+            Thêm bằng cấp, chứng chỉ
+          </DialogTitle>
           <DialogDescription className="text-gray-500">
             Vui lòng điền đầy đủ thông tin bên dưới
           </DialogDescription>
@@ -234,7 +236,7 @@ export function AddCertificate({
           <div className="grid gap-5 py-4">
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="name" className="text-right font-medium">
-                Tên gọi
+                Tên chứng chỉ
               </Label>
               <Input
                 {...form.register("name")}
@@ -245,12 +247,12 @@ export function AddCertificate({
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="organization" className="text-right font-medium">
-                Tổ chức
+                Tổ chức cấp
               </Label>
               <Input
                 {...form.register("organization")}
                 id="organization"
-                placeholder="Nhập tổ chức..."
+                placeholder="Nhập tên tổ chức..."
                 className="col-span-3 focus-visible:ring-green-500"
               />
             </div>

@@ -10,27 +10,19 @@ export default function JobCard({ job }: { job: JobPostAndDescription }) {
         key={job.postId}
         className="bg-white rounded-lg shadow hover:shadow-md transform hover:-translate-y-1 transition-all duration-300 overflow-hidden w-[250px]"
       >
-        {/* Header Image */}
-        <div className="relative h-36 overflow-hidden">
-          <img
-            className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-300"
-            src={"/images/0f2d9460-23d7-4870-bc2b-133ca46f5d29.webp"}
-            alt="Job Post Image"
-          />
-          {job.averageRating && (
-            <div className="absolute top-2 right-2 bg-white/90 backdrop-blur-sm px-2 py-0.5 rounded-full flex items-center gap-1 text-sm">
-              <FaStar className="text-yellow-400 text-xs" />
-              <span className="font-semibold">{job.averageRating}</span>
-            </div>
-          )}
-        </div>
-
-        {/* Content */}
         <div className="p-4">
-          <h2 className="text-lg font-bold text-gray-800 mb-3 line-clamp-2 min-h-[3.5rem]">
-            {job.jobTitle}
-          </h2>
-
+          <div className="flex justify-between items-start mb-3">
+            <h2 className="text-lg font-bold text-gray-800 line-clamp-2 min-h-[3.5rem] flex-1 mr-2">
+              {job.jobTitle}
+            </h2>
+            {job.averageRating && (
+              <div className="flex items-center gap-1 bg-yellow-50 px-2 py-0.5 rounded-full text-sm">
+                <FaStar className="text-yellow-400 text-xs" />
+                <span className="font-semibold">{job.averageRating}</span>
+              </div>
+            )}
+          </div>
+          
           <div className="space-y-2 text-sm">
             {job.companyName && (
               <div className="flex items-center gap-2 text-gray-600">

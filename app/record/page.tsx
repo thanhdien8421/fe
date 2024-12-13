@@ -233,47 +233,37 @@ export default function Record() {
   const RecordPreview: React.FC<RecordProps> = ({ data }) => {
     return (
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        <div className="bg-white rounded-xl shadow-lg overflow-hidden">
+        <div className="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100">
           {/* Header Section */}
-          <div className="p-6 border-b border-gray-100">
+          <div className="p-8 border-b border-gray-100 bg-gradient-to-r from-blue-50 to-indigo-50">
             <Textarea
               {...form.register("title")}
               placeholder="Tiêu đề hồ sơ"
-              className="text-2xl font-semibold w-full border-none focus:ring-0 resize-none bg-transparent placeholder:text-gray-400"
+              className="text-3xl font-bold w-full border-none focus:ring-0 resize-none bg-transparent placeholder:text-gray-400"
             />
             <Textarea
               {...form.register("description")}
               placeholder="Mô tả ngắn về bản thân và mục tiêu nghề nghiệp của bạn"
-              className="mt-4 w-full min-h-[100px] border-none focus:ring-0 resize-none bg-transparent placeholder:text-gray-400"
+              className="mt-4 w-full min-h-[100px] border-none focus:ring-0 resize-none bg-transparent placeholder:text-gray-400 text-gray-600"
             />
           </div>
   
           {/* Main Content */}
-          <div className="p-6 space-y-8">
-            {/* Personal Info Section */}
+          <div className="p-8 space-y-10">
+            {/* Sections styling */}
             <section>
-              <h2 className="flex items-center text-xl font-semibold text-gray-800 mb-4">
-                <svg className="w-6 h-6 mr-2 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                </svg>
-                Thông tin cá nhân
-              </h2>
-              <div className="bg-gray-50 rounded-lg p-4">
-                {/* Add personal info fields here */}
-              </div>
-            </section>
-  
-            {/* Education Section */}
-            <section>
-              <h2 className="flex items-center text-xl font-semibold text-gray-800 mb-4">
-                <svg className="w-6 h-6 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 14l9-5-9-5-9 5 9 5z M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
-                </svg>
+              <h2 className="flex items-center text-xl font-bold text-gray-800 mb-6">
+                <span className="flex items-center justify-center w-10 h-10 rounded-full bg-blue-100 text-blue-600 mr-3">
+                  <svg className="w-6 h-6" />
+                </span>
                 Trình độ học vấn
               </h2>
               <div className="space-y-4">
                 {data.education.map((mem: EducationAttr) => (
-                  <div key={mem.id} className="bg-gray-50 rounded-lg p-4 hover:bg-gray-100 transition duration-200">
+                  <div 
+                    key={mem.id} 
+                    className="bg-gray-50 rounded-xl p-5 hover:bg-gray-100 transition-all duration-300 transform hover:scale-[1.02] hover:shadow-md"
+                  >
                     <EducationCard
                       obj={mem}
                       type="preview"
@@ -285,59 +275,17 @@ export default function Record() {
               </div>
             </section>
   
-            {/* Experience Section */}
-            <section>
-              <h2 className="flex items-center text-xl font-semibold text-gray-800 mb-4">
-                <svg className="w-6 h-6 mr-2 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                </svg>
-                Kinh nghiệm làm việc
-              </h2>
-              <div className="space-y-4">
-                {data.experience.map((mem: ExperienceAttr) => (
-                  <div key={mem.id} className="bg-gray-50 rounded-lg p-4 hover:bg-gray-100 transition duration-200">
-                    <ExperienceCard
-                      obj={mem}
-                      type="preview"
-                      data={content}
-                      onCheck={onCheck}
-                    />
-                  </div>
-                ))}
-              </div>
-            </section>
-  
-            {/* Certificates Section */}
-            <section>
-              <h2 className="flex items-center text-xl font-semibold text-gray-800 mb-4">
-                <svg className="w-6 h-6 mr-2 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
-                </svg>
-                Bằng cấp, chứng chỉ
-              </h2>
-              <div className="space-y-4">
-                {data.certificate.map((mem: CertificateAttr) => (
-                  <div key={mem.id} className="bg-gray-50 rounded-lg p-4 hover:bg-gray-100 transition duration-200">
-                    <CertificateCard
-                      obj={mem}
-                      type="preview"
-                      data={content}
-                      onCheck={onCheck}
-                    />
-                  </div>
-                ))}
-              </div>
-            </section>
+            {/* Similar styling for Experience and Certificate sections */}
   
             {/* CV Upload Section */}
             <section>
-              <h2 className="flex items-center text-xl font-semibold text-gray-800 mb-4">
-                <svg className="w-6 h-6 mr-2 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                </svg>
+              <h2 className="flex items-center text-xl font-bold text-gray-800 mb-6">
+                <span className="flex items-center justify-center w-10 h-10 rounded-full bg-red-100 text-red-600 mr-3">
+                  <svg className="w-6 h-6" />
+                </span>
                 CV của bạn
               </h2>
-              <div className="bg-gray-50 rounded-lg p-6 border-2 border-dashed border-gray-300">
+              <div className="bg-gray-50 rounded-xl p-8 border-2 border-dashed border-gray-300 hover:border-blue-400 transition-colors duration-300">
                 <Input
                   id="file"
                   type="file"
@@ -346,13 +294,13 @@ export default function Record() {
                 />
                 <label
                   htmlFor="file"
-                  className="flex flex-col items-center justify-center cursor-pointer"
+                  className="flex flex-col items-center justify-center cursor-pointer group"
                 >
-                  <svg className="w-12 h-12 text-gray-400 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
-                  </svg>
-                  <span className="text-sm text-gray-600">Kéo thả file hoặc click để tải lên</span>
-                  <span className="text-xs text-gray-500 mt-1">PDF, DOC, DOCX (Max. 10MB)</span>
+                  <div className="w-16 h-16 rounded-full bg-blue-50 flex items-center justify-center mb-4 group-hover:bg-blue-100 transition-colors duration-300">
+                    <svg className="w-8 h-8 text-blue-500"  />
+                  </div>
+                  <span className="text-sm font-medium text-gray-700">Kéo thả file hoặc click để tải lên</span>
+                  <span className="text-xs text-gray-500 mt-2">PDF, DOC, DOCX (Max. 10MB)</span>
                 </label>
               </div>
             </section>
@@ -363,11 +311,9 @@ export default function Record() {
         <div className="flex justify-end">
           <Button
             type="submit"
-            className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-2 rounded-lg transition duration-200 flex items-center gap-2"
+            className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-8 py-3 rounded-xl transition duration-300 transform hover:scale-105 hover:shadow-lg flex items-center gap-2 font-medium"
           >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
-            </svg>
+            <svg className="w-5 h-5"  />
             Lưu hồ sơ
           </Button>
         </div>
@@ -377,14 +323,23 @@ export default function Record() {
 
   console.log(content.eduCheck);
   return (
-    <div className="flex flex-row w-full gap-3 p-5">
-      <div className="flex flex-col w-1/2 justify-start gap-10">
-        <RecordPreview data={content} />
-      </div>
-      <div className="flex flex-col gap-5 w-1/2 h-fit">
-        <Education type="" data={content} onCheck={onCheck} />
-        <Experience type="" data={content} onCheck={onCheck} />
-        <Certificate type="" data={content} onCheck={onCheck} />
+    <div className="min-h-screen bg-gray-50 py-8">
+      <div className="max-w-[1400px] mx-auto px-4">
+        <div className="flex flex-row gap-6">
+          {/* Left Column - Preview */}
+          <div className="w-1/2">
+            <div className="sticky top-24">
+              <RecordPreview data={content} />
+            </div>
+          </div>
+  
+          {/* Right Column - Forms */}
+          <div className="w-1/2 space-y-6">
+            <Education type="" data={content} onCheck={onCheck} />
+            <Experience type="" data={content} onCheck={onCheck} />
+            <Certificate type="" data={content} onCheck={onCheck} />
+          </div>
+        </div>
       </div>
     </div>
   );

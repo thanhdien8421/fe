@@ -11,13 +11,14 @@ interface ItemdescriptionProp {
   title: string;
   des: string[];
 }
+
 export function Itemdescription({ title, des }: ItemdescriptionProp) {
   return (
-    <div className="mt-[30px]">
-      <strong className="text-xl">{title}</strong>
-      <ul className="list-disc pl-[20px] text-gray-600 mt-[10px]">
+    <div className="mt-8 border-b border-gray-100 pb-6 last:border-0">
+      <strong className="text-xl text-gray-800 block mb-4">{title}</strong>
+      <ul className="list-disc pl-6 space-y-2">
         {des.map((title) => (
-          <li key={title}>{title}</li>
+          <li key={title} className="text-gray-600 leading-relaxed">{title}</li>
         ))}
       </ul>
     </div>
@@ -29,7 +30,7 @@ export default function DescriptionJobPage({ job }: { job: any }) {
   const [rating, setRating] = useState<number>(0);
   const [save, setSave] = useState(false);
   let type = localStorage.getItem("type") ?? "Employee";
-  // Lấy rating từ server
+
   const fetchRating = async () => {
     try {
       const userId = localStorage.getItem("userId");
@@ -45,7 +46,7 @@ export default function DescriptionJobPage({ job }: { job: any }) {
 
       const data = await response.json();
 
-      setRating(data.data.rating || 0); // Đặt mặc định là 0 nếu không có rating
+      setRating(data.data.rating || 0);
       setSave(data.data.saved || false);
     } catch (error) {
       console.error("Error fetching rating:", error);
@@ -88,42 +89,41 @@ export default function DescriptionJobPage({ job }: { job: any }) {
   };
 
   const Title = () => (
-    <div className="flex justify-center w-full h-[200px]">
-      <div className="w-[950px] bg-white rounded-[15px]">
-        <div className="text-2xl font-semibold pt-[40px] pl-[40px] pr-[30px] pb-0">
+    <div className="flex justify-center w-full min-h-[220px]">
+      <div className="w-[950px] bg-white rounded-xl shadow-sm">
+        <div className="text-2xl font-semibold px-8 pt-8 text-gray-800">
           {job.title}
         </div>
-        <div className="flex mt-3 text-lg h-[80px] justify-around">
-          {/* Render thông tin công việc */}
+        <div className="flex flex-wrap gap-8 px-8 py-6">
           {[
             {
-              icon: <GiTakeMyMoney size={30} color="white" />,
+              icon: <GiTakeMyMoney size={24} color="white" />,
               label: "Mức lương",
               value: "Up to " + job.salary + " USD" || "Thỏa thuận $",
             },
             {
-              icon: <RiMapPin2Line size={30} color="white" />,
+              icon: <RiMapPin2Line size={24} color="white" />,
               label: "Địa điểm",
               value: `Thành phố ${job.location}`,
             },
             {
-              icon: <TfiTime size={27} color="white" />,
+              icon: <TfiTime size={24} color="white" />,
               label: "Kinh nghiệm",
               value: job.experience || "Không yêu cầu",
             },
             {
-              icon: <MdGroup size={27} color="white" />,
+              icon: <MdGroup size={24} color="white" />,
               label: "Số lượng",
               value: `${job.quantity} nhân viên`,
             },
           ].map((item, index) => (
-            <div className="flex flex-row mt-3" key={index}>
-              <div className="bg-green-500 rounded-[999px] w-[45px] h-[45px] flex justify-center items-center mt-2">
+            <div className="flex items-center" key={index}>
+              <div className="bg-gradient-to-r from-green-500 to-green-600 rounded-full w-12 h-12 flex justify-center items-center shadow-sm">
                 {item.icon}
               </div>
-              <div className="flex mt-1 flex-col ml-4">
-                <div className="text-2xl font-semibold">{item.label}</div>
-                <div>{item.value}</div>
+              <div className="ml-4">
+                <div className="text-sm text-gray-500">{item.label}</div>
+                <div className="font-medium text-gray-800">{item.value}</div>
               </div>
             </div>
           ))}
@@ -131,6 +131,7 @@ export default function DescriptionJobPage({ job }: { job: any }) {
       </div>
     </div>
   );
+
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleDateString("vi-VN", {
@@ -139,10 +140,14 @@ export default function DescriptionJobPage({ job }: { job: any }) {
       day: "numeric",
     });
   };
+
   const Body = () => (
-    <div className="flex justify-center w-full mt-10">
-      <div className="w-[950px] bg-white rounded-[15px] p-[30px]">
-        <strong className="text-2xl">Chi tiết tin tuyển dụng</strong>
+    <div className="flex justify-center w-full mt-6">
+      <div className="w-[950px] bg-white rounded-xl shadow-sm p-8">
+        <h2 className="text-2xl font-semibold text-gray-800 mb-6">
+          Chi tiết tin tuyển dụng
+        </h2>
+
         <Itemdescription title="Mô tả công việc" des={[job.description]} />
         <Itemdescription
           title="Yêu cầu ứng viên"
@@ -156,9 +161,7 @@ export default function DescriptionJobPage({ job }: { job: any }) {
           title="Thời gian làm việc"
           des={[job.employmentType]}
         />
-
         <Itemdescription title="Địa điểm làm việc" des={[job.location]} />
-
         <Itemdescription
           title="Ngày đăng:"
           des={[formatDate(job.datePosted)]}
@@ -173,29 +176,34 @@ export default function DescriptionJobPage({ job }: { job: any }) {
             "Ứng viên nộp hồ sơ trực tuyến bằng cách bấm Ứng tuyển ngay dưới đây.",
           ]}
         />
+
         {type == "Employee" && (
           <>
-            <div className="flex gap-3 mt-10">
+            <div className="flex gap-4 mt-8 border-t pt-8">
               <UploadCVForm recruitmentPostId={`${job.id}`} title={job.title} />
               <Button
-                variant="secondary"
+                variant="outline"
                 onClick={() => submitRating(!save, rating)}
+                className="hover:bg-gray-50"
               >
-                {save ? "Đã lưu tin" : "Hủy lưu tin"}
+                {save ? "Đã lưu tin" : "Lưu tin"}
               </Button>
             </div>
-            <div className="text-center my-5">
-              <h2 className="text-2xl font-semibold mb-4">Đánh giá của bạn:</h2>
-              <div className="flex justify-center gap-4">
+            <div className="text-center mt-8">
+              <h2 className="text-xl font-semibold mb-6 text-gray-800">
+                Đánh giá của bạn
+              </h2>
+              <div className="flex justify-center gap-3">
                 {[0, 1, 2, 3, 4, 5].map((value) => (
                   <button
                     key={value}
                     onClick={() => submitRating(save, value)}
-                    className={`w-12 h-12 text-xl text-white rounded-md transition duration-300 transform hover:scale-110 ${
-                      rating === value
-                        ? "bg-blue-500"
-                        : "bg-green-500 hover:bg-green-600"
-                    }`}
+                    className={`w-12 h-12 text-lg font-medium rounded-lg transition-all duration-200 
+                      ${
+                        rating === value
+                          ? "bg-blue-500 text-white shadow-blue-200 shadow-lg transform scale-105"
+                          : "bg-gray-50 text-gray-700 hover:bg-gray-100"
+                      }`}
                   >
                     {value}
                   </button>
@@ -209,8 +217,10 @@ export default function DescriptionJobPage({ job }: { job: any }) {
   );
 
   return (
-    <div className="bg-[#f4f5f5] flex justify-center pb-[80px]">
-      <div className="w-[80%] mt-[50px]">
+    <div 
+      className=" pb-20 bg-custom" 
+    >
+      <div className="w-full max-w-7xl mx-auto pt-8">
         <Title />
         <Body />
       </div>

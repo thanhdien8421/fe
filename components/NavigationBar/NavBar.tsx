@@ -83,42 +83,57 @@ const NavBar = () => {
               className="h-8 w-auto"
             />
           </Link>
-  
+
           {role === "" ? (
             // Guest Navigation
             <div className="flex items-center gap-4">
               <Link href="/login">
-                <button className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-sky-600 text-sky-600 h-9 px-4 py-2 hover:bg-sky-600 hover:text-white">
-                  Đăng nhập
+                <button className="relative inline-flex items-center justify-center px-6 py-2.5 text-sm font-medium tracking-wide text-sky-600 transition-all duration-300 ease-in-out border-2 border-sky-600 rounded-lg hover:bg-gradient-to-r hover:from-sky-600 hover:to-blue-500 hover:text-white hover:border-transparent hover:shadow-lg hover:shadow-sky-200 active:scale-95">
+                  <span>Đăng nhập</span>
                 </button>
               </Link>
               <Link href="/signup">
-                <button className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-sky-600 text-white h-9 px-4 py-2 hover:bg-sky-700">
-                  Đăng ký
+                <button className="relative inline-flex items-center justify-center px-6 py-2.5 text-sm font-medium tracking-wide text-sky-600 transition-all duration-300 ease-in-out border-2 border-sky-600 rounded-lg hover:bg-gradient-to-r hover:from-sky-600 hover:to-blue-500 hover:text-white hover:border-transparent hover:shadow-lg hover:shadow-sky-200 active:scale-95">
+                  <span>Đăng ký</span>
                 </button>
               </Link>
             </div>
           ) : (
             // Authenticated Navigation
             <div className="flex items-center justify-between flex-1 ml-8">
-              <UserNavBar
-                links={
-                  role === "Admin"
-                    ? AdminNavLink
-                    : role === "Employee"
-                    ? employeeNavLink
-                    : employerNavLink
-                }
-              />
-              
+              <div className="flex items-center space-x-6">
+                {(role === "Admin"
+                  ? AdminNavLink
+                  : role === "Employee"
+                  ? employeeNavLink
+                  : employerNavLink
+                ).map((link) => (
+                  <Link
+                    key={link.id}
+                    href={link.url}
+                    className="relative group"
+                  >
+                    <span className="text-gray-700 font-semibold tracking-wide hover:text-sky-600 transition-colors duration-200">
+                      {link.title}
+                    </span>
+                    <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-sky-600 group-hover:w-full transition-all duration-300"></span>
+                  </Link>
+                ))}
+              </div>
+
               <div className="flex items-center gap-4">
                 {/* Profile */}
                 <HoverCard>
                   <HoverCardTrigger asChild>
                     <Link href="/profile" className="relative">
-                      <Avatar className="h-8 w-8 transition-transform hover:scale-105">
-                        <AvatarImage src="https://github.com/shadcn.png" />
-                        <AvatarFallback>Us</AvatarFallback>
+                      <Avatar className="h-8 w-8 ring-2 ring-white transition-transform hover:scale-105">
+                        <AvatarImage
+                          src="https://github.com/shadcn.png"
+                          className="object-cover"
+                        />
+                        <AvatarFallback className="bg-sky-100 text-sky-800 font-medium">
+                          Us
+                        </AvatarFallback>
                       </Avatar>
                     </Link>
                   </HoverCardTrigger>
@@ -126,7 +141,7 @@ const NavBar = () => {
                     <span className="text-sm font-medium">Profile</span>
                   </HoverCardContent>
                 </HoverCard>
-  
+
                 {/* Logout */}
                 <HoverCard>
                   <HoverCardTrigger asChild>
@@ -140,9 +155,9 @@ const NavBar = () => {
                         router.push("/");
                         setRole("");
                       }}
-                      className="inline-flex items-center justify-center rounded-full w-8 h-8 transition-colors hover:bg-gray-100"
+                      className="inline-flex items-center justify-center rounded-full w-8 h-8 transition-colors hover:bg-red-50 group"
                     >
-                      <MdLogout className="h-5 w-5 text-gray-600" />
+                      <MdLogout className="h-5 w-5 text-gray-600 group-hover:text-red-500 transition-colors" />
                     </button>
                   </HoverCardTrigger>
                   <HoverCardContent className="w-fit p-2" side="bottom">
