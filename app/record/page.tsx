@@ -247,7 +247,7 @@ export default function Record() {
               className="mt-4 w-full min-h-[100px] border-none focus:ring-0 resize-none bg-transparent placeholder:text-gray-400 text-gray-600"
             />
           </div>
-  
+
           {/* Main Content */}
           <div className="p-8 space-y-10">
             {/* Sections styling */}
@@ -260,8 +260,8 @@ export default function Record() {
               </h2>
               <div className="space-y-4">
                 {data.education.map((mem: EducationAttr) => (
-                  <div 
-                    key={mem.id} 
+                  <div
+                    key={mem.id}
                     className="bg-gray-50 rounded-xl p-5 hover:bg-gray-100 transition-all duration-300 transform hover:scale-[1.02] hover:shadow-md"
                   >
                     <EducationCard
@@ -274,9 +274,56 @@ export default function Record() {
                 ))}
               </div>
             </section>
-  
-            {/* Similar styling for Experience and Certificate sections */}
-  
+
+            <section>
+              <h2 className="flex items-center text-xl font-bold text-gray-800 mb-6">
+                <span className="flex items-center justify-center w-10 h-10 rounded-full bg-green-100 text-green-600 mr-3">
+                  <svg className="w-6 h-6" />
+                </span>
+                Kinh nghiệm làm việc
+              </h2>
+              <div className="space-y-4">
+                {data.experience.map((mem: ExperienceAttr) => (
+                  <div
+                    key={mem.id}
+                    className="bg-gray-50 rounded-xl p-5 hover:bg-gray-100 transition-all duration-300 transform hover:scale-[1.02] hover:shadow-md"
+                  >
+                    <ExperienceCard
+                      obj={mem}
+                      type="preview"
+                      data={content}
+                      onCheck={onCheck}
+                    />
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            {/* Certificate Section */}
+            <section>
+              <h2 className="flex items-center text-xl font-bold text-gray-800 mb-6">
+                <span className="flex items-center justify-center w-10 h-10 rounded-full bg-purple-100 text-purple-600 mr-3">
+                  <svg className="w-6 h-6" />
+                </span>
+                Chứng chỉ
+              </h2>
+              <div className="space-y-4">
+                {data.certificate.map((mem: CertificateAttr) => (
+                  <div
+                    key={mem.id}
+                    className="bg-gray-50 rounded-xl p-5 hover:bg-gray-100 transition-all duration-300 transform hover:scale-[1.02] hover:shadow-md"
+                  >
+                    <CertificateCard
+                      obj={mem}
+                      type="preview"
+                      data={content}
+                      onCheck={onCheck}
+                    />
+                  </div>
+                ))}
+              </div>
+            </section>
+
             {/* CV Upload Section */}
             <section>
               <h2 className="flex items-center text-xl font-bold text-gray-800 mb-6">
@@ -297,23 +344,27 @@ export default function Record() {
                   className="flex flex-col items-center justify-center cursor-pointer group"
                 >
                   <div className="w-16 h-16 rounded-full bg-blue-50 flex items-center justify-center mb-4 group-hover:bg-blue-100 transition-colors duration-300">
-                    <svg className="w-8 h-8 text-blue-500"  />
+                    <svg className="w-8 h-8 text-blue-500" />
                   </div>
-                  <span className="text-sm font-medium text-gray-700">Kéo thả file hoặc click để tải lên</span>
-                  <span className="text-xs text-gray-500 mt-2">PDF, DOC, DOCX (Max. 10MB)</span>
+                  <span className="text-sm font-medium text-gray-700">
+                    Kéo thả file hoặc click để tải lên
+                  </span>
+                  <span className="text-xs text-gray-500 mt-2">
+                    PDF, DOC, DOCX (Max. 10MB)
+                  </span>
                 </label>
               </div>
             </section>
           </div>
         </div>
-  
+
         {/* Submit Button */}
         <div className="flex justify-end">
           <Button
             type="submit"
             className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-8 py-3 rounded-xl transition duration-300 transform hover:scale-105 hover:shadow-lg flex items-center gap-2 font-medium"
           >
-            <svg className="w-5 h-5"  />
+            <svg className="w-5 h-5" />
             Lưu hồ sơ
           </Button>
         </div>
@@ -332,7 +383,7 @@ export default function Record() {
               <RecordPreview data={content} />
             </div>
           </div>
-  
+
           {/* Right Column - Forms */}
           <div className="w-1/2 space-y-6">
             <Education type="" data={content} onCheck={onCheck} />
