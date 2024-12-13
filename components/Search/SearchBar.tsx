@@ -56,7 +56,7 @@ const SearchForm: React.FC<SearchFormProps> = ({ onSearch }) => {
               value={formData.industry}
               onChange={handleChange}
               placeholder="Nhập ngành nghề..."
-              className="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+              className="w-full h-[48px] px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
             />
           </div>
 
@@ -73,7 +73,7 @@ const SearchForm: React.FC<SearchFormProps> = ({ onSearch }) => {
               max="5"
               value={formData.minRating}
               onChange={handleChange}
-              className="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+              className="w-full h-[48px] px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
             />
           </div>
 
@@ -88,7 +88,7 @@ const SearchForm: React.FC<SearchFormProps> = ({ onSearch }) => {
               name="startDate"
               value={formData.startDate}
               onChange={handleChange}
-              className="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+              className="w-full h-[48px] px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
             />
           </div>
 
@@ -103,7 +103,7 @@ const SearchForm: React.FC<SearchFormProps> = ({ onSearch }) => {
               name="endDate"
               value={formData.endDate}
               onChange={handleChange}
-              className="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+              className="w-full h-[48px] px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
             />
           </div>
 
@@ -117,7 +117,7 @@ const SearchForm: React.FC<SearchFormProps> = ({ onSearch }) => {
               name="levelType"
               value={formData.levelType}
               onChange={handleChange}
-              className="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white"
+              className="w-full h-[48px] px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white"
             >
               <option value="">Chọn loại cấp độ</option>
               <option value="Competition">Cạnh tranh</option>

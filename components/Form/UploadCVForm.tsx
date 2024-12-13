@@ -7,7 +7,7 @@ import { SlEnvolopeLetter } from "react-icons/sl";
 import { CgDanger } from "react-icons/cg";
 import { useForm } from "react-hook-form";
 import React, { useEffect, useState, useTransition } from "react";
-import { Toaster } from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import Link from "next/link";
 
 interface UploadCVFormProps {
@@ -61,8 +61,6 @@ export function UploadCVForm({ recruitmentPostId, title }: UploadCVFormProps) {
 
   let onSubmit = async () => {
     if (chosenIndex !== null) {
-      // Logic to handle the submission with the selected record
-      console.log(`Submitting CV with ID: ${records[chosenIndex].recordId}`);
       const body = {
         recordId: records[chosenIndex].recordId,
         recruitmentPostId: parseInt(recruitmentPostId, 10),
@@ -79,20 +77,32 @@ export function UploadCVForm({ recruitmentPostId, title }: UploadCVFormProps) {
             body: JSON.stringify(body),
           }
         );
-
+  
+        // Thêm kiểm tra response status
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error("Ứng tuyển thất bại hoặc bạn đã ứng tuyển cho công việc này");
+        }
+  
+        const data = await response.json();
+        toast.success("Ứng tuyển thành công!");
         setHidden(true);
       } catch (error) {
+        // Hiển thị thông báo lỗi cụ thể từ server
+        toast.error(error instanceof Error ? error.message : "Ứng tuyển thất bại");
         console.error("Error submitting application:", error);
         setHidden(true);
       }
     } else {
-      console.error("No CV selected");
+      toast.error("Vui lòng chọn CV để ứng tuyển");
     }
   };
 
   return (
     <div>
-      <Toaster />
+      <div className="fixed top-0 right-0">
+        <Toaster />
+      </div>
       <button
         className="bg-[#00b14f] rounded-[7px] p-[7px] font-semibold text-white hover:bg-green-600"
         onClick={() => setHidden(false)}
@@ -105,7 +115,7 @@ export function UploadCVForm({ recruitmentPostId, title }: UploadCVFormProps) {
           <Card className="w-full md:max-w-[40rem] mx-3">
             <CardHeader className="flex justify-between items-center border-b-[1px] flex-row shadow-sm">
               <h3 className="text-xl font-bold">
-                Ứng tuyển cho {recruitmentPostId}
+                Ứng tuyển cho {title}
               </h3>
               <Button
                 onClick={() => setHidden(true)}

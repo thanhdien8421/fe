@@ -173,6 +173,7 @@ export function AddEducation({
     defaultValues: {
       school: "",
       major: "",
+      description: "",
       startDate: "",
       endDate: "",
       employeeId: 1,
@@ -262,6 +263,17 @@ export function AddEducation({
                 {...form.register("major")}
                 id="major"
                 placeholder="Nhập chuyên ngành..."
+                className="col-span-3 focus-visible:ring-orange-500"
+              />
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="description" className="text-right font-medium">
+                Mô tả
+              </Label>
+              <Input
+                {...form.register("description")}
+                id="description"
+                placeholder="Nhập mô tả..."
                 className="col-span-3 focus-visible:ring-orange-500"
               />
             </div>

@@ -53,7 +53,10 @@ export default function Record() {
     setContent(data);
   };
 
-  const CreateRecord = async (values: z.infer<typeof RecordSchema>, fileCvId?: number) => {
+  const CreateRecord = async (
+    values: z.infer<typeof RecordSchema>,
+    fileCvId?: number
+  ) => {
     const dto = {
       title: values.title,
       description: values.description,
@@ -98,16 +101,13 @@ export default function Record() {
     const formData = new FormData();
     formData.append("file", file);
     console.log(formData);
-    const rs = await fetch(
-      `http://localhost:8000/api/v1/files/upload`,
-      {
-        method: "POST",
-        body: formData,
-      }
-    );
+    const rs = await fetch(`http://localhost:8000/api/v1/files/upload`, {
+      method: "POST",
+      body: formData,
+    });
     console.log(rs);
     return rs.json();
-  }
+  };
   const UpdateEduExpCer = async (recordId: number) => {
     try {
       const eduRes = await Promise.all(
@@ -185,11 +185,14 @@ export default function Record() {
       setIsLoading(true);
       let addedCv = null;
       if (file) addedCv = await CreateFileCv(file);
-      const result = await CreateRecord(values, addedCv ? addedCv?.data.id: null);
+      const result = await CreateRecord(
+        values,
+        addedCv ? addedCv?.data.id : null
+      );
       console.log(result);
       const update = await UpdateEduExpCer(result.data.id);
       setIsLoading(false);
-      if ((result.success == true) == true) router.push("/profile");        
+      if ((result.success == true) == true) router.push("/profile");
     }
   }
 
@@ -200,7 +203,7 @@ export default function Record() {
   function handleFileUpload(event: React.ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.[0];
     if (file) {
-      setFile(file) // Store the file name or other necessary metadata
+      setFile(file); // Store the file name or other necessary metadata
       // Upload logic here if required
     }
   }
@@ -283,19 +286,22 @@ export default function Record() {
                 Trình độ học vấn
               </h2>
               <div className="space-y-4">
-                {data.education.map((mem: EducationAttr) => (
-                  <div
-                    key={mem.id}
-                    className="bg-gray-50 rounded-xl p-5 hover:bg-gray-100 transition-all duration-300 transform hover:scale-[1.02] hover:shadow-md"
-                  >
-                    <EducationCard
-                      obj={mem}
-                      type="preview"
-                      data={content}
-                      onCheck={onCheck}
-                    />
-                  </div>
-                ))}
+                {data.education.map(
+                  (mem: EducationAttr, index: number) =>
+                    data.eduCheck[index] && (
+                      <div
+                        key={mem.id}
+                        className="bg-gray-50 rounded-xl p-5 hover:bg-gray-100 transition-all duration-300 transform hover:scale-[1.02] hover:shadow-md"
+                      >
+                        <EducationCard
+                          obj={mem}
+                          type="preview"
+                          data={content}
+                          onCheck={onCheck}
+                        />
+                      </div>
+                    )
+                )}
               </div>
             </section>
 
@@ -307,19 +313,22 @@ export default function Record() {
                 Kinh nghiệm làm việc
               </h2>
               <div className="space-y-4">
-                {data.experience.map((mem: ExperienceAttr) => (
-                  <div
-                    key={mem.id}
-                    className="bg-gray-50 rounded-xl p-5 hover:bg-gray-100 transition-all duration-300 transform hover:scale-[1.02] hover:shadow-md"
-                  >
-                    <ExperienceCard
-                      obj={mem}
-                      type="preview"
-                      data={content}
-                      onCheck={onCheck}
-                    />
-                  </div>
-                ))}
+                {data.experience.map(
+                  (mem: ExperienceAttr, index: number) =>
+                    data.expCheck[index] && (
+                      <div
+                        key={mem.id}
+                        className="bg-gray-50 rounded-xl p-5 hover:bg-gray-100 transition-all duration-300 transform hover:scale-[1.02] hover:shadow-md"
+                      >
+                        <ExperienceCard
+                          obj={mem}
+                          type="preview"
+                          data={content}
+                          onCheck={onCheck}
+                        />
+                      </div>
+                    )
+                )}
               </div>
             </section>
 
@@ -332,19 +341,23 @@ export default function Record() {
                 Chứng chỉ
               </h2>
               <div className="space-y-4">
-                {data.certificate.map((mem: CertificateAttr) => (
-                  <div
-                    key={mem.id}
-                    className="bg-gray-50 rounded-xl p-5 hover:bg-gray-100 transition-all duration-300 transform hover:scale-[1.02] hover:shadow-md"
-                  >
-                    <CertificateCard
-                      obj={mem}
-                      type="preview"
-                      data={content}
-                      onCheck={onCheck}
-                    />
-                  </div>
-                ))}
+                {data.certificate.map(
+                  (mem: CertificateAttr, index: number) =>
+                    // Chỉ hiển thị certificate khi cerCheck[index] là true
+                    data.cerCheck[index] && (
+                      <div
+                        key={mem.id}
+                        className="bg-gray-50 rounded-xl p-5 hover:bg-gray-100 transition-all duration-300 transform hover:scale-[1.02] hover:shadow-md"
+                      >
+                        <CertificateCard
+                          obj={mem}
+                          type="preview"
+                          data={content}
+                          onCheck={onCheck}
+                        />
+                      </div>
+                    )
+                )}
               </div>
             </section>
 
@@ -357,45 +370,45 @@ export default function Record() {
                 CV của bạn
               </h2>
               <div className="bg-gray-50 rounded-xl p-8 border-2 border-dashed border-gray-300 hover:border-blue-400 transition-colors duration-300">
-                {file ? 
-                <div className="flex items-center gap-4">
-                  {
-                    iconFiles.map((icon) => {
+                {file ? (
+                  <div className="flex items-center gap-4">
+                    {iconFiles.map((icon) => {
                       if (icon.type === file.type) {
                         const Icon = icon.icon;
                         return <Icon className={`w-8 h-8 ${icon.color}`} />;
                       }
-                    })
-                  }
-                  <div className="flex flex-col gap-3">
-                  <span className="text-md font-bold">
-                    {file.name}
-                  </span>
-                  <span className="text-gray-500">{formatFileSize(file.size)}</span>
+                    })}
+                    <div className="flex flex-col gap-3">
+                      <span className="text-md font-bold">{file.name}</span>
+                      <span className="text-gray-500">
+                        {formatFileSize(file.size)}
+                      </span>
+                    </div>
                   </div>
-                </div>
-                  : <div>
-                <Input
-                  id="file"
-                  type="file"
-                  onChange={handleFileUpload}
-                  className="hidden"
-                />
-                <label
-                  htmlFor="file"
-                  className="flex flex-col items-center justify-center cursor-pointer group"
-                >
-                  <div className="w-16 h-16 rounded-full bg-blue-50 flex items-center justify-center mb-4 group-hover:bg-blue-100 transition-colors duration-300">
-                    <svg className="w-8 h-8 text-blue-500" />
+                ) : (
+                  <div>
+                    <Input
+                      id="file"
+                      type="file"
+                      onChange={handleFileUpload}
+                      className="hidden"
+                    />
+                    <label
+                      htmlFor="file"
+                      className="flex flex-col items-center justify-center cursor-pointer group"
+                    >
+                      <div className="w-16 h-16 rounded-full bg-blue-50 flex items-center justify-center mb-4 group-hover:bg-blue-100 transition-colors duration-300">
+                        <svg className="w-8 h-8 text-blue-500" />
+                      </div>
+                      <span className="text-sm font-medium text-gray-700">
+                        Kéo thả file hoặc click để tải lên
+                      </span>
+                      <span className="text-xs text-gray-500 mt-2">
+                        PDF, DOC, DOCX (Max. 10MB)
+                      </span>
+                    </label>
                   </div>
-                  <span className="text-sm font-medium text-gray-700">
-                    Kéo thả file hoặc click để tải lên
-                  </span>
-                  <span className="text-xs text-gray-500 mt-2">
-                    PDF, DOC, DOCX (Max. 10MB)
-                  </span>
-                </label>
-                </div>}
+                )}
               </div>
             </section>
           </div>
