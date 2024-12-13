@@ -16,72 +16,153 @@ function JobPostForm() {
   const employmentTypeRef = useRef<HTMLSelectElement>(null);
   const genderRef = useRef<HTMLSelectElement>(null);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-  
-    // Lấy userId từ localStorage
-    let userId: any = localStorage.getItem("userId");
-    if (userId !== null) {
-      userId = parseInt(userId, 10);
-    } else {
-      console.error("UserId không tồn tại trong localStorage");
-      return;
+  const submitRecruitmentPost = async (id: any) => {
+    const recruitmentPost = {
+      location: locationRef.current?.value,
+      level: levelRef.current?.value || "staff", // Mặc định là 'staff'
+      experience: experienceRef.current?.value,
+      salary: salaryRef.current?.value,
+      quantity: Number(quantityRef.current?.value),
+      employmentType: employmentTypeRef.current?.value,
+      gender: genderRef.current?.value || "Not required", // Mặc định là 'Not required'
+      recruitmentPostId: id,
+    };
+    try {
+      const response = await fetch(
+        "http://localhost:8000/api/v1/job-description",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(recruitmentPost),
+        }
+      );
+      if (!response.ok) {
+        throw new Error("Failed to create recruitment post");
+      }
+      const result = await response.json();
+      if (result.error) {
+        alert(result.error);
+        return; // Nếu có l��i, thông báo và trả về.
+      }
+      router.push("/recruitment/manage");
+    } catch (error) {
+      console.error("Error creating recruitment post:", error);
     }
-  
-    // Lấy giá trị từ các ref
+  };
+  const submitJobPost = async () => {
     const jobPost = {
       title: titleRef.current?.value,
       description: descriptionRef.current?.value,
       datePosted: datePostedRef.current?.value,
       deadline: deadlineRef.current?.value,
       location: locationRef.current?.value,
-      experience: experienceRef.current?.value,
-      level: levelRef.current?.value,
-      salary: salaryRef.current?.value,
-      quantity: parseInt(quantityRef.current?.value || "0"),
-      employmentType: employmentTypeRef.current?.value,
-      gender: genderRef.current?.value,
-      employerId: userId
+      employerId: 1,
     };
-  
     try {
-      // Gọi API tạo bài đăng
-      const response = await fetch("http://localhost:8000/api/v1/recruitment-post", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(jobPost),
-      });
-  
+      const response = await fetch(
+        "http://localhost:8000/api/v1/recruitment-post",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(jobPost),
+        }
+      );
       if (!response.ok) {
         throw new Error("Failed to create job post");
       }
-  
       const result = await response.json();
-      
       if (result.error) {
         alert(result.error);
-        return;
+        return; // Nếu có l��i, thông báo và trả về.
+      } else {
+        await submitRecruitmentPost(result.data.id);
       }
-  
-      // Chuyển hướng về trang quản lý sau khi tạo thành công
-      router.push("/recruitment/manage");
-      
     } catch (error) {
       console.error("Error creating job post:", error);
-      alert("Có lỗi xảy ra khi tạo bài đăng!");
     }
+  };
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    await submitJobPost(); // Gọi hàm gửi bài đăng việc làm
+    // Gọi hàm gửi bài đăng tuyển dụng
+    // Xử lý gửi bài đăng
   };
 
   const provincesAndCities = [
-    "Hà Nội", "Hồ Chí Minh", "Cần Thơ", "Hải Phòng", "Đà Nẵng", "Hải Dương"
-    // Thêm danh sách đầy đủ
+    "Hà Nội",
+    "Hồ Chí Minh",
+    "Cần Thơ",
+    "Hải Phòng",
+    "Đà Nẵng",
+    "Hải Dương",
+    "Thái Bình",
+    "Nam Định",
+    "Ninh Bình",
+    "Tuyên Quang",
+    "Quảng Ninh",
+    "Hà Giang",
+    "Lào Cai",
+    "Sơn La",
+    "Điện Biên",
+    "Yên Bái",
+    "Hòa Bình",
+    "Thanh Hóa",
+    "Nghệ An",
+    "Hà Tĩnh",
+    "Quảng Bình",
+    "Quảng Trị",
+    "Thừa Thiên Huế",
+    "Đắk Lắk",
+    "Đắk Nông",
+    "Gia Lai",
+    "Kon Tum",
+    "Khánh Hòa",
+    "Ninh Thuận",
+    "Bình Thuận",
+    "Lâm Đồng",
+    "Bình Dương",
+    "Đồng Nai",
+    "Bà Rịa - Vũng Tàu",
+    "Tiền Giang",
+    "Bến Tre",
+    "Trà Vinh",
+    "Vĩnh Long",
+    "Đồng Tháp",
+    "An Giang",
+    "Kiên Giang",
+    "Hậu Giang",
+    "Sóc Trăng",
+    "Bạc Liêu",
+    "Cà Mau",
+    "Long An",
+    "Tây Ninh",
+    "Bình Phước",
+    "Quảng Nam",
+    "Quảng Ngãi",
+    "Phú Yên",
+    "Thái Nguyên",
+    "Lạng Sơn",
+    "Cao Bằng",
+    "Hà Nam",
+    "Hưng Yên",
+    "Bắc Ninh",
+    "Bắc Giang",
+    "Vĩnh Phúc",
+    "Mộc Châu"
   ];
 
   const experienceOptions = [
-    "Không yêu cầu kinh nghiệm", "Dưới 1 năm", "Trên 1 năm", "Trên 5 năm"
-    // Thêm danh sách đầy đủ
+    "Không yêu cầu kinh nghiệm",
+    "Dưới 1 năm",
+    "Trên 1 năm",
+    "Trên 2 năm",
+    "Trên 3 năm",
+    "Trên 4 năm",
+    "Trên 5 năm",
   ];
 
   return (
