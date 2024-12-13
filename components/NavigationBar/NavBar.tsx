@@ -123,24 +123,26 @@ const NavBar = () => {
 
               <div className="flex items-center gap-4">
                 {/* Profile */}
-                <HoverCard>
-                  <HoverCardTrigger asChild>
-                    <Link href="/profile" className="relative">
-                      <Avatar className="h-8 w-8 ring-2 ring-white transition-transform hover:scale-105">
-                        <AvatarImage
-                          src="https://github.com/shadcn.png"
-                          className="object-cover"
-                        />
-                        <AvatarFallback className="bg-sky-100 text-sky-800 font-medium">
-                          Us
-                        </AvatarFallback>
-                      </Avatar>
-                    </Link>
-                  </HoverCardTrigger>
-                  <HoverCardContent className="w-fit p-2" side="bottom">
-                    <span className="text-sm font-medium">Profile</span>
-                  </HoverCardContent>
-                </HoverCard>
+                {role === "Employee" && (
+                  <HoverCard>
+                    <HoverCardTrigger asChild>
+                      <Link href="/profile" className="relative">
+                        <Avatar className="h-8 w-8 ring-2 ring-white transition-transform hover:scale-105">
+                          <AvatarImage
+                            src="https://github.com/shadcn.png"
+                            className="object-cover"
+                          />
+                          <AvatarFallback className="bg-sky-100 text-sky-800 font-medium">
+                            Us
+                          </AvatarFallback>
+                        </Avatar>
+                      </Link>
+                    </HoverCardTrigger>
+                    <HoverCardContent className="w-fit p-2" side="bottom">
+                      <span className="text-sm font-medium">Profile</span>
+                    </HoverCardContent>
+                  </HoverCard>
+                )}
 
                 {/* Logout */}
                 <HoverCard>
