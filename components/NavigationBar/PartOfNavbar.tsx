@@ -48,7 +48,7 @@ export const UserNavBar: React.FC<PartOfNavbarProps> = ({ links }) => {
         <Link
           key={link.id}
           href={link.url}
-          className="relative group px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-100 transition-colors duration-200"
+          className="relative group px-3 py-2 rounded-md text-base font-bold text-gray-700 hover:bg-gray-100 transition-colors duration-200"
         >
           <span className="relative">
             {link.title}

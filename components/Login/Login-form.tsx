@@ -72,6 +72,7 @@ export function LoginForm() {
           router.refresh();
         } else {
           if (result.user?.type === "Employer") {
+            console.log(localStorage.getItem("userId"));
             router.push("/recruitment/manage");
             router.refresh();
           } else {

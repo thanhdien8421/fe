@@ -77,11 +77,7 @@ export default function RecordView({ params }: { params: { id: string } }) {
     const fetchAllData = async () => {
       try {
         const [recordResponse] = await Promise.all([
-          fetch(
-            `http://localhost:8000/api/v1/records/${localStorage.getItem(
-              "userId"
-            )}`
-          ),
+          fetch(`http://localhost:8000/api/v1/records/${params.id}`),
         ]);
         if (!recordResponse.ok) {
           throw new Error("Failed to fetch record.");
@@ -96,11 +92,7 @@ export default function RecordView({ params }: { params: { id: string } }) {
 
         const [userResponse, cerResponse, eduResponse, expResponse] =
           await Promise.all([
-            fetch(
-              `http://localhost:8000/api/v1/employees/${localStorage.getItem(
-                "userId"
-              )}`
-            ),
+            fetch(`http://localhost:8000/api/v1/employees/${params.id}`),
             fetch(
               `http://localhost:8000/api/v1/records/${recordData.data.id}/certificates`
             ),
@@ -311,15 +303,62 @@ export default function RecordView({ params }: { params: { id: string } }) {
                       className="w-full h-full object-cover"
                     />
                   </div>
-                  <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2">
-                    <p className="bg-gray-800 text-white px-4 py-1 rounded-full text-sm font-medium">
-                      {userData.name}
-                    </p>
-                  </div>
                 </div>
               </div>
 
-              <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="flex-1 grid grid-cols-3 gap-4">
+                {/* Column 1: Name and Gender */}
+                <div className="space-y-3">
+                  <div className="flex items-start space-x-3">
+                    <div className="flex-shrink-0 w-9 h-9 rounded-lg bg-orange-50 flex items-center justify-center">
+                      <svg
+                        className="w-4 h-4 text-orange-500"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                        />
+                      </svg>
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-sm text-gray-500">Họ và tên</p>
+                      <p className="text-gray-900 font-medium">
+                        {userData.name}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start space-x-3">
+                    <div className="flex-shrink-0 w-9 h-9 rounded-lg bg-blue-50 flex items-center justify-center">
+                      <svg
+                        className="w-4 h-4 text-blue-500"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                        />
+                      </svg>
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-sm text-gray-500">Giới tính</p>
+                      <p className="text-gray-900 font-medium">
+                        {userData.gender}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Column 2: Email and Phone */}
                 <div className="space-y-3">
                   <div className="flex items-start space-x-3">
                     <div className="flex-shrink-0 w-9 h-9 rounded-lg bg-blue-50 flex items-center justify-center">
@@ -370,6 +409,7 @@ export default function RecordView({ params }: { params: { id: string } }) {
                   </div>
                 </div>
 
+                {/* Column 3: Address and Birthday */}
                 <div className="space-y-3">
                   <div className="flex items-start space-x-3">
                     <div className="flex-shrink-0 w-9 h-9 rounded-lg bg-purple-50 flex items-center justify-center">
@@ -402,9 +442,9 @@ export default function RecordView({ params }: { params: { id: string } }) {
                   </div>
 
                   <div className="flex items-start space-x-3">
-                    <div className="flex-shrink-0 w-9 h-9 rounded-lg bg-orange-50 flex items-center justify-center">
+                    <div className="flex-shrink-0 w-9 h-9 rounded-lg bg-yellow-50 flex items-center justify-center">
                       <svg
-                        className="w-4 h-4 text-orange-500"
+                        className="w-4 h-4 text-yellow-500"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -413,25 +453,15 @@ export default function RecordView({ params }: { params: { id: string } }) {
                           strokeLinecap="round"
                           strokeLinejoin="round"
                           strokeWidth="2"
-                          d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                          d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
                         />
                       </svg>
                     </div>
                     <div className="flex-1">
-                      <div className="grid grid-cols-2 gap-4">
-                        <div>
-                          <p className="text-sm text-gray-500">Ngày sinh</p>
-                          <p className="text-gray-900 font-medium">
-                            {formatBirthday(userData.birthday)}
-                          </p>
-                        </div>
-                        <div>
-                          <p className="text-sm text-gray-500">Giới tính</p>
-                          <p className="text-gray-900 font-medium">
-                            {userData.gender}
-                          </p>
-                        </div>
-                      </div>
+                      <p className="text-sm text-gray-500">Ngày sinh</p>
+                      <p className="text-gray-900 font-medium">
+                        {formatBirthday(userData.birthday)}
+                      </p>
                     </div>
                   </div>
                 </div>
