@@ -115,6 +115,7 @@ const NavBar = () => {
               
               <div className="flex items-center gap-4">
                 {/* Profile */}
+                {role === "Employee" && (
                 <HoverCard>
                   <HoverCardTrigger asChild>
                     <Link href="/profile" className="relative">
@@ -128,7 +129,7 @@ const NavBar = () => {
                     <span className="text-sm font-medium">Profile</span>
                   </HoverCardContent>
                 </HoverCard>
-  
+                )}
                 {/* Logout */}
                 <HoverCard>
                   <HoverCardTrigger asChild>
