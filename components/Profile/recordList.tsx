@@ -9,7 +9,8 @@ import Link from "next/link";
 
 const ITEMS_PER_PAGE = 5;
 
-export default function RecordList({ data }: { data: Data[] }) {
+export default function RecordList({ data, refetch }: { data: Data[], refetch: () => void }) {
+
   const [currentPage, setCurrentPage] = React.useState<number>(1);
 
   // Tính toán tổng số trang
@@ -84,8 +85,8 @@ export default function RecordList({ data }: { data: Data[] }) {
                     </div>
                   </div>
                   <div className="flex flex-row gap-2 ml-4">
-                    <EditButton val={`/record/${obj.recordId}`} />
-                    <TrashButton val={`records/${obj.recordId}`} />
+                    {/* <EditButton val={`/record/${obj.recordId}`} /> */}
+                    <TrashButton val={`records/${obj.recordId}`} refetch={refetch} />
                   </div>
                 </div>
               </div>

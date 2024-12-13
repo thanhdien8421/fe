@@ -102,6 +102,21 @@ export default function Account() {
       console.error(error);
     }
   }
+  const refetchRecordData = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:8000/api/v1/records/getRecordByOwn/${localStorage.getItem("userId")}`
+      );
+      if (!response.ok) {
+        throw new Error("Failed to load record info");
+      }
+      let recordData = await response.json();
+      setRecord(recordData.data);
+    } catch (error) {
+      setError("An error occurred while fetching data.");
+      console.error(error);
+    }
+  }
 
   React.useEffect(() => {
     const fetchAllData = async () => {
@@ -252,7 +267,8 @@ export default function Account() {
   
             {/* Records List */}
             <div className="bg-white rounded-lg shadow-sm">
-              <RecordList data={recordlist} />
+              <RecordList data={recordlist} refetch={refetchRecordData}/>
+
             </div>
   
             {/* Education, Experience, Certificate sections with new styling */}

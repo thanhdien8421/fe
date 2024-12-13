@@ -2,7 +2,7 @@ import { FaTrashAlt } from "react-icons/fa";
 import { Button } from '@/components/ui/button'
 
 
-export default function TrashButton({val} : {val : string}) {
+export default function TrashButton({val, refetch} : {val : string, refetch: () => void}) {
     async function onClick(val : string) {
         const url = `http://localhost:8000/api/v1/${val}`;
         
