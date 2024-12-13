@@ -18,7 +18,60 @@ function JobPostForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Xử lý gửi bài đăng
+  
+    // Lấy userId từ localStorage
+    let userId: any = localStorage.getItem("userId");
+    if (userId !== null) {
+      userId = parseInt(userId, 10);
+    } else {
+      console.error("UserId không tồn tại trong localStorage");
+      return;
+    }
+  
+    // Lấy giá trị từ các ref
+    const jobPost = {
+      title: titleRef.current?.value,
+      description: descriptionRef.current?.value,
+      datePosted: datePostedRef.current?.value,
+      deadline: deadlineRef.current?.value,
+      location: locationRef.current?.value,
+      experience: experienceRef.current?.value,
+      level: levelRef.current?.value,
+      salary: salaryRef.current?.value,
+      quantity: parseInt(quantityRef.current?.value || "0"),
+      employmentType: employmentTypeRef.current?.value,
+      gender: genderRef.current?.value,
+      employerId: userId
+    };
+  
+    try {
+      // Gọi API tạo bài đăng
+      const response = await fetch("http://localhost:8000/api/v1/recruitment-post", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(jobPost),
+      });
+  
+      if (!response.ok) {
+        throw new Error("Failed to create job post");
+      }
+  
+      const result = await response.json();
+      
+      if (result.error) {
+        alert(result.error);
+        return;
+      }
+  
+      // Chuyển hướng về trang quản lý sau khi tạo thành công
+      router.push("/recruitment/manage");
+      
+    } catch (error) {
+      console.error("Error creating job post:", error);
+      alert("Có lỗi xảy ra khi tạo bài đăng!");
+    }
   };
 
   const provincesAndCities = [

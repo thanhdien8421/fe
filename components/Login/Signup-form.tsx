@@ -29,17 +29,9 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { SignUp } from "@/action/signup";
 import { SignupSchema } from "@/schema/SignupSchema";
-import {
-  Select,
-  SelectTrigger,
-  SelectValue,
-  SelectContent,
-  SelectItem,
-} from "@/components/ui/select";
 
 export function SignupForm() {
   const router = useRouter();
-  // 1. Define your form.
   const form = useForm<z.infer<typeof SignupSchema>>({
     resolver: zodResolver(SignupSchema),
     defaultValues: {
@@ -58,20 +50,26 @@ export function SignupForm() {
         localStorage.setItem("userEmail", result.data.email);
         localStorage.setItem("userId", result.data.id);
         localStorage.setItem("userName", result.data.name);
+        localStorage.setItem("type", "Employee"); // Thêm type để phù hợp với login
         toast.success("Đăng ký tài khoản thành công");
-        router.push("/signup/info-update");
-      } else if (result.data.type == "Email đã tồn tại")
+        
+        // Chuyển hướng đến trang cập nhật thông tin
+        router.push("/profile");
+        router.refresh();
+      } else if (result.data?.type == "Email đã tồn tại") {
         toast.error("Email đã tồn tại. Vui lòng sử dụng email khác.");
-      else toast.error("Đã xảy ra lỗi. Vui lòng thử lại.");
-      console.log(result);
+      } else {
+        toast.error("Đã xảy ra lỗi. Vui lòng thử lại.");
+      }
     });
   }
+
   return (
     <Form {...form}>
       <div>
         <Toaster />
       </div>
-      <Card className=" drop-shadow-xl w-">
+      <Card className="drop-shadow-lg">
         <CardHeader className="space-y-1">
           <CardTitle className="text-3xl font-bold">Sign Up</CardTitle>
           <CardDescription>Đăng ký tài khoản mới</CardDescription>
@@ -120,6 +118,7 @@ export function SignupForm() {
                   <FormLabel>Password</FormLabel>
                   <FormControl>
                     <Input
+                      type="password"
                       placeholder="••••••••"
                       {...field}
                       disabled={isPending}
@@ -140,6 +139,7 @@ export function SignupForm() {
                   <FormLabel>Xác nhận mật khẩu</FormLabel>
                   <FormControl>
                     <Input
+                      type="password"
                       placeholder="••••••••"
                       {...field}
                       disabled={isPending}
@@ -152,14 +152,17 @@ export function SignupForm() {
             <Button
               type="submit"
               disabled={isPending}
-              className="bg-blue-800 ml-[20px]"
+              className="bg-blue-800 w-full"
             >
               Đăng ký
             </Button>
           </form>
         </CardContent>
         <CardFooter>
-          <pre> </pre>
+          Đã có tài khoản? Đăng nhập ngay tại<pre> </pre>
+          <Link href={"/login"}>
+            <u className="text-sky-700">Sign In</u>
+          </Link>
         </CardFooter>
       </Card>
     </Form>

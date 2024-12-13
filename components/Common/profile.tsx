@@ -51,28 +51,31 @@ export function ProfileUpdate() {
   const form = useForm<z.infer<typeof ProfileUpdateSchema>>({
     resolver: zodResolver(ProfileUpdateSchema),
     defaultValues: {
-      email: "a@gmail.com",
-      password: " ",
+      email: email || "",
       phone: "",
       address: "",
-      name: "",
+      name: nameUser || "",
       gender: "",
-      age: 18,
     },
   });
 
   function onSubmit(values: z.infer<typeof ProfileUpdateSchema>) {
     startTransition(async () => {
-      const result = await FirstUpdateProfile(values);
-      if ((result.success == true) == true) {
-        toast.success("Cập nhật thành công. Quay về trang đăng nhập.");
-        router.push("/login");
-      } else toast.error("Đã xảy ra lỗi");
+      try {
+        const result = await FirstUpdateProfile(values);
+        if (result.success === true) {
+          toast.success("Cập nhật thành công. Quay về trang đăng nhập.");
+          router.push("/login");
+        } else {
+          toast.error("Đã xảy ra lỗi: " + result.message);
+        }
+      } catch (error) {
+        toast.error("Đã xảy ra lỗi khi cập nhật");
+      }
     });
   }
 
   React.useEffect(() => {
-    // Chỉ truy cập localStorage trong client-side
     const storedEmail = localStorage.getItem("userEmail");
     const storedUserId = localStorage.getItem("userId");
     const storedNameUser = localStorage.getItem("userName");
@@ -130,7 +133,10 @@ export function ProfileUpdate() {
             </CardHeader>
             <CardContent className="font-sans">
               <form
-                onSubmit={form.handleSubmit(onSubmit)}
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  form.handleSubmit(onSubmit)(e);
+                }}
                 className="space-y-8"
               >
                 <FormField
@@ -173,29 +179,6 @@ export function ProfileUpdate() {
                       <FormDescription>
                         Địa chỉ thường trú hoặc nơi ở hiện tại
                       </FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="age"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>
-                        <b>Tuổi</b>
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          {...field}
-                          type="number"
-                          name="quantity"
-                          min="18"
-                          max="150"
-                          placeholder="18"
-                          disabled={isPending}
-                        />
-                      </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
@@ -248,8 +231,7 @@ async function FirstUpdateProfile(values: z.infer<typeof ProfileUpdateSchema>) {
   const data = {
     phone: values.phone,
     address: values.address,
-    gender: values.gender,
-    age: values.age,
+    gender: values.gender
   };
 
   console.log(JSON.stringify(data));
@@ -258,33 +240,31 @@ async function FirstUpdateProfile(values: z.infer<typeof ProfileUpdateSchema>) {
     "userId"
   )}`;
 
-  return await fetch(apiUrl, {
-    method: "PATCH",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-  })
-    .then((response) => {
-      return response.json();
-    })
-    .then((data) => {
-      console.log("Data received:", data);
-      if (data.error) {
-        throw new Error("Error: " + data.error);
-      } else {
-        return {
-          message: data.message,
-          success: true,
-          data: data.data[0],
-        };
-      }
-    })
-    .catch((error) => {
-      return {
-        message: error,
-        success: false,
-        data: null,
-      };
+  try {
+    const response = await fetch(apiUrl, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
     });
+
+    const responseData = await response.json();
+
+    if (!response.ok) {
+      throw new Error(responseData.error || "Có lỗi xảy ra");
+    }
+
+    return {
+      message: responseData.message,
+      success: true,
+      data: responseData.data[0],
+    };
+  } catch (error) {
+    return {
+      message: error instanceof Error ? error.message : "Có lỗi xảy ra",
+      success: false,
+      data: null,
+    };
+  }
 }
