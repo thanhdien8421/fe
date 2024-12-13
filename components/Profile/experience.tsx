@@ -32,10 +32,12 @@ export default function Experience({
   type,
   data,
   onCheck,
+  refetch,
 }: {
   type: string;
   data: RecordType;
   onCheck: (data: RecordType) => void;
+  refetch?: () => void;
 }) {
   return (
     <Card className="drop-shadow-lg h-[300px] pb-2 bg-white rounded-xl border border-gray-200">
@@ -59,6 +61,7 @@ export default function Experience({
                 data={data}
                 key={obj.id}
                 onCheck={onCheck}
+                refetch={refetch}
               />
             ))}
           </div>
@@ -81,6 +84,7 @@ export const ExperienceCard: React.FC<ExperienceProps> = ({
   type,
   data,
   onCheck,
+  refetch,
 }) => {
   const index = data.experience.findIndex((mem) => mem.id === obj.id);
   return (
@@ -117,8 +121,8 @@ export const ExperienceCard: React.FC<ExperienceProps> = ({
         </div>
         {type === "profile" ? (
           <div className="flex flex-row gap-2 ml-4">
-            <EditButton val={"/record"} />
-            <TrashButton val={`records/${obj.id}`} />
+            {/* <EditButton val={"/record"} /> */}
+            <TrashButton val={`experiences/${obj.id}`} refetch={refetch ? refetch : () => console.log('Xóa')}/>
           </div>
         ) : type === "preview" ? (
           <></>
@@ -153,6 +157,7 @@ interface ExperienceProps {
   type: string;
   data: RecordType;
   onCheck: (data: RecordType) => void;
+  refetch?: () => void;
 }
 
 export function AddExperience({

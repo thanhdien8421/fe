@@ -102,6 +102,63 @@ export default function Account() {
       console.error(error);
     }
   }
+  const refetchExperienceData = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:8000/api/v1/experiences/employee/${localStorage.getItem("userId")}`
+      );
+      if (!response.ok) {
+        throw new Error("Failed to load experience info");
+      }
+      let expData = await response.json();
+      setContent({
+        ...content,
+        experience: expData.data,
+        expCheck: expData.data.map(() => false),
+      });
+    } catch (error) {
+      setError("An error occurred while fetching data.");
+      console.error(error);
+    }
+  }
+  const refetchEducationData = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:8000/api/v1/educations/employee/${localStorage.getItem("userId")}`
+      );
+      if (!response.ok) {
+        throw new Error("Failed to load education info");
+      }
+      let eduData = await response.json();
+      setContent({
+        ...content,
+        education: eduData.data,
+        eduCheck: eduData.data.map(() => false),
+      });
+    } catch (error) {
+      setError("An error occurred while fetching data.");
+      console.error(error);
+    }
+  }
+  const refetchCertificateData = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:8000/api/v1/certificates/employee/${localStorage.getItem("userId")}`
+      );
+      if (!response.ok) {
+        throw new Error("Failed to load certificate info");
+      }
+      let certData = await response.json();
+      setContent({
+        ...content,
+        certificate: certData.data,
+        cerCheck: certData.data.map(() => false),
+      });
+    } catch (error) {
+      setError("An error occurred while fetching data.");
+      console.error(error);
+    }
+  }
   const refetchRecordData = async () => {
     try {
       const response = await fetch(
@@ -274,13 +331,13 @@ export default function Account() {
             {/* Education, Experience, Certificate sections with new styling */}
             <div className="space-y-6">
               <div className="bg-white rounded-lg shadow-sm p-6">
-                <Education type={"profile"} data={content} onCheck={onCheck} />
+                <Education type={"profile"} data={content} onCheck={onCheck} refetch={refetchEducationData}/>
               </div>
               <div className="bg-white rounded-lg shadow-sm p-6">
-                <Experience type={"profile"} data={content} onCheck={onCheck} />
+                <Experience type={"profile"} data={content} onCheck={onCheck} refetch={refetchExperienceData}/>
               </div>
               <div className="bg-white rounded-lg shadow-sm p-6">
-                <Certificate type={"profile"} data={content} onCheck={onCheck} />
+                <Certificate type={"profile"} data={content} onCheck={onCheck} refetch={refetchCertificateData} />
               </div>
             </div>
           </div>

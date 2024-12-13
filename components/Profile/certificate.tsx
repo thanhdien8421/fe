@@ -32,10 +32,12 @@ export default function Certificate({
   type,
   data,
   onCheck,
+  refetch,
 }: {
   type: string;
   data: RecordType;
   onCheck: (data: RecordType) => void;
+  refetch?: () => void;
 }) {
   return (
     <Card className="drop-shadow-lg h-[300px] pb-2 bg-white rounded-xl border border-gray-200">
@@ -59,6 +61,7 @@ export default function Certificate({
                 data={data}
                 key={obj.id}
                 onCheck={onCheck}
+                refetch={refetch}
               />
             ))}
           </div>
@@ -81,6 +84,7 @@ export const CertificateCard: React.FC<CertificateProps> = ({
   type,
   data,
   onCheck,
+  refetch,
 }) => {
   const index = data.certificate.findIndex((mem) => mem.id === obj.id);
   return (
@@ -112,8 +116,8 @@ export const CertificateCard: React.FC<CertificateProps> = ({
         </div>
         {type === "profile" ? (
           <div className="flex flex-row gap-2 ml-4">
-            <EditButton val={"/record"} />
-            <TrashButton val={`records/${obj.id}`} />
+            {/* <EditButton val={"/record"} /> */}
+            <TrashButton val={`certificates/${obj.id}`} refetch={refetch ? refetch : () => console.log('Xóa')} />
           </div>
         ) : type === "preview" ? (
           <></>
@@ -146,6 +150,7 @@ interface CertificateProps {
   type: string;
   data: RecordType;
   onCheck: (data: RecordType) => void;
+  refetch?: () => void;
 }
 
 export function AddCertificate({

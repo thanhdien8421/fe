@@ -28,10 +28,12 @@ export default function Education({
   type,
   data,
   onCheck,
+  refetch,
 }: {
   type: string;
   data: RecordType;
   onCheck: (data: RecordType) => void;
+  refetch?: () => void;
 }) {
   return (
     <Card className="drop-shadow-lg h-[300px] pb-2 bg-white rounded-xl border border-gray-200">
@@ -48,13 +50,14 @@ export default function Education({
           </div>
         ) : (
           <div className="flex flex-col overflow-y-auto gap-4 h-full pr-2">
-            {data.education.map((obj) => (
+            {data.education.map((obj: any) => (
               <EducationCard
                 obj={obj}
                 type={type}
                 data={data}
                 key={obj.id}
                 onCheck={onCheck}
+                refetch={refetch}
               />
             ))}
           </div>
@@ -77,6 +80,7 @@ export const EducationCard: React.FC<EducationProps> = ({
   type,
   data,
   onCheck,
+  refetch,
 }) => {
   const index = data.education.findIndex((mem) => mem.id === obj.id);
   return (
@@ -117,8 +121,8 @@ export const EducationCard: React.FC<EducationProps> = ({
         </div>
         {type === "profile" ? (
           <div className="flex flex-row gap-2 ml-4">
-            <EditButton val={"/record"} />
-            <TrashButton val={`records/${obj.id}`} />
+            {/* <EditButton val={"/record"} /> */}
+            <TrashButton val={`educations/${obj.id}`} refetch={refetch ? refetch : () => console.log("Xóa")}/>
           </div>
         ) : type === "preview" ? (
           <></>
@@ -152,6 +156,7 @@ interface EducationProps {
   type: string;
   data: RecordType;
   onCheck: (data: RecordType) => void;
+  refetch?: () => void;
 }
 
 export function AddEducation({

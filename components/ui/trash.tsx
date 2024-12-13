@@ -22,6 +22,7 @@ export default function TrashButton({val, refetch} : {val : string, refetch: () 
           if (result?.response?.error) {
             throw new Error(result?.response?.error);
           }
+          refetch();
           return {
             message: "Xóa thành công",
             success: true,
