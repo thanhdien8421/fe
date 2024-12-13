@@ -7,7 +7,7 @@ children
 }) => {
     return (
         <>
-        <ProgressBar/>
+        <ProgressBar options={{showSpinner : false}}/>
         {children}
         </>
     )

@@ -402,13 +402,12 @@ export default function Record() {
         </div>
 
         {/* Submit Button */}
-        <div className="flex justify-end">
+        <div className="flex justify-center">
           <Button
             disabled={isLoading}
             type="submit"
             className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-8 py-3 rounded-xl transition duration-300 transform hover:scale-105 hover:shadow-lg flex items-center gap-2 font-medium"
           >
-            <svg className="w-5 h-5" />
             Lưu hồ sơ
           </Button>
         </div>
